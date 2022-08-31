@@ -77,6 +77,48 @@ const sidebars = {
             'books/nand-to-tetris/appendices',
           ]
         },
+        {
+          type: 'category',
+          label: 'System Design',
+          collapsed: true,
+          link: {
+            type: 'doc',
+            id: 'books/system-design/index'
+          },
+          items: [
+            "books/system-design/c0",
+            "books/system-design/c1",
+            "books/system-design/c2",
+            "books/system-design/c3",
+            "books/system-design/c4",
+            "books/system-design/c5",
+            "books/system-design/c6",
+            "books/system-design/c7",
+            "books/system-design/c8",
+            "books/system-design/c9",
+            "books/system-design/c10",
+            "books/system-design/c11",
+            "books/system-design/c12",
+            "books/system-design/c13",
+            "books/system-design/c14",
+            "books/system-design/c15",
+            "books/system-design/c16",
+            "books/system-design/c17",
+            "books/system-design/c18",
+            "books/system-design/c19",
+            "books/system-design/c20",
+            "books/system-design/c21",
+            "books/system-design/c22",
+            "books/system-design/c23",
+            "books/system-design/c24",
+            "books/system-design/c25",
+            "books/system-design/c26",
+            "books/system-design/c27",
+            "books/system-design/c28",
+            "books/system-design/c29",
+            "books/system-design/c30",
+          ]
+        },
       ]
     },
     {
