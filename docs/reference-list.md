@@ -21,8 +21,6 @@ import BibRef from '@site/src/components/BibRef';
 
 ### Real-world Systems
 
-The following materials can help you understand general design ideas of real system architectures behind different companies.
-
 - [Facebook Timeline: Brought To You By The Power Of Denormalization](https://goo.gl/FCNrbm)
 - [Scale at Facebook](https://goo.gl/NGTdCs)
 - [Building Timeline: Scaling up to hold your life story](https://goo.gl/8p5wDV)
@@ -58,10 +56,6 @@ The following materials can help you understand general design ideas of real sys
 - [The WhatsApp Architecture Facebook Bought For $19 Billion](https://bit.ly/2AHJnFn)
 
 ### Company Engineering Blogs
-
-If you are going to interview with a company, it is a great idea to read their engineering blogs and get familiar with technologies and systems adopted and implemented there. Besides, engineering blogs provide invaluable insights about certain fields. Reading them regularly could help us become better engineers.
-
-Here is a list of engineering blogs of well-known large companies and startups.
 
 - [Airbnb](https://medium.com/airbnb-engineering)
 - [Amazon](https://developer.amazon.com/blogs)
@@ -101,12 +95,6 @@ Here is a list of engineering blogs of well-known large companies and startups.
 - [Yahoo](https://yahooeng.tumblr.com)
 - [Yelp](https://engineeringblog.yelp.com)
 - [Zoom](https://medium.com/zoom-developer-blog)
-
-Congratulations! You are at the end of this interview guide. You have accumulated skills and knowledge to design systems. Not everyone has the discipline to learn what you have learned. Take a moment and pat yourself on the back. Your hard work will be paid off.
-
-Landing a dream job is a long journey and requires lots of time and effort. Practice makes perfect. Best luck!
-
-Thank you for buying and reading this course. Without readers like you, our work would not exist. We hope you have enjoyed the course!
 
 ## General References
 

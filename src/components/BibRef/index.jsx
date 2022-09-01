@@ -1,8 +1,9 @@
 import React from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import styles from './styles.module.css';
 import bibItems from './bibliography.js';
+
+import { useColorMode } from '@docusaurus/theme-common';
 
 /**
  *
@@ -18,6 +19,8 @@ export default function BibRef({
 	children = '',
 	listAll = false,
 }) {
+	const { colorMode } = useColorMode();
+
 	const requestID = id;
 	const pagesReferenced = pages;
 
@@ -69,7 +72,7 @@ export default function BibRef({
 			({ title, author, time, link, index }) => {
 				return (
 					<React.Fragment key={index}>
-						<h4 id={index}>[{index}]</h4>
+						<h4 id={index} className='bibHeader'>[{index}]</h4>
 						<span>
 							{author && `${author}. `}
 							<em>{title}. </em>
@@ -85,7 +88,7 @@ export default function BibRef({
 			}
 		);
 
-		return <div className={styles}>{itemsToList}</div>;
+		return <div>{itemsToList}</div>;
 	} else {
 		let referencedItem = formattedMaterials.filter(
 			(item) => item.id == requestID
@@ -105,7 +108,12 @@ export default function BibRef({
 							{time && `${time}. `}
 							{pagesReferenced && `[${pagesReferenced}] `}
 							{link && (
-								<a href={link} target="_blank">
+								<a
+									href={link}
+									target="_blank"
+									style={{
+										color: colorMode == 'dark' ? '#F76C6C' : '#F78888',
+									}}>
 									Visit <OpenInNewIcon fontSize="inherit" />
 								</a>
 							)}
@@ -117,7 +125,15 @@ export default function BibRef({
 						</span>
 					}
 					placement="top"
-					arrow>
+					arrow
+					componentsProps={{
+						tooltip: {
+							sx: {
+								color: '#E3E3E3',
+								backgroundColor: 'rgba(109, 109, 109, 1)',
+							},
+						},
+					}}>
 					<a href={'/docs/reference-list#' + index}>[{index}]</a>
 				</Tooltip>
 			);

@@ -713,3 +713,13 @@ div[class^='admonitionHeading_'] {
 figcaption {
   margin-bottom: 1rem;
 }
+
+.bibHeader::before { 
+  display: block; 
+  content: " "; 
+  padding-top: 35px;
+  margin-top: -75px; 
+  height: 75px; 
+  visibility: hidden; 
+  pointer-events: none;
+}

@@ -25,6 +25,10 @@ import BibRef from '@site/src/components/BibRef';
 
 ## General Reference
 
+### Purpose of Express
+
+The main job for Express is to manage [HTTP](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol) traffic (i.e., manage how the [request](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_message) and [response](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Response_message) go back and forth). Hence, it makes sense to first talk about what HTTP even is and that relies in part on understanding [TCP](https://en.wikipedia.org/wiki/Transmission_Control_Protocol) (transmission control protocol) and [UDP](https://en.wikipedia.org/wiki/User_Datagram_Protocol) (user datagram protocol).
+
 ### API reference outline (4.x)
 
 - **[express()](https://expressjs.com/en/4x/api.html#express)**
@@ -126,11 +130,6 @@ import BibRef from '@site/src/components/BibRef';
     * [router.param()](https://expressjs.com/en/4x/api.html#router.param)
     * [router.router()](https://expressjs.com/en/4x/api.html#router.route)
     * [router.use()](https://expressjs.com/en/4x/api.html#router.use)
-
-### Purpose of Express
-
-The main job for Express is to manage [HTTP](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol) traffic (i.e., manage how the [request](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_message) and [response](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Response_message) go back and forth). Hence, it makes sense to first talk about what HTTP even is and that relies in part on understanding [TCP](https://en.wikipedia.org/wiki/Transmission_Control_Protocol) (transmission control protocol) and [UDP](https://en.wikipedia.org/wiki/User_Datagram_Protocol) (user datagram protocol).
-
 
 ## Helpful Prerequisite Knowledge
 
