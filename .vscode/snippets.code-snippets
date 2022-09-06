@@ -166,7 +166,12 @@
       "<Tabs>",
       "<TabItem value='${1:qNum}-q' label='Question'>",
       "",
-      "question$0",
+      "$0",
+      "",
+      "- (A) ",
+      "- (B) ",
+      "- (C) ",
+      "- (D) ",
       "",
       "</TabItem>",
       "<TabItem value='${1:qNum}-a' label='Answer'>",
@@ -207,5 +212,25 @@
       "---"
     ],
     "description": "Facilitates creation of problems in ADM"
+  },
+  "JSNAD image template": {
+    "prefix": "imgjsnad",
+    "body": [
+      "<p align='center'>",
+      "\t<img width='700px' src={require('@site/static/img/course-notes/jsnad/6-f$1.png').default} />",
+      "</p>",
+      "",
+      "$0"
+    ],
+    "description": "Allows for easy insertion of images."
+  },
+  "JavaScript block": {
+    "prefix": "jj",
+    "body": [
+      "```javascript",
+      "$0",
+      "```"
+    ],
+    "description": "Allows for easy insertion of images."
   },
 }
