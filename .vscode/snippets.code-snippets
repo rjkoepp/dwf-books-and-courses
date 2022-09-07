@@ -218,7 +218,7 @@
     "prefix": "imgjsnad",
     "body": [
       "<p align='center'>",
-      "\t<img width='700px' src={require('@site/static/img/course-notes/jsnad/16-f$1.png').default} />",
+      "\t<img width='700px' src={require('@site/static/img/course-notes/jsnsd/3-f$1.png').default} />",
       "</p>",
       "",
       "$0"

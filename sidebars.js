@@ -145,20 +145,14 @@ const sidebars = {
             },
             {
               type: 'category',
-              label: 'Express',
+              label: 'JavaScript',
               items: [
-                'course-notes/development-and-engineering/express/just-express',
+                'course-notes/development-and-engineering/javascript/jsnad-course-notes',
+                'course-notes/development-and-engineering/javascript/jsnsd-course-notes',
+                'course-notes/development-and-engineering/javascript/just-express',
+                'course-notes/development-and-engineering/javascript/react-from-the-beginning',
               ]
             },
-            {
-              type: 'category',
-              label: 'React',
-              items: [
-                'course-notes/development-and-engineering/react/react-from-the-beginning',
-              ]
-            },
-            'course-notes/development-and-engineering/jsnad/jsnad-course-notes',
-            'course-notes/development-and-engineering/jsnsd/jsnsd-course-notes',
           ]
         },
         {
@@ -174,7 +168,7 @@ const sidebars = {
                 id: 'course-notes/computer-science/teach-yourself-cs/index'
               },
               items: [
-                
+
               ]
             },
           ]
