@@ -166,12 +166,11 @@
       "<Tabs>",
       "<TabItem value='${1:qNum}-q' label='Question'>",
       "",
-      "$0",
+      "",
       "",
       "- (A) ",
       "- (B) ",
       "- (C) ",
-      "- (D) ",
       "",
       "</TabItem>",
       "<TabItem value='${1:qNum}-a' label='Answer'>",
@@ -184,7 +183,9 @@
       "None",
       "",
       "</TabItem>",
-      "</Tabs>"
+      "</Tabs>",
+      "",
+      "$0",
     ],
     "description": "Facilitates creation of Q&A for JSNAD quizzes"
   },
@@ -217,7 +218,7 @@
     "prefix": "imgjsnad",
     "body": [
       "<p align='center'>",
-      "\t<img width='700px' src={require('@site/static/img/course-notes/jsnad/6-f$1.png').default} />",
+      "\t<img width='700px' src={require('@site/static/img/course-notes/jsnad/13-f$1.png').default} />",
       "</p>",
       "",
       "$0"
@@ -228,6 +229,15 @@
     "prefix": "jj",
     "body": [
       "```javascript",
+      "$0",
+      "```"
+    ],
+    "description": "Allows for easy insertion of images."
+  },
+  "Bash block": {
+    "prefix": "bb",
+    "body": [
+      "```bash",
       "$0",
       "```"
     ],
