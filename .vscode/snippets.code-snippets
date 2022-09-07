@@ -218,7 +218,7 @@
     "prefix": "imgjsnad",
     "body": [
       "<p align='center'>",
-      "\t<img width='700px' src={require('@site/static/img/course-notes/jsnsd/3-f$1.png').default} />",
+      "\t<img width='700px' src={require('@site/static/img/course-notes/jsnsd/6-f$1.png').default} />",
       "</p>",
       "",
       "$0"
@@ -238,6 +238,15 @@
     "prefix": "bb",
     "body": [
       "```bash",
+      "$0",
+      "```"
+    ],
+    "description": "Allows for easy insertion of images."
+  },
+  "HTML block": {
+    "prefix": "hh",
+    "body": [
+      "```html",
       "$0",
       "```"
     ],

@@ -192,12 +192,12 @@ const config = {
             position: 'right',
           },
           {
-            to: 'course-notes/development-and-engineering/javascript/jsnad-course-notes',
+            to: 'docs/course-notes/development-and-engineering/javascript/jsnad-course-notes',
             label: 'JSNAD',
             position: 'left'
           },
           {
-            to: 'course-notes/development-and-engineering/javascript/jsnsd-course-notes',
+            to: 'docs/course-notes/development-and-engineering/javascript/jsnsd-course-notes',
             label: 'JSNSD',
             position: 'left'
           },
