@@ -5813,6 +5813,528 @@ If implemented correctly the process will output: `passed!`.
 
 ## 14 - Process and operating system
 
+### Introduction 
+
+#### Chapter Overview
+
+A Node.js process is the program that is currently running our code. We can control and gather information about a process using the global `process` object. The Operating System is the host system on which a process runs, we can find out information about the Operating System of a running process using the core `os` module. In this chapter we'll explore both.
+
+#### Learning Objectives
+
+By the end of this chapter, you should be able to:
+
+- Explain process input and output.
+- Exit a process, exit codes and respond to a process closing.
+- Gather information about the process.
+- Gather information about the Operating System.
+
+### Process & Operating System
+
+#### STDIO (1)
+
+The ability to interact with terminal input and output is known as standard input/output, or STDIO. The `process` object exposes three streams:
+
+- `process.stdin`: A Readable stream for process input.
+- `process.stdou`: A Writable stream for process output.
+- `process.stder`: A Writable stream for process error output.
+
+Streams were covered in detail earlier on, for any terms that seem unfamiliar, refer back to Chapter 12 - "Working with Streams".
+
+In order to interface with `process.stdin` some input is needed. We'll use a simple command that generates random bytes in hex format:
+
+```bash
+node -p "crypto.randomBytes(100).toString('hex')"
+```
+
+Since bytes are randomly generated, this will produce different output every time, but it will always be 200 alphanumeric characters:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/14-f1.png').default} />
+</p>
+
+Let's start with an `example.js` file that simply prints that it was initialized and then exits:
+
+```javascript
+'use strict'
+console.log('initialized')
+```
+
+If we attempt to use the command line to pipe the output from the random byte command into our process, nothing will happen beyond the process printing that it was initialized:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/14-f2.png').default} />
+</p>
+
+Let's extend our code so that we connect `process.stdin` to `process.stdout`:
+
+```javascript
+'use strict'
+console.log('initialized')
+process.stdin.pipe(process.stdout)
+```
+
+This will cause the input that we're piping from the random bytes command into our process will be written out from our process:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/14-f3.png').default} />
+</p>
+
+#### STDIO (2)
+
+Since we're dealing with streams, we can take the uppercase stream from the previous chapter and pipe from `process.stdin` through the uppercase stream and out to `process.stdout`:
+
+```javascript
+'use strict'
+console.log('initialized')
+const { Transform } = require('stream')
+const createUppercaseStream = () => {
+  return new Transform({
+    transform (chunk, enc, next) {
+      const uppercased = chunk.toString().toUpperCase()
+      next(null, uppercased)
+    }
+  })
+}
+
+const uppercase = createUppercaseStream()
+
+process.stdin.pipe(uppercase).pipe(process.stdout)
+```
+
+This will cause all the lowercase characters to become uppercase:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/14-f4.png').default} />
+</p>
+
+It may have been noted that we did not use the `pipeline` function, but instead used the `pipe` method. The `process.stdin`, `process.stdout` and `process.stderr` streams are unique in that they never finish, error or close. That is to say, if one of these streams were to end it would either cause the process to crash or it would end because the process exited. We could use the `stream.finished` method to check that the uppercase stream doesn't close, but in our case we didn't add error handling to the `uppercase` stream because any problems that occur in this scenario should cause the process to crash.
+
+The `process.stdin.isTTY` property can be checked to determine whether our process is being piped to on the command line or whether input is directly connected to the terminal. In the latter case `process.stdin.isTTY` will be `true`, otherwise it is `undefined` (which we can coerce to `false`).
+
+At the top of our file we currently have a `console.log`:
+
+```javascript
+console.log('initialized')
+```
+
+Let's alter it to:
+
+```javascript
+console.log(process.stdin.isTTY ? 'terminal' : 'piped to')
+```
+
+If we now pipe our random bytes command to our script the `console.log` message will indicate that our process is indeed being piped to:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/14-f5.png').default} />
+</p>
+
+If we execute our code without piping to it, the printed message will indicate that the process is directly connected to the terminal, and we will be able to type input into our process which will be transformed and sent back to us:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/14-f6.png').default} />
+</p>
+
+We've looked at `process.stdin` and `process.stdout`, let's wrap up this section by looking at `process.stderr`. Typically output sent to `stderr` is secondary output, it might be error messages, warnings or debug logs.
+
+#### STDIO (3)
+
+First, on the command line, let's redirect output to a file:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/14-f7.png').default} />
+</p>
+
+We can see from this that using the greater than character (`>`) on the command line sends output to a given file, in our case `out.txt`.
+
+Now, let's alter the following line in our code:
+
+```javascript
+console.log(process.stdin.isTTY ? 'terminal' : 'piped to')
+```
+
+To:
+
+```javascript
+process.stderr.write(process.stdin.isTTY ? 'terminal\n' : 'piped to\n')
+```
+
+Now, let's run the command redirecting to `out.txt` as before:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/14-f8.png').default} />
+</p>
+
+Here we can see that that `piped to` is printed to the console even though output is sent to `out.txt`. This is because the `console.log` function prints to STDOUT and STDERR is a separate output device which also prints to the terminal. So before `'piped to'` was written to STDOUT, and therefore redirected to `out.txt` whereas now it's written to a separate output stream which also writes to the terminal.
+
+Notice that we add a newline (`\n`) to our strings, this is because the `console` methods automatically add a newline to inputs. We can also use `console.error` to write to STDERR. Let's change the log line to:
+
+```javascript
+console.error(process.stdin.isTTY ? 'terminal' : 'piped to')
+```
+
+This will lead to the same result:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/14-f9.png').default} />
+</p>
+
+While it's beyond the scope of Node, it's worth knowing that if we wanted to redirect the STDERR output to another file on the command line `2>` can be used:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/14-f10.png').default} />
+</p>
+
+This command wrote STDOUT to `out.txt` and STDERR to `err.txt`. On both Windows and POSIX systems (Linux, macOS) the number `2` is a common file handle representing STDERR, this is why the syntax is `2>`. In node the `process.stderr.fd` is 2 and `process.stdout.fd` is 1 because they are file write streams. It's actually possible to recreate them with the `fs` module:
+
+```javascript
+'use strict'
+const fs = require('fs')
+const myStdout = fs.createWriteStream(null, {fd: 1})
+const myStderr = fs.createWriteStream(null, {fd: 2})
+myStdout.write('stdout stream')
+myStderr.write('stderr stream')
+```
+
+The above example is purely for purposes of enhancing understanding, always use `process.stdout` and `process.stderr`, do not try to recreate them as they've been enhanced with other characteristics beyond this basic example.
+
+#### Exiting (1)
+
+When a process has nothing left to do, it exits by itself. For instance, let's look at this code:
+
+```javascript
+console.log('exit after this')
+```
+
+If we execute the code, we'll see this:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/14-f11.png').default} />
+</p>
+
+Some API's have active handles. An active handle is a reference that keeps the process open. For instance, `net.createServer` creates a server with an active handle which will stop the process from exiting by itself so that it can wait for incoming requests. Timeouts and intervals also have active handles that keep the process from exiting:
+
+```javascript
+'use strict'
+setInterval(() => {
+  console.log('this interval is keeping the process open')
+}, 500)
+```
+
+If we run the above code the log line will continue to print every 500ms, we can use Ctrl and C to exit:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/14-f12.png').default} />
+</p>
+
+To force a process to exit at any point we can call `process.exit`.
+
+```javascript
+'use strict'
+setInterval(() => {
+  console.log('this interval is keeping the process open')
+}, 500)
+setTimeout(() => {
+  console.log('exit after this')
+  process.exit()
+}, 1750)
+```
+
+This will cause the process to exit after the function passed to `setInterval` has been called three times:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/14-f13.png').default} />
+</p>
+
+When exiting a process an exit status code can already be set. Status codes are a large subject, and can mean different things on different platforms. The only exit code that has a uniform meaning across platforms is 0. An exit code of 0 means the process executed successfully. On Linux and macOS (or more specifically, Bash, Zsh, Sh, and other *nix shells) we can verify this with the command `echo $?` which prints a special variable called `$?`. On a Windows `cmd.exe` terminal we can use `echo %ErrorLevel%` instead or in PowerShell the command is `$LastExitCode`. In the following examples, we'll be using `echo $?` but substitute with the relevant command as appropriate.
+
+If we run our code again and look up the exit code we'll see that is 0:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/14-f14.png').default} />
+</p>
+
+#### Exiting (2)
+
+We can pass a different exit code to `process.exit`. Any non-zero code indicates failure, and to indicate general failure we can use an exit code of 1 (technically this means "Incorrect function" on Windows but there's a common understanding that 1 means general failure).
+
+Let's modify our `process.exit` call to pass 1 to it:
+
+```javascript
+'use strict'
+setInterval(() => {
+  console.log('this interval is keeping the process open')
+}, 500)
+setTimeout(() => {
+  console.log('exit after this')
+  process.exit(1)
+}, 1750)
+```
+
+Now, if we check the exit code after running the process it should be 1:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/14-f15.png').default} />
+</p>
+
+The exit code can also be set independently be assigning `process.exitCode`:
+
+```javascript
+'use strict'
+setInterval(() => {
+  console.log('this interval is keeping the process open')
+  process.exitCode = 1
+}, 500)
+setTimeout(() => {
+  console.log('exit after this')
+  process.exit()
+}, 1750)
+```
+
+This will result in the same outcome:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/14-f16.png').default} />
+</p>
+
+The `'exit'` event can also used to detect when a process is closing and perform any final actions, however no asynchronous work can be done in the event handler function because the process is exiting:
+
+```javascript
+'use strict'
+setInterval(() => {
+  console.log('this interval is keeping the process open')
+  process.exitCode = 1
+}, 500)
+setTimeout(() => {
+  console.log('exit after this')
+  process.exit()
+}, 1750)
+
+process.on('exit', (code) => {
+  console.log('exiting with code', code)
+  setTimeout(() => {
+    console.log('this will never happen')
+  }, 1)
+})
+```
+
+This will result in the following output:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/14-f17.png').default} />
+</p>
+
+#### Process Info
+
+Naturally the `process` object also contains information about the process, we'll look at a few here:
+
+- The current working directory of the process
+- The platform on which the process is running
+- The Process ID
+- The environment variables that apply to the process
+
+There are other more advanced things to explore, but see the [Node.js Documentation](https://nodejs.org/dist/latest-v16.x/docs/api/process.html) for a comprehensive overview.
+
+Let's look at the first three bullet points in one code example:
+
+```javascript
+'use strict'
+console.log('Current Directory', process.cwd())
+console.log('Process Platform', process.platform)
+console.log('Process ID', process.pid)
+```
+
+This produces the following output:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/14-f18.png').default} />
+</p>
+
+The current working directory is whatever folder the process was executed in. The `process.chdir` command can also change the current working directory, in which case `process.cwd()` would output the new directory.
+
+The process platform indicates the host Operating System. Depending on the system it can be one of:
+
+- `'aix'` – IBM AIX
+- `'darwin'` – macOS
+- `'freebsd'` – FreeBSD
+- `'linux'` – Linux
+- `'openbsd'` – OpenBSD
+- `'sunos'` – Solaris / Illumos / SmartOS
+- `'win32'` – Windows
+- `'android'` – Android, experimental
+
+As we'll see in a future section the os module also has a `platform` function (rather than property) which will return the same values for the same systems as exist on `process.platform`.
+
+To get the environment variables we can use `process.env`:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/14-f19.png').default} />
+</p>
+
+Environment variables are key value pairs, when `process.env` is accessed, the host environment is dynamically queried and an object is built out of the key value pairs. This means `process.env` works more like a function, it's a getter. When used to set environment variables, for instance `process.env.FOO='my env var'` the environment variable is set for the process only, it does not leak into the host operating system.
+
+Note that `process.env.PWD` also contains the current working directory when the process executes, just like `process.cwd()` returns. However if the process changes its directory with `process.chdir`, `process.cwd()` will return the new directory whereas `process.env.PWD` continues to store the directory that process was initially executed from.
+
+#### Process Stats (1)
+
+The `process` object has methods which allow us to query resource usage. We're going to look at the `process.uptime()`, `process.cpuUsage` and `process.memoryUsage` functions.
+
+Let's take a look at `process.uptime`:
+
+```javascript
+'use strict'
+console.log('Process Uptime', process.uptime())
+setTimeout(() => {
+  console.log('Process Uptime', process.uptime())
+}, 1000)
+```
+
+This produces the following output:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/14-f20.png').default} />
+</p>
+
+Process uptime is the amount of seconds (with 9 decimal places) that the process has been executing for. This is not to be confused with host machine uptime, which we'll see in a future section can be determined using the os module.
+
+The `process.cpuUsage` function returns an object with two properties: `user` and `system`. The user property represents time that the Node process spent using the CPU. The `system` property represents time that the kernel spent using the CPU due to activity triggered by the process. Both properties contain microsecond (one millionth of a second) measurements:
+
+```javascript
+'use strict'
+const outputStats = () => {
+  const uptime = process.uptime()
+  const { user, system } = process.cpuUsage()
+  console.log(uptime, user, system, (user + system)/1000000)
+}
+
+outputStats()
+
+setTimeout(() => {
+  outputStats()
+  const now = Date.now()
+  // make the CPU do some work:
+  while (Date.now() - now < 5000) {}
+  outputStats()
+}, 500)
+```
+
+In this example the `outputStats` function prints the process uptime in seconds, the user CPU usage in microseconds, the system CPU usage in microseconds, and the total CPU usage in seconds so we can compare it against the uptime. We print the stats when the process starts. After 500 milliseconds we print the stats again. Then we make the CPU do some work for roughly five seconds and print the stats one last time.
+
+Let's look at the output:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/14-f21.png').default} />
+</p>
+
+We can see from the output that CPU usage significantly increases on the third call to `outputStats`. This is because prior to the third call the `Date.now` function is called repeatedly in a `while` loop until 5000 milliseconds has passed.
+
+On the second line, we can observe that uptime jumps in the first column from 0.026 to 0.536 because the `setTimeout` is 500 milliseconds (or 0.5 seconds). The extra 10 millisecond will be additional execution time of outputting stats and setting up the timeout. However, on the same line the CPU usage only increases by 0.006 seconds. This is because the process was idling during that time, whereas the third line records that the process was doing a lot of work. Just over 5 seconds, as intended.
+
+One other observation we can make here is on the first line the total CPU usage is greater than the uptime. This is because Node may use more than one CPU core, which can multiply the CPU time used by however many cores are used during that period.
+
+#### Process Stats (2)
+
+Finally, let's look at `process.memoryUsage`:
+
+```javascript
+'use strict'
+const stats = [process.memoryUsage()]
+
+let iterations = 5
+
+while (iterations--) {
+  const arr = []
+  let i = 10000
+  // make the CPU do some work:
+  while (i--) {
+    arr.push({[Math.random()]: Math.random()})
+  }
+  stats.push(process.memoryUsage())
+}
+
+console.table(stats)
+```
+
+The `console.table` function in this example is taking an array of objects that have the same keys (`rss`, `heapTotal`, `heapUsed`, and `external`) and printing them out as a table. We assemble the `stats` array by adding the result `process.memoryUsage()` at initialization and then five more times after creating 10,000 objects each time. This will output something like the following:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/14-f22.png').default} />
+</p>
+
+All of the numbers output by `process.memoryUsage` are in bytes. We can see each of the memory categories growing in each iteration, except external memory which only grows at index 1. The `external` metric refers to memory usage by the C layer, so once the JavaScript engine has fully initialized in this case there's no more memory requirements from that layer in our case. The `heapTotal` metric refers to the total memory allocated for a process. That is the process reserves that amount of memory and may grow or shrink that reserved space over time based on how the process behaves. Process memory can be split across RAM and swap space. So the `rss` metric, which stands for Resident Set Size is the amount of used RAM for the process, whereas the `heapUsed` metric is the total amount of memory used across both RAM and swap space. As we increasingly put pressure on the process memory by allocating lots of objects, we can see that the `heapUsed` number grows faster than the `rss` number, this means that swap space is being relied on more over time in this case.
+
+#### System Info
+
+The `os` module can be used to get information about the Operating System.
+
+Let's look at a couple API's we can use to find out useful information:
+
+```javascript
+'use strict'
+const os = require('os')
+
+console.log('Hostname', os.hostname())
+console.log('Home dir', os.homedir())
+console.log('Temp dir', os.tmpdir())
+```
+
+This will display the hostname of the operating system, the logged in users home directory and the location of the Operating System temporary directory. The temporary folder is routinely cleared by the Operating System so it's a great place to store throwaway files without the need to remove them later.
+
+This will output the following:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/14-f23.png').default} />
+</p>
+
+There are two ways to identify the Operating System with the `os` module:
+
+- The `os.platform` function which returns the same as `process.platform` property
+- The `os.type` function which on non-Windows systems uses the `uname` command and on Windows it uses the `ver` command, and to get the Operating System identifier:
+
+```javascript
+'use strict'
+const os = require('os')
+
+console.log('platform', os.platform())
+console.log('type', os.type())
+```
+
+On macOS this outputs:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/14-f24.png').default} />
+</p>
+
+If executed on Windows the first line would be `platform win32` and the second line would be `uname Windows_NT`. On Linux the first line would be `platform linux` and the second line would be `uname Linux`. However there are many more lesser known systems with a `uname` command that `os.type()` would output, too many to list here. See some examples on [Wikipedia](https://en.wikipedia.org/wiki/Uname#Examples).
+
+#### System Stats
+
+Operating System stats can also be gathered, let's look at:
+
+- Uptime
+- Free memory
+- Total memory
+
+The `os.uptime` function returns the amount of time the system has been running in seconds. The `os.freemem` and `os.totalmem` functions return available system memory and total system memory in bytes:
+
+```javascript
+'use strict'
+const os = require('os')
+
+setInterval(() => {
+  console.log('system uptime', os.uptime())
+  console.log('freemem', os.freemem())
+  console.log('totalmem', os.totalmem())
+  console.log()
+}, 1000)
+```
+
+If we execute this code for five seconds and then press Ctrl + C we'll see something like the following:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/14-f25.png').default} />
+</p>
+
 ### Lab Exercises
 
 #### Lab 14.1 - Identifying OS and Exiting
@@ -5903,8 +6425,567 @@ require('.')
 
 Run `node test.js` to verify whether the task was successfully completed, if it was `node test.js` will output `passed!`.
 
-
 ## 15 - Creating child processes
+
+### Introduction
+
+#### Chapter Overview
+
+In the previous chapter, we discussed the Node.js `process` object. The Node.js core `child_process` module allows the creation of new processes with the current process as the parent. A child process can be any executable written in any language, it doesn't have to be a Node.js process. In this chapter, we'll learn different ways to start and control child processes.
+
+#### Learning Objectives
+
+By the end of this chapter, you should be able to:
+
+- Discuss various ways to create child processes.
+- Understand key relevant configuration options when starting child processes.
+- Discover different ways to handle child process input and output.
+- Communicate with child processes.
+
+### Creating Child Processes
+
+#### Child Process Creation
+
+The `child_process` module has the following methods, all of which spawn a process some way or another:
+
+- `exec & execSync`
+- `spawn & spawnSync`
+- `execFile & execFileSync`
+- `fork`
+
+In this section we're going to zoom in on the `exec` and `spawn` methods (including their synchronous forms). However, before we do that, let's briefly cover the other listed methods.
+
+#### execFile & execFileSync Methods
+
+The `execFile` and `execFileSync` methods are variations of the `exec` and `execSync` methods. Rather than defaulting to executing a provided command in a shell, it attempts to execute the provided path to a binary executable directly. This is slightly more efficient but at the cost of some features. See the [`execFile` Documentation](https://nodejs.org/dist/latest-v16.x/docs/api/child_process.html#child_process_child_process_execfile_file_args_options_callback) for more information.
+
+#### fork Method
+
+The `fork` method is a specialization of the `spawn` method. By default, it will spawn a new Node process of the currently executing JavaScript file (although a different JavaScript file to execute can be supplied). It also sets up Interprocess Communication (IPC) with the subprocess by default. See [`fork` Documentation](https://nodejs.org/dist/latest-v16.x/docs/api/child_process.html#child_process_child_process_fork_modulepath_args_options) to learn more.
+
+#### exec & execSync Methods (1)
+
+The `child_process.execSync` method is the simplest way to execute a command:
+
+```javascript
+'use strict'
+const { execSync } = require('child_process')
+const output = execSync(
+  `node -e "console.log('subprocess stdio output')"`
+)
+console.log(output.toString())
+```
+
+This should result in the following outcome:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/15-f1.png').default} />
+</p>
+
+The `execSync` method returns a buffer containing the output (from STDOUT) of the command.
+
+If we were to use `console.error` instead of `console.log`, the child process would write to STDERR. By default the `execSync` method redirects its STDERR to the parent STDERR, so a message would print but the `output` buffer would be empty.
+
+In the example code the command being executed happens to be the `node` binary. However any command that is available on the host machine can be executed:
+
+```javascript
+'use strict'
+const { execSync } = require('child_process')
+const cmd = process.platform === 'win32' ? 'dir' : 'ls'
+const output = execSync(cmd)
+console.log(output.toString())
+```
+
+In this example we used `process.platform` to determine the platform so that we can execute the equivalent command on Windows and non-Windows Operating Systems:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/15-f2.png').default} />
+</p>
+
+#### exec & execSync Methods (2)
+
+If we do want to execute the `node` binary as a child process, it's best to refer to the full path of the `node` binary of the currently executing Node process. This can be found with `process.execPath`:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/15-f3.png').default} />
+</p>
+
+Using `process.execPath` ensures that no matter what, the subprocess will be executing the same version of Node.
+
+The following is the same example from earlier, but using `process.execPath` in place of just `'node'`:
+
+```javascript
+'use strict'
+const { execSync } = require('child_process')
+const output = execSync(
+  `"${process.execPath}" -e "console.error('subprocess stdio output')"`
+)
+console.log(output.toString())
+```
+
+If the subprocess exits with a non-zero exit code, the `execSync` function will throw:
+
+```javascript
+'use strict'
+const { execSync } = require('child_process')
+
+try {
+  execSync(`"${process.execPath}" -e "process.exit(1)"`)
+} catch (err) {
+  console.error('CAUGHT ERROR:', err)
+}
+```
+
+This will result in the following output:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/15-f4.png').default} />
+</p>
+
+The error object that we log out in the `catch` block has some additional properties. We can see that `status` is 1, this is because our subprocess invoked `process.exit(1)`. In a non-zero exit code scenario, the `stderr` property of the error object can be very useful. The `output` array indices correspond to the standard I/O file descriptors. Recall from the previous chapter that the file descriptor of STDERR is 2. Ergo the `err.stderr` property will contain the same buffer as `err.output[2]`, so `err.stderr` or `err.output[2]` can be used to discover any error messages written to STDERR by the subprocess. In our case, the STDERR buffer is empty.
+
+Let's modify our code to throw an error instead:
+
+```javascript
+'use strict'
+const { execSync } = require('child_process')
+
+try {
+  execSync(`"${process.execPath}" -e "throw Error('kaboom')"`)
+} catch (err) {
+  console.error('CAUGHT ERROR:', err)
+}
+```
+
+This will result in the following output:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/15-f5.png').default} />
+</p>
+
+#### exec & execSync Methods (3)
+
+The first section of output where we have printed `CAUGHT ERROR` is the error output of the subprocess. This same output is contained in the buffer object of `err.stderr` and `err.output[2]`.
+
+When we log the error, it's preceded by a message saying that the command failed and prints two stacks with a gap between them. The first stack is the functions called inside the subprocess, the second stack is the functions called in the parent process.
+
+Also notice that an uncaught `throw` in the subprocess results in an `err.status` (the exit code) of 1 as well, to indicate generic failure.
+
+The `exec` method takes a shell command as a string and executes it the same way as `execSync`. Unlike `execSync` the asynchronous `exec` function splits the STDOUT and STDERR output by passing them as separate arguments to the callback function:
+
+```javascript
+'use strict'
+const { exec } = require('child_process')
+
+exec(
+  `"${process.execPath}" -e "console.log('A');console.error('B')"`,
+  (err, stdout, stderr) => {
+    console.log('err', err)
+    console.log('subprocess stdout: ', stdout.toString())
+    console.log('subprocess stderr: ', stderr.toString())
+  }
+)
+```
+
+The above code example results in the following output:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/15-f6.png').default} />
+</p>
+
+Even though STDERR was written to, the first argument to the callback, `err` is `null`. This is because the process ended with zero exit code. Let's try throwing an error without catching it in the subprocess:
+
+```javascript
+'use strict'
+const { exec } = require('child_process')
+
+exec(
+  `"${process.execPath}" -e "console.log('A'); throw Error('B')"`,
+  (err, stdout, stderr) => {
+    console.log('err', err)
+    console.log('subprocess stdout: ', stdout.toString())
+    console.log('subprocess stderr: ', stderr.toString())
+  }
+)
+```
+
+This will result in the following output:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/15-f7.png').default} />
+</p>
+
+The `err` argument passed to the callback is no longer `null`, it's an error object. In the asynchronous `exec` case `err.code` contains the exit code instead of `err.status`, which is an unfortunate API inconsistency. It also doesn't contain the STDOUT or STDERR buffers since they are passed to the callback function independently.
+
+The `err` object also contains two stacks, one for the subprocess followed by a gap and then the stack of the parent process. The subprocess `stderr` buffer also contains the error as presented by the subprocess.
+
+#### spawn & spawnSync Methods (1)
+
+While `exec` and `execSync` take a full shell command, `spawn` takes the executable path as the first argument and then an array of flags that should be passed to the command as second argument:
+
+```javascript
+'use strict'
+const { spawnSync } = require('child_process')
+const result = spawnSync(
+  process.execPath,
+  ['-e', `console.log('subprocess stdio output')`]
+)
+console.log(result)
+```
+
+In this example `process.execPath` (e.g. the full path to the `node` binary) is the first argument passed to `spawnSync` and the second argument is an array. The first element in the array is the first flag: `-e`. There's a space between the `-e` flag and the content that the flag instructs the `node` binary to execute. Therefore that content has to be the second argument of the array. Also notice the outer double quotes are removed. Executing this code results in the following:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/15-f8.png').default} />
+</p>
+
+While the `execSync` function returns a buffer containing the child process output, the `spawnSync` function returns an object containing information about the process that was spawned. We assigned this to the `result` constant and logged it out. This object contains the same properties that are attached to the error object when `execSync` throws. The `result.stdout` property (and `result.output[1]`) contains a buffer of our processes STDOUT output, which should be `'subprocess stdio output'`. Let's find out by updating the `console.log(result)` line to:
+
+```javascript
+console.log(result.stdout.toString())
+```
+
+Executing the updated code should verify that the `result` object contains the expected STDOUT output:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/15-f9.png').default} />
+</p>
+
+Unlike `execSync`, the `spawnSync` method does not need to be wrapped in a `try/catch`. If a `spawnSync` process exits with a non-zero exit code, it does not throw:
+
+```javascript
+'use strict'
+const { spawnSync } = require('child_process')
+const result = spawnSync(process.execPath, [`-e`, `process.exit(1)`])
+console.log(result)
+```
+
+The above, when executed, will result in the following:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/15-f10.png').default} />
+</p>
+
+We can see that the `status` property is set to 1, since we passed an exit code of 1 to `process.exit` in the child process. If we had thrown an error without catching it in the subprocess the exit code would also be 1, but the `result.stderr` buffer would contain the subprocess STDERR output displaying the thrown error message and stack.
+
+Just as there are differences between `execSync` and `spawnSync` there are differences between `exec` and `spawn`.
+
+While `exec` accepts a callback, `spawn` does not. Both `exec` and `spawn` return a `ChildProcess` instance however, which has `stdin`, `stdout` and `stderr` streams and inherits from `EventEmitter` allowing for exit code to be obtained after a `close` event is emitted. See [ChildProcess constructor Documentation](https://nodejs.org/dist/latest-v16.x/docs/api/child_process.html#child_process_class_childprocess) for more details.
+
+#### spawn & spawnSync Methods (2)
+
+Let's take a look at a spawn example:
+
+```javascript
+'use strict'
+const { spawn } = require('child_process')
+
+const sp = spawn(
+  process.execPath,
+  [`-e`, `console.log('subprocess stdio output')`]
+)
+
+console.log('pid is', sp.pid)
+
+sp.stdout.pipe(process.stdout)
+
+sp.on('close', (status) => {
+  console.log('exit status was', status)
+})
+```
+
+This results in the following output:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/15-f11.png').default} />
+</p>
+
+The `spawn` method returns a `ChildProcess` instance which we assigned to the `sp` constant. The `sp.pid` (Process ID) is immediately available so we `console.log` this right away. To get the STDOUT of the child process we pipe `sp.stdout` to the parent `process.stdout`. This results in our second line of output which says `subprocess stdio output`. To get the status code, we listen for a `close` event. When the child process exits, the event listener function is called, and passes the exit code as the first and only argument. This is where we print our third line of output indicating the exit code of the subprocess.
+
+The `spawn` invocation in our code, is currently:
+
+```javascript
+const sp = spawn(
+  process.execPath,
+  [`-e`, `console.log('subprocess stdio output')`]
+)
+```
+
+Let's alter it to the following:
+
+```javascript
+const sp = spawn(
+  process.execPath,
+  [`-e`, `process.exit(1)`]
+)
+```
+
+Running this altered example code will produce the following outcome:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/15-f12.png').default} />
+</p>
+
+There is no second line of output in our main process in this case as our code change removed any output to STDOUT.
+
+The `exec` command doesn't have to take a callback, and it also returns a `ChildProcess` instance:
+
+```javascript
+'use strict'
+const { exec } = require('child_process')
+const sp = exec(
+  `"${process.execPath}" -e "console.log('subprocess stdio output')"`
+)
+
+console.log('pid is', sp.pid)
+
+sp.stdout.pipe(process.stdout)
+
+sp.on('close', (status) => {
+  console.log('exit status was', status)
+})
+```
+
+This leads to the exact same outcome as the equivalent `spawn` example:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/15-f13.png').default} />
+</p>
+
+The `spawn` method and the `exec` method both returning a `ChildProcess` instance can be misleading. There is one highly important differentiator between `spawn` and the other three methods we've been exploring (namely `exec`, `execSync` and `spawnSync`): the `spawn` method is the only method of the four that doesn't buffer child process output. Even though the `exec` method has `stdout` and `stderr` streams, they will stop streaming once the subprocess output has reached 1 mebibyte (or 1024 * 1024 bytes). This can be configured with a `maxBuffer` option, but no matter what, the other three methods have an upper limit on the amount of output a child process can generate before it is truncated. Since the `spawn` method does not buffer at all, it will continue to stream output for the entire lifetime of the subprocess, no matter how much output it generates. Therefore, for long running child processes it's recommended to use the `spawn` method.
+
+#### Process Configuration (1)
+
+An options object can be passed as a third argument in the case of spawn and spawnSync or the second argument in the case of `exec` and `execSync`.
+
+We'll explore two options that can be passed which control the environment of the child process: `cwd` and `env`.
+
+We'll use `spawn` for our example but these options are universally the same for all the child creation methods.
+
+By default, the child process inherits the environment variables of the parent process:
+
+```javascript
+'use strict'
+const { spawn } = require('child_process')
+
+process.env.A_VAR_WE = 'JUST SET'
+const sp = spawn(process.execPath, ['-p', 'process.env'])
+sp.stdout.pipe(process.stdout)
+```
+
+This example code creates a child process that executes `node` with the `-p` flag so that it immediately prints `process.env` and exits. The `stdout` stream of the child process is piped to the `stdout` of the parent process. So when executed this code will output the environment variables of the child process:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/15-f14.png').default} />
+</p>
+
+If we pass an options object with an `env` property the parent environment variables will be overwritten:
+
+```javascript
+'use strict'
+
+const { spawn } = require('child_process')
+
+process.env.A_VAR_WE = 'JUST SET'
+
+const sp = spawn(process.execPath, ['-p', 'process.env'], {
+  env: {SUBPROCESS_SPECIFIC: 'ENV VAR'}
+})
+
+sp.stdout.pipe(process.stdout)
+```
+
+We've modified the code so that an `env` object is passed via the options object, which contains a single environment variable named `SUBPROCESS_SPECIFIC`. When executed, the parent process will output the child process' environment variables object, and they'll only contain what we passed via the `env` option:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/15-f15.png').default} />
+</p>
+
+#### Process Configuration (2)
+
+Another option that can be set when creating a child process is the `cwd` option:
+
+```javascript
+'use strict'
+const { IS_CHILD } = process.env
+
+if (IS_CHILD) {
+  console.log('Subprocess cwd:', process.cwd())
+  console.log('env', process.env)
+} else {
+  const { parse } = require('path')
+  const { root } = parse(process.cwd())
+  const { spawn } = require('child_process')
+  const sp = spawn(process.execPath, [__filename], {
+    cwd: root,
+    env: {IS_CHILD: '1'}
+  })
+
+  sp.stdout.pipe(process.stdout)
+}
+```
+
+In this example, we're executing the same file twice. Once as a parent process and then once as a child process. We spawn the child process by passing `__filename`, inside the arguments array passed to `spawn`. This means the child process will run `node` with the path to the current file.
+
+We pass an `env` option to `spawn`, with an `IS_CHILD` property set to a string (`'1'`), so that when the subprocess loads, it will enter the `if` block. Whereas in the parent process, `process.env.IS_CHILD` is `undefined` so when the parent process executes it will enter the `else` block, which is where the child process is spawned.
+
+The `root` property of the object returned from `parse(process.cwd())` will be different depending on platform, and on Windows, depending on the hard drive that the code is executed on. By setting the `cwd` option to `root` we're setting the current working directory of the child process to our file systems root directory path.
+
+In the child process, `IS_CHILD` will be truthy so the `if` branch will print out the child processes' current working directory and environment variables. Since the parent process pipes the `sp.stdout` stream to the `process.stdout` stream executing this code will print out the current working directory and environment variables of the child process, that we set via the configuration options:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/15-f16.png').default} />
+</p>
+
+The `cwd` and `env` options can be set for any of the child process methods discussed in the prior section, but there are other options that can be set as well. To learn more see [spawn options](https://nodejs.org/dist/latest-v16.x/docs/api/child_process.html#child_process_child_process_spawn_command_args_options), [spawnSync options](https://nodejs.org/dist/latest-v16.x/docs/api/child_process.html#child_process_child_process_spawnsync_command_args_options), [exec options](https://nodejs.org/dist/latest-v16.x/docs/api/child_process.html#child_process_child_process_exec_command_options_callback) and [execSync options](https://nodejs.org/dist/latest-v16.x/docs/api/child_process.html#child_process_child_process_execsync_command_options) in the Node.js Documentation.
+
+#### Child STDIO (1)
+
+So far we've covered that the asynchronous child creation methods (`exec` and `spawn`) return a `ChildProcess` instance which has `stdin`, `stdout`, and `stderr` streams representing the I/O of the subprocess.
+
+This is the default behavior, but it can be altered.
+
+Let's start with an example with the default behavior:
+
+```javascript
+'use strict'
+const { spawn } = require('child_process')
+const sp = spawn(
+  process.execPath,
+  [
+   '-e',
+   `console.error('err output'); process.stdin.pipe(process.stdout)`
+  ],
+  { stdio: ['pipe', 'pipe', 'pipe'] }
+)
+
+sp.stdout.pipe(process.stdout)
+sp.stderr.pipe(process.stdout)
+sp.stdin.write('this input will become output\n')
+sp.stdin.end()
+```
+
+The options object has an `stdio` property set to `['pipe', 'pipe', 'pipe']`. This is the default, but we've set it explicitly as a starting point. In this context pipe means expose a stream for a particular STDIO device.
+
+As with the `output` property in `execSync` error objects or spawnSync result objects, the `stdio` array indices correspond to the file descriptors of each STDIO device. So the first element in the stdio array (index 0) is the setting for the child process STDIN, the second element (index 1) is for STDOUT and the third (index 2) is for STDERR.
+
+The process we are spawning is the `node` binary with the `-e` flag set to evaluate code which pipes the child process STDIN to its STDOUT and then outputs `'err output'` (plus a newline) to STDERR using `console.error`.
+
+In the parent process we pipe from the child process' STDOUT to the parent process' STDOUT. We also pipe from the child process' STDERR to the parent process' STDOUT. Note this is not a mistake, we are deliberately piping from child STDERR to parent STDOUT. The subprocess STDIN stream (`sp.stdin`) is a writable stream since it's for input. We write some input to it and then call `sp.stdin.end()` which ends the input stream, allowing the child process to exit which in turn allows the parent process to exit.
+
+This results in the following output:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/15-f17.png').default} />
+</p>
+
+If we're piping the subprocess STDOUT to the parent process STDOUT without transforming the data in any way, we can instead set the second element of the `stdio` array to `'inherit'`. This will cause the child process to inherit the STDOUT of the parent:
+
+```javascript
+'use strict'
+const { spawn } = require('child_process')
+const sp = spawn(
+  process.execPath,
+  [
+   '-e',
+   `console.error('err output'); process.stdin.pipe(process.stdout)`
+  ],
+  { stdio: ['pipe', 'inherit', 'pipe'] }
+)
+
+sp.stderr.pipe(process.stdout)
+sp.stdin.write('this input will become output\n')
+sp.stdin.end()
+```
+
+We've changed the `stdio[1]` element from `'pipe'` to `'inherit'` and removed the `sp.stdout.pipe(process.stdout)` line (in fact `sp.stdout` would now be `null`). This will result in the exact same output:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/15-f18.png').default} />
+</p>
+
+The `stdio` option can also be passed a stream directly. In our example, we're still piping the child process STDERR to the parent process STDOUT. Since `process.stdout` is a stream, we can set `stdio[2]` to `process.stdout` to achieve the same effect:
+
+```javascript
+'use strict'
+const { spawn } = require('child_process')
+const sp = spawn(
+  process.execPath,
+  [
+   '-e',
+   `console.error('err output'); process.stdin.pipe(process.stdout)`
+  ],
+  { stdio: ['pipe', 'inherit', process.stdout] }
+)
+
+sp.stdin.write('this input will become output\n')
+sp.stdin.end()
+```
+
+#### Child STDIO (2)
+
+Now both `sp.stdout` and `sp.stderr` will be `null` because neither of them are configured to `'pipe'` in the `stdio` option. However it will result in the same output because the third element in `stdio` is the `process.stdout` stream:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/15-f19.png').default} />
+</p>
+
+In our case we passed the `process.stdout` stream via `stdio` but any writable stream could be passed in this situation, for instance a file stream, a network socket or an HTTP response.
+
+Let's imagine we want to filter out the STDERR output of the child process instead of writing it to the parent `process.stdout` stream we can change `stdio[2]` to `'ignore'`. As the name implies this will ignore output from the STDERR of the child process:
+
+```javascript
+'use strict'
+const { spawn } = require('child_process')
+const sp = spawn(
+  process.execPath,
+  [
+   '-e',
+   `console.error('err output'); process.stdin.pipe(process.stdout)`
+  ],
+  { stdio: ['pipe', 'inherit', 'ignore'] }
+)
+
+sp.stdin.write('this input will become output\n')
+sp.stdin.end()
+```
+
+This change will change the output as the child process STDERR output is now ignored:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/15-f20.png').default} />
+</p>
+
+The `stdio` option applies the same way to the `child_process.exec` function.
+
+To send input to a child process created with `spawn` or `exec` we can call the `write` method of the return `ChildProcess` instance. For the `spawnSync` and `execSync` functions an `input` option be used to achieve the same:
+
+```javascript
+'use strict'
+const { spawnSync } = require('child_process')
+
+spawnSync(
+  process.execPath,
+  [
+   '-e',
+   `console.error('err output'); process.stdin.pipe(process.stdout)`
+  ],
+  {
+    input: 'this input will become output\n',
+    stdio: ['pipe', 'inherit', 'ignore']
+  }
+)
+```
+
+This will create the same output as the previous example because we've also set `stdio[2]` to `'ignore'`, thus STDERR output is ignored.
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/15-f21.png').default} />
+</p>
+
+For the `input` option to work for `spawnSync` and `execSync` the `stdio[0]` option has to be `pipe`, otherwise the `input` option is ignored.
+
+For more on child process STDIO see [Node.js Documentation](https://nodejs.org/dist/latest-v16.x/docs/api/child_process.html#child_process_options_stdio).
 
 ### Lab Exercises
 
@@ -6100,6 +7181,625 @@ test(Number(SCENARIO))
 ```
 
 ## 16 - Writing unit tests
+
+### Introduction
+
+#### Chapter Overview
+
+Testing an application or service is a key skill for any developer. If an application or service hasn't been thoroughly tested it should not be considered production ready. In this final chapter, we'll discuss various approaches and techniques for testing different kinds of API designs. 
+
+#### Learning Objectives
+
+By the end of this chapter, you should be able to:
+
+- Understand the basic principles of assertions.
+- Discover a selection of test runner frameworks.
+- Configure a project to run tests in a standardized way.
+
+### Writing Unit Tests 
+
+#### Assertions (1)
+
+An assertion checks a value for a given condition and throws if that condition is not met. Assertions are the fundamental building block of unit and integration testing. The core `assert` module exports a function that will throw an `AssertionError` when the value passed to it is falsy (meaning that the value can be coerced to `false` with `!!val`):
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/16-f1.png').default} />
+</p>
+
+If the value passed to `assert` is truthy then it will not throw. This is the key behavior of any assertion, if the condition is `not` met the assertion will throw an error. The error throw is an instance of `AssertionError` (to learn more see [Class: assert.AssertionError](https://nodejs.org/dist/latest-v16.x/docs/api/assert.html#assert_class_assert_assertionerror)).
+
+The core `assert` module has the following assertion methods:
+
+- `assert.ok(val)` – the same as `assert(val)`
+- `assert.equal(val1, val2)` – coercive equal, `val1 == val2`
+- `assert.notEqual(val1, val2)` – coercive unequal, `val1 != val2`
+- `assert.strictEqual(val1, val2)` – strict equal, `val1 === val2`
+- `assert.notStrictEqual(val1, val2)` – strict unequal, `val1 !== val2`
+- `assert.deepEqual(obj1, obj2)` – coercive equal for all values in an object
+- `assert.notDeepEqual(obj1, obj2)` – coercive unequal for all values in an object
+- `assert.deepStrictEqual(obj1, obj2)` – strict equal for all values in an object
+- `assert.notDeepStrictEqual(obj1, obj2)` – strict unequal for all values in an object
+- `assert.throws(function)` – assert that a function throws
+- `assert.doesNotThrow(function)` – assert that a function doesn't throw
+- `assert.rejects(promise|async function)` – assert promise or returned promise rejects
+- `assert.doesNotReject(promise|async function)` – assert promise or returned promise resolves
+- `assert.ifError(err)` – check that an error object is falsy
+- `assert.match(string, regex)` – test a string against a regular expression
+- `assert.doesNotMatch(string, regex)` – test that a string fails a regular expression
+- `assert.fail()` – force an AssertionError to be thrown
+
+Since the Node core `assert` module does not output anything for success cases there is no `assert.pass` method as it would be behaviorally the same as doing nothing.
+
+We can group the assertions into the following categories:
+
+- Truthiness (`assert` and `assert.ok`)
+- Equality (strict and loose) and Pattern Matching (`match`)
+- Deep equality (strict and loose)
+- Errors (`ifError` plus `throws`, `rejects` and their antitheses)
+- Unreachability (`fail`)
+
+There are third party libraries that provide alternative APIs and more assertions, which we will explore briefly at the end of this section. However this set of assertions (not the API itself but the actual assertion functionality provided) tends to provide everything we need to write good tests. In fact, the more esoteric the assertion the less useful it is long term. This is because assertions provide a common language of expectations among developers. So inventing or using more complex assertion abstractions that combine basic level assertions reduces the communicability of test code among a team of developers.
+
+Generally when we check a value, we also want to check its type. Let's imagine we're testing a function named add that takes two numbers and adds them together. We can check that `add(2, 2)` is 4 with:
+
+```javascript
+const assert = require('assert')
+const add = require('./get-add-from-somewhere.js')
+assert.equal(add(2, 2), 4)
+```
+
+This will pass both if `add` returns `4`, but it will also pass if `add` returns `'4'` (as a string). It will even pass if `add` returns an object with the form `{ valueOf: () => 4 }`. This is because `assert.equal` is coercive, meaning it will convert whatever the output of `add` is to the type of the expected value. In this scenario, it probably makes more sense if `add` only ever returns numbers. One way to address this is to add a type check like so:
+
+```javascript
+const assert = require('assert')
+const add = require('./get-add-from-somewhere.js')
+const result = add(2, 2)
+assert.equal(typeof result, 'number')
+assert.equal(result, 4)
+```
+
+#### Assertions (2)
+
+In this case if `add` doesn't return the number `4`, the `typeof` check will throw an `AssertionError`.
+
+The other way to handle this is to use `assert.strictEqual`:
+
+```javascript
+const assert = require('assert')
+const add = require('./get-add-from-somewhere.js')
+assert.strictEqual(add(2, 2), 4)
+```
+
+Since `assert.strictEqual` checks both value and type, using the triple equals operator (`===`) if add does not return `4` as a number an `AssertionError` will be thrown.
+
+The `assert` module also exposes a `strict` object where namespaces for non-strict methods are strict, so the above code could also be written as:
+
+```javascript
+const assert = require('assert')
+const add = require('./get-add-from-somewhere.js')
+assert.strict.equal(add(2, 2), 4)
+```
+
+It's worth noting that `assert.equal` and other non-strict (i.e. coercive) assertion methods are deprecated, which means they may one day be removed from Node core. Therefore if using the Node core `assert` module, best practice would be always to use `assert.strict` rather than `assert`, or at least always use the strict methods (e.g. `assert.strictEqual`).
+
+There are assertion libraries in the ecosystem which introduce alternative APIs but at a fundamental level, work in the same way. That is, an assertion error will be thrown if a defined condition is not met.
+
+Let's take a look at an equivalent example using the fluid API provided by the [`expect`](https://jestjs.io/docs/expect) library.
+
+```javascript
+const expect = require('expect')
+const add = require('./get-add-from-somewhere.js')
+
+expect(add(2, 2)).toStrictEqual(4)
+```
+
+With the `expect` assertion library, the value that we are asserting against is passed to the `expect` function, which returns an object with assertion methods that we can call to validate that value. In this case, we call `toStrictEqual` to apply a strict equality check. For a coercive equality check we could use `expect(add(2, 2).toBe(4)`.
+
+If an assertion fails, the `expect` library will throw a `JestAssertionError`, which contains extra information and prettier output than the core `AssertionError` instances:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/16-f2.png').default} />
+</p>
+
+The `expect` library is part of the Jest test runner framework, which we'll explore in more depth later in this section. For now, we'll continue to discuss Node's `assert` module, but it's useful to point out that the core concepts are the same across all commonly used assertion libraries.
+
+Deep equality methods, such as `assert.deepEqual` traverse object structures and then perform equality checks on any primitives in those objects. Let's consider the following object:
+
+```javascript
+const obj = { id: 1, name: { first: 'David', second: 'Clements' } }
+```
+
+To compare this object to another object, a simple equality check won't do because equality in JavaScript is by reference for objects:
+
+```javascript
+const assert = require('assert')
+const obj = {
+  id: 1,
+  name: { first: 'David', second: 'Clements' }
+}
+// this assert will fail because they are different objects:
+assert.equal(obj, {
+  id: 1,
+  name: { first: 'David', second: 'Clements' }
+})
+```
+
+#### Assertions (3)
+
+To compare object structure we need a deep equality check:
+
+```javascript
+const assert = require('assert')
+const obj = {
+  id: 1,
+  name: { first: 'David', second: 'Clements' }
+}
+assert.deepEqual(obj, {
+  id: 1,
+  name: { first: 'David', second: 'Clements' }
+})
+```
+
+The difference between `assert.deepEqual` and `assert.deepStrictEqual` (and `assert.strict.deepEqual`) is that the equality checks of primitive values (in this case the `id` property value and the `name.first` and `name.second` strings) are coercive, which means the following will also pass:
+
+```javascript
+const assert = require('assert')
+const obj = {
+  id: 1,
+  name: { first: 'David', second: 'Clements' }
+}
+// id is a string but this will pass because it's not strict
+assert.deepEqual(obj, {
+  id: '1',
+  name: { first: 'David', second: 'Clements' }
+})
+```
+
+It's recommended to use strict equality checking for most cases:
+
+```javascript
+const assert = require('assert')
+const obj = {
+  id: 1,
+  name: { first: 'David', second: 'Clements' }
+}
+// this will fail because id is a string instead of a number
+assert.strict.deepEqual(obj, {
+  id: '1',
+  name: { first: 'David', second: 'Clements' }
+})
+```
+
+The error handling assertions (`throws`, `ifError`, `rejects`) are useful for asserting that error situations occur for synchronous, callback-based and promise-based APIs.
+
+Let's start with an error case from an API that is synchronous:
+
+```javascript
+const assert = require('assert')
+const add = (a, b) => {
+  if (typeof a !== 'number' || typeof b !== 'number') {
+    throw Error('inputs must be numbers')
+  }
+  return a + b
+}
+assert.throws(() => add('5', '5'), Error('inputs must be numbers'))
+assert.doesNotThrow(() => add(5, 5))
+```
+
+Notice that the invocation of `add` is wrapped inside another function. This is because the `assert.throws` and `assert.doesNotThrow` methods have to be passed a function, which they can then wrap and call to see if a throw occurs or not. When executed the above code will pass, which is to say, no output will occur and the process will exit.
+
+#### Assertions (4)
+
+For callback-based APIs, the `assert.ifError` will only pass if the value passed to it is either `null` or `undefined`. Typically the `err` param is passed to it, to ensure no errors occurred:
+
+```javascript
+const assert = require('assert')
+const pseudoReq = (url, cb) => {
+  setTimeout(() => {
+    if (url === 'ht‌tp://error.com') cb(Error('network error'))
+    else cb(null, Buffer.from('some data'))
+  }, 300)
+}
+
+pseudoReq('ht‌tp://example.com', (err, data) => {
+  assert.ifError(err)
+})
+
+pseudoReq('ht‌tp://error.com', (err, data) => {
+  assert.deepStrictEqual(err, Error('network error'))
+})
+```
+
+We create a function called `pseudoReq` which is a very approximated emulation of a URL fetching API. The first time we call it with a string and a callback function we pass the `err` parameter to `assert.ifError`. Since `err` is `null` in this scenario, `assert.ifError` does not throw an `AssertionError`. The second time we call `pseudoReq` we trigger an error. To test an error case with a callback API we can check the `err` param against the expected error object using `assert.deepStrictEqual`.
+
+Finally for this section, let's consider asserting error or success states on a promise-based API:
+
+```javascript
+const assert = require('assert')
+const { promisify } = require('util')
+const timeout = promisify(setTimeout)
+const pseudoReq = async (url) => {
+  await timeout(300)
+  if (url === 'ht‌tp://error.com') throw Error('network error')
+  return Buffer.from('some data')
+}
+assert.doesNotReject(pseudoReq('ht‌tp://example.com'))
+assert.rejects(pseudoReq('ht‌tp://error.com'), Error('network error'))
+```
+
+Recall that `async` functions always return promises. So we converted our previously callback-based faux-request API to an `async` function. We can then use `assert.reject` and `assert.doesNotReject` to test the success case and the error case. One caveat with these assertions is that they also return promises, so in the case of an assertion error a promise will reject with an `AssertionError` rather than `AssertionError` being thrown as an exception.
+
+Notice that in all three cases we didn't actually check output. In the next section, we'll use different test runners, with their own assertion APIs to fully test the APIs we defined here.
+
+#### Test Harnesses (1)
+
+While assertions on their own are a powerful tool, if one of the asserted values fails to meet a condition an `AssertionError` is thrown, which causes the process to crash. This means the results of any assertions after that point are unknown, but any additional assertion failures might be important information.
+
+It would be great if we could group assertions together so that if one in a group fails, the failure is output to the terminal but the remaining groups of assertions still run.
+
+This is what test harnesses do. Broadly speaking we can group test harnesses into two categories: pure libraries vs framework environments.
+
+- **Pure Library:** Pure library test harnesses provide a module, which is loaded into a file and then used to group tests together. As we will see, pure libraries can be executed directly with Node like any other code. This has the benefit of easier debuggability and a shallower learning curve. We'll be looking at [tap](https://node-tap.org/). Alternative test libraries include [tape](https://github.com/substack/tape) and [brittle](https://github.com/holepunchto/brittle).
+- **Framework Environment:** A test framework environment may provide a module or modules, but it will also introduce implicit globals into the environment and requires another CLI tool to execute tests so that these implicit globals can be injected. For an example of a test framework environment we'll be looking at [jest](https://jestjs.io/). Alternative test frameworks include [jasmine](https://jasmine.github.io/) and [mocha](https://mochajs.org/).
+
+#### Test Harnesses (2)
+In this section, we're going to look at one pure library test harness and one framework test runner. Let's define the APIs we'll be testing. Let's imagine we have three files in the same folder: `add.js`, `req.js` and `req-prom.js`. 
+
+The following code is the `add.js` file:
+
+```javascript
+'use strict'
+module.exports = (a, b) => {
+  if (typeof a !== 'number' || typeof b !== 'number') {
+    throw Error('inputs must be numbers')
+  }
+  return a + b
+}
+```
+
+Next we have the `req.js` file:
+
+```javascript
+'use strict'
+module.exports = (url, cb) => {
+  setTimeout(() => {
+    if (url === 'ht‌tp://error.com') cb(Error('network error'))
+    else cb(null, Buffer.from('some data'))
+  }, 300)
+}
+```
+
+Then the `req-prom.js` file:
+
+```javascript
+'use strict'
+const { promisify } = require('util')
+const timeout = promisify(setTimeout)
+module.exports = async (url) => {
+  await timeout(300)
+  if (url === 'ht‌tp://error.com') throw Error('network error')
+  return Buffer.from('some data')
+}
+```
+
+In the folder with these files, if we run `npm init -y`, we'll be able to quickly generate a `package.json` file which we'll need for installing test libraries:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/16-f3.png').default} />
+</p>
+
+We'll write tests for these three files with the `tap` library and later on we'll convert over to the `jest` library for comparison.
+
+#### tap Test Library
+
+The `tap` test library should be installed with `npm install --save-dev tap` because a test runner is a development dependency:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/16-f4.png').default} />
+</p>
+
+Now we need to create a `test` folder in the same directory as our newly created `package.json`. A quick cross-platform way to do this would be with the command `node -e "fs.mkdirSync('test')"`.
+
+#### tap Test Library: add.js
+
+In the `test` folder, we'll create a file called `add.test.js`. This will be our set of tests for the `add.js` file:
+
+```javascript
+const { test } = require('tap')
+const add = require('../add')
+
+test('throw when inputs are not numbers', async ({ throws }) => {
+  throws(() => add('5', '5'), Error('inputs must be numbers'))
+  throws(() => add(5, '5'), Error('inputs must be numbers'))
+  throws(() => add('5', 5), Error('inputs must be numbers'))
+  throws(() => add({}, null), Error('inputs must be numbers'))
+})
+
+test('adds two numbers', async ({ equal }) => {
+  equal(add(5, 5), 10)
+  equal(add(-5, 5), 0)
+})
+```
+
+On the first line the tap testing library is required, on the second we load the `add.js` file from the directory above the `test` folder. We deconstruct the `test` function from the `tap` library--this `test` function provides the ability to describe and group a set of assertions together. We call the `test` function twice, so we have two groups of assertions: one for testing input validation and the other for testing expected output. The first argument passed to `test` is a string describing that group of assertions, the second argument is an `async` function. We use an `async` function because it returns a promise and the `test` function will use the promise returned from the async function to determine when the test has finished for that group of assertions. So when the returned promise resolves, the test is done. Since we don't do anything asynchronous, the promise essentially resolves at the end of the function, which is perfect for our purposes here.
+
+Notably, we do not load the assert module in `test/add.test.js`. This is because the `tap` library provides its own assertions API, passing in a contextualized assertions object for each test group, as the first argument of the function we supply to `test`. So we can see in the first test group, that we destructure the `throws` assertion function in the `async` function signature. From there we use the `throws` assertion to check that each of our cases throws as expected. In the second test group, we deconstruct the `equal` function to check outputs. It's important to understand that the assertion functions passed by tap to our supplied functions do not necessarily behave exactly the same as the functions provided by the `assert` module. For instance, use of `equal` here as supplied by `tap`, applies a strict equality check whereas `assert.equal` is coercive as discussed in the previous section.
+
+See [Node Tap's Documentation](https://node-tap.org/docs/api/asserts/) to learn more about the `tap` libraries assertion and to see where they differ from the Nodes `assert` module functions.
+
+Our new test can be run directly with `node`:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/16-f5.png').default} />
+</p>
+
+The output format here is known as the [Test Anything Protocol](https://testanything.org/) (TAP). It is a platform and language-independent test output format (and it is also why the test library is called `tap`).
+
+When `tap` is installed, it includes a test runner executable which can be accessed locally from `node_modules/.bin/tap`:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/16-f6.png').default} />
+</p>
+
+In the next section, we'll see a better way of triggering the test runner executable using the `package.json` `"scripts"` field. However, for now, we can see that the executable runs the code and then outputs a report of both assertions passing (or failing) and code coverage.
+
+#### tap Test Library: req.js
+
+Code coverage represents which logic paths were executed by tests. Having tests execute as many code paths is important for confidence that the code has been tested. In a loosely-typed language like JavaScript it can also be a good indicator that tests have covered a variety of input types (or even object shapes). However, it's also important to balance this with the understanding that code coverage is not the same as case coverage, so 100% code coverage doesn't necessarily indicate perfectly complete testing either.
+
+We've run some tests for a synchronous API, so now let's test a callback-based API. In a new file, `test/req.test.js` let's write the following:
+
+```javascript
+'use strict'
+const { test } = require('tap')
+const req = require('../req')
+
+test('handles network errors', ({ strictDeepEqual, end }) => {
+  req('ht‌tp://error.com', (err) => {
+    strictDeepEqual(err, Error('network error'))
+    end()
+  })
+})
+
+test('responds with data', ({ ok, strictDeepEqual, ifError, end }) => {
+  req('ht‌tp://example.com', (err, data) => {
+    ifError(err)
+    ok(Buffer.isBuffer(data))
+    strictDeepEqual(data, Buffer.from('some data'))
+    end()
+  })
+})
+```
+
+Again, we use the `test` function from `tap` to group assertions for different scenarios. Here we're testing our faux network error scenario and then in the second `test` group we're testing faux output. This time we don't use an `async` function. Since we're using callbacks, it's much easier to call a final callback to signify to the `test` function that we have finished testing. In `tap` this comes in the form of the `end` function which is supplied via the same assertions object passed to each function.
+
+We can see that in both cases the `end` function is called within the callback function supplied to the `req` function. If we don't call `end` when appropriate the test will fail with a timeout error, but if we tried to use an async function (without creating a promise that is in some way tied to the callback mechanism) the returned promise would resolve before the callbacks complete and so assertions would be attempting to run after that test group has finished.
+
+In terms of assertion functions, we used `strictDeepEqual`, `ok` and `ifError`. The `ok` assertion checks for truthiness. We use `Buffer.isBuffer` to check that the `data` argument passed to the callback is a buffer, and it will return `true` if it is. We could have used `equal(Buffer.isBuffer, true)` instead but `ok` was slightly less noisy for this case. In the output checking test, we're not expecting an error so we use `ifError`, passing it the `err` argument, to ensure that the operation was successful. The `strictDeepEqual` assertion function works in the same way as `assert.deepStrictEqual`. We use it to check both the expected error object in the first test group and the buffer instance in the second. Recall that buffers are array-like, so a deep equality check will loop through every element in the array (which means every byte in the buffer) and check them against each other.
+
+If we run `./node_modules/.bin/tap` without any arguments it will execute both of our tests files in the `test` folder:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/16-f7.png').default} />
+</p>
+
+#### tap Test Library: req-prom.js
+
+Now let's test our `req-prom.js` file. Let's create `test/req-prom.test.js` with the following content:
+
+```javascript
+'use strict'
+const { test } = require('tap')
+const req = require('../req-prom')
+
+test('handles network errors', async ({ rejects }) => {
+  await rejects(req('ht‌tp://error.com'), Error('network error'))
+})
+
+test('responds with data', async ({ ok, strictDeepEqual }) => {
+  const data = await req('ht‌tp://example.com')
+  ok(Buffer.isBuffer(data))
+  strictDeepEqual(data, Buffer.from('some data'))
+})
+```
+
+Our test cases here remain the same as the callback-based tests, because we're testing the same functionality but using promises instead. In the first test group, instead of checking an `err` object passed via a callback with `strictDeepEqual` we use the `rejects` assertion. We pass a promise to the first argument of `rejects` and the expected error instance as the second argument.
+
+We're using `async` functions again because we're dealing with promises, the `rejects` assertion returns a promise (the resolution of which is dependent on the promise passed to it), so we are sure to `await` that promise. This makes sure that the `async` function passed to test does not resolve (thus ending the test) before the promise passed to `rejects` has rejected.
+
+In the second test group we `await` the result of calling `req` and then apply the same assertions to the result as we do in the callback-based tests. There's no need for an `ifError` equivalent here, because if the promise unexpectedly rejects, that will propagate to the `async` function passed to the `test` function and the `test` harness will register that as an assertion failure.
+
+We can now run all tests again with the `tap` executable:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/16-f8.png').default} />
+</p>
+
+#### jest Framework: test/add.test.js
+
+To round this section off we will convert the tests to use `jest`.
+
+We can modify `test/add.test.js` to the following:
+
+```javascript
+'use strict'
+const add = require('../add')
+test('throw when inputs are not numbers', async () => {
+  expect(() => add('5', '5')).toThrowError(
+    Error('inputs must be numbers')
+  )
+  expect(() => add(5, '5')).toThrowError(
+    Error('inputs must be numbers')
+  )
+  expect(() => add('5', 5)).toThrowError(
+    Error('inputs must be numbers')
+  )
+  expect(() => add({}, null)).toThrowError(
+    Error('inputs must be numbers')
+  )
+})
+test('adds two numbers', async () => {
+  expect(add(5, 5)).toStrictEqual(10)
+  expect(add(-5, 5)).toStrictEqual(0)
+})
+```
+
+Notice that we still have a `test` function but it is not loaded from any module. This function is made available implicitly by `jest` at execution time. The same applies to `expect`, which we discussed as a module in the previous section. However here it is injected as an implicitly available function, just like the `test` function. This means that, unlike `tap`, we cannot run our tests directly with `node`:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/16-f9.png').default} />
+</p>
+
+Instead we always have to use the `jest` executable to run tests:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/16-f10.png').default} />
+</p>
+
+The ability to run individual tests with `node` directly can help with debuggability because there is nothing in between the developer and the code. By default `jest` does not output code coverage but can be passed the `--coverage` flag to do so.
+
+#### jest Framework: test/req.test.js
+
+Let's convert the `test/req.test.js`:
+
+```javascript
+'use strict'
+const req = require('../req')
+
+test('handles network errors', (done) => {
+  req('ht‌tp://error.com', (err) => {
+    expect(err).toStrictEqual(Error('network error'))
+    done()
+  })
+})
+
+test('responds with data', (done) => {
+  req('ht‌tp://example.com', (err, data) => {
+    expect(err == null).toBe(true)
+    expect(Buffer.isBuffer(data)).toBeTruthy()
+    expect(data).toStrictEqual(Buffer.from('some data'))
+    done()
+  })
+})
+```
+
+As in the previous example, `test` and `expect` are explicit. The `expect` assertions here broadly match the assertions from the `tap`-based equivalent except that `expect` has no equivalent of `ifError`. So to achieve the same effect we use `expect(err == null).toBe(true)`. Using a coercive equality check (`==`) will result in the conditional being `true` if `err` is `null` or `undefined`. While `Buffer.isBuffer` will only return `true` or `false` we use the `toBeTruthy` method to demonstrate how to achieve the same behavior as `ok`. As with the `tap` equivalent we don't use async functions here, but use a callback (`done`) passed to the functions that are passed to `test` to signal that the test group is complete.
+
+Let's check out our converted tests with `jest`:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/16-f11.png').default} />
+</p>
+
+#### jest Framework: test/req-prom.test.js
+
+Finally, we'll convert `test/req-prom.test.js`:
+
+```javascript
+'use strict'
+// make Jest work with nodes setTimeout instead of overriding it
+global.setTimeout = require('timers').setTimeout
+const req = require('../req-prom')
+
+test('handles network errors', async () => {
+  await expect(req('ht‌tp://error.com'))
+    .rejects
+    .toStrictEqual(Error('network error'))
+})
+
+test('responds with data', async () => {
+  const data = await req('ht‌tp://example.com')
+  expect(Buffer.isBuffer(data)).toBeTruthy()
+  expect(data).toStrictEqual(Buffer.from('some data'))
+})
+```
+
+Unfortunately, `jest` overrides the `setTimeout` function, which means when we use `util.promisify` in `req-prom.js` the promise returned from the promisified function (which we named `timeout`) never resolves, which causes all the tests to freeze. This is true for version 27.4.7 but may not be an issue for later versions if later versions are available.
+
+Now that all tests are converted we can run `jest` without any file names and all the files in `test` folder will be executed with `jest`:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/16-f12.png').default} />
+</p>
+
+#### Configuring package.json (1)
+
+A final key piece when writing tests for a module, application or service is making absolutely certain that the `test` field of the `package.json` file for that project runs the correct command.
+
+This is (observably and measurably) a very commonly made mistake, so bear this in mind.
+
+Typically a fresh `package.json` file looks similar to the following:
+
+```json
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
+```
+
+In the middle of the above JSON, we can see a `"scripts"` field. This contains a JSON object, which contains a `"test"` field. By default the `"test"` field is set up to generate an exit code of 1, to indicate failure. This is to indicate that not having tests, or not configuring the `"test"` to a command that will run tests is in fact a test failure.
+
+Running the `npm test` command in the same folder as the `package.json` will execute the shell command in the `"test"` field.
+
+If `npm test` was executed against this `package.json` the following output would occur:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/16-f13.png').default} />
+</p>
+
+Any field in the `"scripts"` field of `package.json` is expected to be a shell command, and these shell commands have their `PATH` enhanced with the path to `node_modules/.bin` in the same project as the `package.json` file. This means to run our tests we don't have to reference `./node_modules/.bin/jest` (or `./node_modules/.bin/tap`) we can instead write jest (or tap) knowing that the execution environment will look in `./node_modules/.bin` for that executable.
+
+In the last section our tests were converted to `jest` so let's modify the `"test"` field of `package.json` like so:
+
+```json
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
+```
+
+#### Configuring package.json (2)
+
+Now, let's run `npm test`:
+
+<p align='center'>
+  <img width='700px' src={require('@site/static/img/course-notes/jsnad/16-f14.png').default} />
+</p>
+
+If we were to convert our tests back to `tap`, the `package.json` test field could then be:
+
+```json
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
+```
+
+Once tests were converted back to their `tap` versions, if we run `npm test` with this `package.json` we should get output similar to the following:
 
 ### Lab Exercises
 
@@ -6458,8 +8158,6 @@ try {
   writeFileSync(store, storeCode)
 }
 ```
-
-## 17 - Course completion
 
 ## Quizzes
 
@@ -7526,6 +9224,3 @@ None
 
 </TabItem>
 </Tabs>
-
-### 17 - Course completion
-
