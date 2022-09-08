@@ -14,6 +14,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 const macros = {
   "\\x": "x+1",
+  "\\len": "\\operatorname{len}{#1}",
   "\\perfVeryGood": "\\colorbox{darkgreen}{$#1(#2)$}",
   "\\perfGood": "\\colorbox{darkolivegreen}{$#1(#2)$}",
   "\\perfAverage": "\\colorbox{b3a800}{$#1(#2)$}",

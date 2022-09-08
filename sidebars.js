@@ -28,7 +28,6 @@ const sidebars = {
           label: 'Algorithm Design Manual',
           collapsed: true,
           items: [
-            'books/algorithm-design-manual/lecture-notes',
             'books/algorithm-design-manual/exercises-and-solutions',
             {
               type: 'category',
@@ -48,6 +47,43 @@ const sidebars = {
                 'books/algorithm-design-manual/book-notes/np-completeness',
                 'books/algorithm-design-manual/book-notes/dealing-with-hard-problems',
                 'books/algorithm-design-manual/book-notes/how-to-design-algorithms',
+              ]
+            },
+            {
+              type: 'category',
+              label: 'Lecture Notes',
+              link: {
+                type: 'doc',
+                id: 'books/algorithm-design-manual/lecture-notes/index'
+              },
+              collapsed: true,
+              items: [
+                'books/algorithm-design-manual/lecture-notes/L1',
+                'books/algorithm-design-manual/lecture-notes/L2',
+                'books/algorithm-design-manual/lecture-notes/L3',
+                'books/algorithm-design-manual/lecture-notes/L4',
+                'books/algorithm-design-manual/lecture-notes/L5',
+                'books/algorithm-design-manual/lecture-notes/L6',
+                'books/algorithm-design-manual/lecture-notes/L7',
+                'books/algorithm-design-manual/lecture-notes/L8',
+                'books/algorithm-design-manual/lecture-notes/L9',
+                'books/algorithm-design-manual/lecture-notes/L10',
+                'books/algorithm-design-manual/lecture-notes/L11',
+                'books/algorithm-design-manual/lecture-notes/L12',
+                'books/algorithm-design-manual/lecture-notes/L13',
+                'books/algorithm-design-manual/lecture-notes/L14',
+                'books/algorithm-design-manual/lecture-notes/L15',
+                'books/algorithm-design-manual/lecture-notes/L16',
+                'books/algorithm-design-manual/lecture-notes/L17',
+                'books/algorithm-design-manual/lecture-notes/L18',
+                'books/algorithm-design-manual/lecture-notes/L19',
+                'books/algorithm-design-manual/lecture-notes/L20',
+                'books/algorithm-design-manual/lecture-notes/L21',
+                'books/algorithm-design-manual/lecture-notes/L22',
+                'books/algorithm-design-manual/lecture-notes/L23',
+                'books/algorithm-design-manual/lecture-notes/L24',
+                'books/algorithm-design-manual/lecture-notes/L25',
+                'books/algorithm-design-manual/lecture-notes/L26',
               ]
             },
           ]

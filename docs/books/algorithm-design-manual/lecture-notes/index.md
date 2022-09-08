@@ -1,11 +1,13 @@
 ---
 title: Algorithm Design Manual Lecture Notes
-slug: /books/algorithm-design-manual/lecture-notes
-sidebar_label: Lecture Notes
-last_update: 
-  date: '03 Jul 2022'
-  author: Daniel Farlow
-tags: [Algorithm Design Manual, Lecture Notes]
+description: Lecture notes landing page
+draft: false
+tags: [Algorithm Design Manual]
+keywords: [Algorithm Design Manual]
+image: https://github.com/farlowdw.png
+hide_table_of_contents: false
+toc_min_heading_level: 2
+toc_max_heading_level: 5
 ---
 
 import ReactPlayer from 'react-player';
@@ -13,8 +15,6 @@ import VideoContent from '@site/src/components/VideoContent';
 import TOCInline from '@theme/TOCInline';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-<details><summary>Lecture Resources</summary>
 
 <Tabs>
 <TabItem value="lecture-notes-links" label="Lecture Notes">
@@ -90,109 +90,3 @@ import TabItem from '@theme/TabItem';
 
 </TabItem>
 </Tabs>
-
-</details>
-
-## 1 - Lecture Notes 
-
-tbd
-
-## 2 - Lecture Notes 
-
-tbd
-
-## 3 - Lecture Notes 
-
-tbd
-
-## 4 - Lecture Notes 
-
-tbd
-
-## 5 - Lecture Notes 
-
-tbd
-
-## 6 - Lecture Notes 
-
-tbd
-
-## 7 - Lecture Notes 
-
-tbd
-
-## 8 - Lecture Notes 
-
-tbd
-
-## 9 - Lecture Notes 
-
-tbd
-
-## 10 - Lecture Notes 
-
-tbd
-
-## 11 - Lecture Notes 
-
-tbd
-
-## 12 - Lecture Notes 
-
-tbd
-
-## 13 - Lecture Notes 
-
-tbd
-
-## 14 - Lecture Notes 
-
-tbd
-
-## 15 - Lecture Notes 
-
-tbd
-
-## 16 - Lecture Notes 
-
-tbd
-
-## 17 - Lecture Notes 
-
-tbd
-
-## 18 - Lecture Notes 
-
-tbd
-
-## 19 - Lecture Notes 
-
-tbd
-
-## 20 - Lecture Notes 
-
-tbd
-
-## 21 - Lecture Notes 
-
-tbd
-
-## 22 - Lecture Notes 
-
-tbd
-
-## 23 - Lecture Notes 
-
-tbd
-
-## 24 - Lecture Notes 
-
-tbd
-
-## 25 - Lecture Notes 
-
-tbd
-
-## 26 - Lecture Notes 
-
-tbd
