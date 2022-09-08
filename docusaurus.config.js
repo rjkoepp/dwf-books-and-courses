@@ -26,8 +26,8 @@ const macros = {
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Handbook',
-  tagline: 'Software engineering handbooks are cool',
-  url: 'https://dwf.netlify.app',
+  tagline: 'Books, courses, and guides are cool',
+  url: 'https://dwf-books.netlify.app',
   baseUrl: '/',
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
@@ -164,32 +164,21 @@ const config = {
         maxHeadingLevel: 5,
       },
       navbar: {
-        title: 'Software Engineering Handbook',
+        title: 'Books, Courses, Guides',
         logo: {
-          alt: 'Software Engineering Handbook Logo',
+          alt: '',
           src: 'img/logo.svg',
         },
         items: [
           {
             to: '/docs/intro',
-            label: 'Handbook',
+            label: 'Home',
             position: 'left',
-            activeBaseRegex: `/docs/`,
           },
           {
-            to: '/blog',
-            label: 'Blog',
-            position: 'left'
-          },
-          {
-            to: '/blog/archive',
-            label: 'Blog Archive',
-            position: 'left'
-          },
-          {
-            href: 'https://github.com/facebook/docusaurus',
-            label: 'GitHub',
-            position: 'right',
+            to: '/docs/reference/docusaurus/templates',
+            label: 'Docusaurus',
+            position: 'left',
           },
           {
             to: 'docs/course-notes/development-and-engineering/javascript/jsnad-course-notes',
@@ -200,6 +189,21 @@ const config = {
             to: 'docs/course-notes/development-and-engineering/javascript/jsnsd-course-notes',
             label: 'JSNSD',
             position: 'left'
+          },
+          {
+            to: '/blog',
+            label: 'Blog',
+            position: 'right'
+          },
+          {
+            to: '/blog/archive',
+            label: 'Blog Archive',
+            position: 'right'
+          },
+          {
+            href: 'https://github.com/facebook/docusaurus',
+            label: 'GitHub',
+            position: 'right',
           },
         ],
       },

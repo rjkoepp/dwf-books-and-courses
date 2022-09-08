@@ -147,6 +147,8 @@ const sidebars = {
               type: 'category',
               label: 'JavaScript',
               items: [
+                'course-notes/development-and-engineering/javascript/learn-you-node',
+                'course-notes/development-and-engineering/javascript/stream-adventure-node',
                 'course-notes/development-and-engineering/javascript/jsnad-course-notes',
                 'course-notes/development-and-engineering/javascript/jsnsd-course-notes',
                 'course-notes/development-and-engineering/javascript/just-express',
@@ -171,6 +173,114 @@ const sidebars = {
 
               ]
             },
+          ]
+        },
+      ]
+    },
+    {
+      type: 'category',
+      label: 'Guides',
+      collapsed: true,
+      items: [
+        'guides/deploying-on-aws',
+        'guides/github-accounts-ssh',
+        'guides/upgrading-node-version',
+      ]
+    },
+    {
+      type: 'category',
+      label: 'Snippets',
+      collapsed: true,
+      items: [
+        'snippets/express-js-snippets',
+      ]
+    },
+    {
+      type: 'category',
+      label: 'Reference',
+      collapsed: true,
+      link: {
+        type: 'generated-index',
+        title: 'Reference Resources',
+        description: 'Something kind of wonderful.',
+        keywords: ['reference']
+      },
+      items: [
+        {
+          type: 'category',
+          label: 'Python',
+          link: {
+            type: 'doc',
+            id: 'reference/python/index'
+          },
+          items: [
+            'reference/python/language-observations',
+            {
+              type: 'category',
+              label: 'Deep Dive',
+              link: {
+                type: 'doc',
+                id: 'reference/python/deep-dive/index'
+              },
+              items: [
+                'reference/python/deep-dive/functional-programming',
+                'reference/python/deep-dive/iteration-and-generators',
+                'reference/python/deep-dive/hash-maps',
+                'reference/python/deep-dive/object-oriented-programming',
+              ]
+            },
+          ]
+        },
+        {
+          type: 'category',
+          label: 'CSS',
+          link: {
+            type: 'doc',
+            id: 'reference/css/index'
+          },
+          items: [
+            'reference/css/css-diner',
+            'reference/css/flexbox-froggy',
+            'reference/css/material-ui',
+          ]
+        },
+        {
+          type: 'category',
+          label: 'Docusaurus',
+          collapsed: true,
+          link: {
+            type: 'doc',
+            id: 'reference/docusaurus/index'
+          },
+          items: [
+            'reference/docusaurus/documentation-notes',
+            'reference/docusaurus/cheatsheet',
+            'reference/docusaurus/features',
+            'reference/docusaurus/katex',
+            'reference/docusaurus/templates',
+          ]
+        },
+        {
+          type: 'category',
+          label: 'SQL',
+          collapsed: true,
+          items: [
+            'reference/sql/mysql',
+            'reference/sql/postgresql',
+            'reference/sql/pg-exercises',
+          ]
+        },
+        {
+          type: 'category',
+          label: 'Visual Studio Code',
+          link: {
+            type: 'doc',
+            id: 'reference/vscode/index'
+          },
+          collapsed: true,
+          items: [
+            'reference/vscode/mac',
+            'reference/vscode/windows',
           ]
         },
       ]
