@@ -64,7 +64,7 @@ We can change this stuff if we want to. We can see there are several other thing
 Specifically, we will often want to pay close attention to the `palette` and `typography` objects:
 
 <p align='center'>
-  <img width='200' style='margin-right: 50px' src='https://user-images.githubusercontent.com/73953353/101974839-f51dc400-3bff-11eb-86cd-a280d5a54aec.png' />
+  <img width='200' style={{marginRight: '50px'}} src='https://user-images.githubusercontent.com/73953353/101974839-f51dc400-3bff-11eb-86cd-a280d5a54aec.png' />
   <img width='300' src='https://user-images.githubusercontent.com/73953353/101974847-f5b65a80-3bff-11eb-9c39-ebdbe8e51017.png' />
 </p>
 
