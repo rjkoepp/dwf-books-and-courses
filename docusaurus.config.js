@@ -192,6 +192,11 @@ const config = {
             position: 'left'
           },
           {
+            to: 'docs/reference/python/',
+            label: 'Python',
+            position: 'left'
+          },
+          {
             to: '/blog',
             label: 'Blog',
             position: 'right'
