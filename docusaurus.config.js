@@ -15,6 +15,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const macros = {
   "\\x": "x+1",
   "\\len": "\\operatorname{len}{#1}",
+  "\\dist": "\\operatorname{dist}{#1}",
   "\\perfVeryGood": "\\colorbox{darkgreen}{$#1(#2)$}",
   "\\perfGood": "\\colorbox{darkolivegreen}{$#1(#2)$}",
   "\\perfAverage": "\\colorbox{b3a800}{$#1(#2)$}",
@@ -26,7 +27,7 @@ const macros = {
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Handbook',
+  title: 'BCGS',
   tagline: 'Books, courses, and guides are cool',
   url: 'https://dwf-books.netlify.app',
   baseUrl: '/',
@@ -165,7 +166,7 @@ const config = {
         maxHeadingLevel: 5,
       },
       navbar: {
-        title: 'Books, Courses, Guides',
+        title: 'Books, Courses, Guides, Snippets',
         logo: {
           alt: '',
           src: 'img/logo.svg',
