@@ -87,7 +87,7 @@ But what if we rotate our example by 90 degrees (clockwise or counter-clockwise)
 
 ##### Book Description
 
-The following description is detailed in <BibRef id='SK2020' pages='p. 7'>See the paragraphs immediately above and below the snippet of pseudocode in the book.</BibRef>
+The following description is detailed in <BibRef id='SK2020' pages='p. 7'>See the paragraphs immediately above and below the snippet of pseudocode in the book.</BibRef>:
 
 Maybe what we need is a different approach for the instance that proved to be a bad instance for the nearest-neighbor heuristic. Always walking to the closest point is too restrictive, since that seems to trap us into making moves we didn't want. 
 
@@ -109,7 +109,7 @@ It may help to first "zoom back" a bit and answer the basic question of what we 
 
 > What is the shortest closed trail?
 
-That is, we want to find a sequence of edges $(e_1,e_2,\ldots,e_{n-1})$ for which there is a sequence of vertices $(v_1,v_2,\ldots,v_n)$ where $v_1=v_n$ and all edges are distinct. The edges are weighted and undirected, where the weight for each edge is simply the distance between vertices that comprise the edge--we want to minimize the overall weight of whatever closed trails exist.
+That is, we want to find a sequence of edges $(e_1,e_2,\ldots,e_{n-1})$ for which there is a sequence of vertices $(v_1,v_2,\ldots,v_n)$ where $v_1=v_n$ and all edges are distinct. The edges are weighted, where the weight for each edge is simply the distance between vertices that comprise the edge--we want to minimize the overall weight of whatever closed trails exist.
 
 **Practically speaking**, the `ClosestPair` heuristic gives us one of these distinct edges for every iteration of the outer `for` loop in the pseudocode (lines `3-10`), where the inner `for` loop (lines `5-9`) ensures the distinct edge being selected at each step, $(s_m,t_m)$, is comprised of vertices coming from the endpoints of distinct vertex chains; that is, $s_m$ comes from the endpoint of one vertex chain and $t_m$ from the endpoint of another distinct vertex chain. The inner `for` loop simply ensures we consider all such pairs, minimizing the distance between potential vertices in the process.
 
@@ -163,7 +163,13 @@ ClosestPair outer for loop iterations
 Final step: connect A and G
 ```
 
-Hence, the `ClosestPair` heuristic does the right thing in this example where previously the `NearestNeighbor` heuristic did the wrong thing. But not on all examples.
+Hence, the `ClosestPair` heuristic does the right thing in this example where previously the `NearestNeighbor` heuristic did the wrong thing:
+
+<div align='center'>
+  <img width='750px' src={require('@site/static/img/books/adm/c1-f5.png').default} />
+</div>
+
+But not on all examples.
 
 ##### Bad instance
 
@@ -210,7 +216,9 @@ Specifically, the vertex chains `(A, D, E, B)` and `(C, F)`, which have endpoint
 (A, C), (A, F), (B, C), (B, F)
 ```
 
-There is no arbitrary choice now--there are no ties in the distance between vertices in the pairs above. The `(B, C)` pairing results in the smallest distance between vertices: $1+\varepsilon$. Once vertices `B` and `C` have been connected by an edge, all iterations are done and we are left with a single vertex chain: `(A, D, E, B, C, F)`. Connecting `A` and `F` gives us a cycle and concludes the process.
+Even if it may seem obvious, it is worth explicitly noting that neither `D` nor `E` were viable vertex candidates above--neither vertex is included in the endpoint, `(A, B)`, of the vertex chain of which they are vertices, namely `(A, D, E, B)`.
+
+There is no arbitrary choice at this stage. There are no ties in the distance between vertices in the pairs above. The `(B, C)` pairing results in the smallest distance between vertices: $1+\varepsilon$. Once vertices `B` and `C` have been connected by an edge, all iterations have been completed and we are left with a single vertex chain: `(A, D, E, B, C, F)`. Connecting `A` and `F` gives us a cycle and concludes the process.
 
 :::
 
@@ -245,4 +253,4 @@ $$
 \frac{(5+\sqrt{5})-6}{6}\times 100\approx 20.6\%
 $$
 
-too far by using the `ClosestPair` heuristic in this case. As noted in <BibRef id='SK2020' pages='p. 7' />, examples exist where the penalty is considerably worse than this.
+farther than is necessary by using the `ClosestPair` heuristic in this case. As noted in <BibRef id='SK2020' pages='p. 7' />, examples exist where the penalty is considerably worse than this.
