@@ -1,0 +1,21 @@
+% page 7 of Algorithm Design Manual
+\begin{algorithm}
+\caption{Closest Pair Heuristic}
+\begin{algorithmic}
+\PROCEDURE{ClosestPair}{$P$}
+\STATE Let $n$ be the number of points in set $P$.
+\FOR{$i=1$ to $n-1$}
+  \STATE $d=\infty$
+  \FOR{each pair of endpoints $(s,t)$ from distinct vertex chains}
+    \IF{$\operatorname{dist}(s,t)\leq d$}
+      \STATE $s_m=s$
+      \STATE $t_m=t$
+      \STATE $d=\operatorname{dist}(s,t)$
+    \ENDIF
+  \ENDFOR
+  \STATE Connect $(s_m,t_m)$ by an edge
+\ENDFOR
+\STATE Connect the two endpoints by an edge
+\ENDPROCEDURE
+\end{algorithmic}
+\end{algorithm}

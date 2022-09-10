@@ -1,0 +1,17 @@
+% page 6 of Algorithm Design Manual
+\begin{algorithm}
+\caption{Nearest Neighbor Heuristic}
+\begin{algorithmic}
+\PROCEDURE{NearestNeighbor}{$P$}
+  \STATE Pick and visit an initial point $p_0$ from $P$
+  \STATE $p=p_0$
+  \STATE $i=0$
+  \WHILE{there are still unvisited points}
+    \STATE $i=i+1$
+    \STATE Select $p_i$ to be the closest unvisited point to $p_{i-1}$
+    \STATE Visit $p_i$
+  \ENDWHILE
+  \STATE Return to $p_0$ from $p_{n-1}$
+\ENDPROCEDURE
+\end{algorithmic}
+\end{algorithm}

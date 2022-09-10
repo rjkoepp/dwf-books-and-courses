@@ -28,6 +28,8 @@ const sidebars = {
           label: 'Algorithm Design Manual',
           collapsed: true,
           items: [
+            'books/algorithm-design-manual/algorithms-code',
+            'books/algorithm-design-manual/miscellany',
             'books/algorithm-design-manual/exercises-and-solutions',
             {
               type: 'category',
