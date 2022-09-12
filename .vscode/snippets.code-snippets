@@ -303,4 +303,11 @@
     ],
     "description": "Allows for easy insertion of images."
   },
+  "Algorithm catalog reference": {
+    "prefix": "adm-catalog",
+    "body": [
+      "[the catalog](/docs/books/algorithm-design-manual/algorithms-catalog#$0)",
+    ],
+    "description": "Allows for easy reference to the catalog."
+  },
 }

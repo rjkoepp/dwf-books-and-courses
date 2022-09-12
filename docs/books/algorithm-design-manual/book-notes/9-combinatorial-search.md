@@ -1,12 +1,9 @@
 ---
-title: Data Structures
+title: Combinatorial Search
 hide_title: false
-sidebar_label: 3 - Data Structures
-description: Data Structures.
+sidebar_label: 9 - Combinatorial Search
+description: Combinatorial Search.
 draft: false
-last_update: 
-  date: '2022-07-22'
-  author: farlow
 tags: [Algorithm Design Manual]
 keywords: [algorithms]
 image: https://github.com/farlowdw.png

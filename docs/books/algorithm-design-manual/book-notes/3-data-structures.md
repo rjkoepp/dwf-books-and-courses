@@ -1,12 +1,9 @@
 ---
-title: Algorithm Analysis
+title: Data Structures
 hide_title: false
-sidebar_label: 2 - Algorithm Analysis
-description: Algorithm Analysis.
+sidebar_label: 3 - Data Structures
+description: Data Structures.
 draft: false
-last_update: 
-  date: '2022-07-22'
-  author: farlow
 tags: [Algorithm Design Manual]
 keywords: [algorithms]
 image: https://github.com/farlowdw.png

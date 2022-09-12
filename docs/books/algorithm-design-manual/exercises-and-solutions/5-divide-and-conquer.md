@@ -1,12 +1,9 @@
 ---
-title: Dealing with Hard Problems
+title: Divide and Conquer (Problems and Solutions)
 hide_title: false
-sidebar_label: 12 - Dealing with Hard Problems
-description: Dealing with Hard Problems.
+sidebar_label: 5 - Divide and Conquer
+description: Divide and Conquer.
 draft: false
-last_update: 
-  date: '2022-07-22'
-  author: farlow
 tags: [Algorithm Design Manual]
 keywords: [algorithms]
 image: https://github.com/farlowdw.png

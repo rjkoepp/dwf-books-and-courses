@@ -4,9 +4,6 @@ hide_title: false
 sidebar_label: 10 - Dynamic Programming
 description: Dynamic Programming.
 draft: false
-last_update: 
-  date: '2022-07-22'
-  author: farlow
 tags: [Algorithm Design Manual]
 keywords: [algorithms]
 image: https://github.com/farlowdw.png

@@ -1,12 +1,9 @@
 ---
-title: How to Design Algorithms
+title: Sorting (Problems and Solutions)
 hide_title: false
-sidebar_label: 13 - How to Design Algorithms
-description: How to Design Algorithms.
+sidebar_label: 4 - Sorting
+description: Sorting.
 draft: false
-last_update: 
-  date: '2022-07-22'
-  author: farlow
 tags: [Algorithm Design Manual]
 keywords: [algorithms]
 image: https://github.com/farlowdw.png

@@ -1,12 +1,9 @@
 ---
-title: Weighted Graph Algorithms
+title: How to Design Algorithms (Problems and Solutions)
 hide_title: false
-sidebar_label: 8 - Weighted Graph Algorithms
-description: Weighted Graph Algorithms.
+sidebar_label: 13 - How to Design Algorithms
+description: How to Design Algorithms.
 draft: false
-last_update: 
-  date: '2022-07-22'
-  author: farlow
 tags: [Algorithm Design Manual]
 keywords: [algorithms]
 image: https://github.com/farlowdw.png

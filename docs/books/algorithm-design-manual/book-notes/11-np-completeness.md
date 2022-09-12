@@ -1,12 +1,9 @@
 ---
-title: Sorting
+title: NP-Completeness
 hide_title: false
-sidebar_label: 4 - Sorting
-description: Sorting.
+sidebar_label: 11 - NP-Completeness
+description: NP-Completeness.
 draft: false
-last_update: 
-  date: '2022-07-22'
-  author: farlow
 tags: [Algorithm Design Manual]
 keywords: [algorithms]
 image: https://github.com/farlowdw.png

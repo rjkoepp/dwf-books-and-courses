@@ -1,12 +1,9 @@
 ---
-title: Divide and Conquer
+title: Weighted Graph Algorithms
 hide_title: false
-sidebar_label: 5 - Divide and Conquer
-description: Divide and Conquer.
+sidebar_label: 8 - Weighted Graph Algorithms
+description: Weighted Graph Algorithms.
 draft: false
-last_update: 
-  date: '2022-07-22'
-  author: farlow
 tags: [Algorithm Design Manual]
 keywords: [algorithms]
 image: https://github.com/farlowdw.png

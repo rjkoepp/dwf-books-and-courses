@@ -31,7 +31,26 @@ const sidebars = {
             'books/algorithm-design-manual/algorithms-catalog',
             'books/algorithm-design-manual/algorithms-code',
             'books/algorithm-design-manual/miscellany',
-            'books/algorithm-design-manual/exercises-and-solutions',
+            {
+              type: 'category',
+              label: 'Exercises and Solutions',
+              collapsed: true,
+              items: [
+                'books/algorithm-design-manual/exercises-and-solutions/introduction-to-algorithm-design',
+                'books/algorithm-design-manual/exercises-and-solutions/algorithm-analysis',
+                'books/algorithm-design-manual/exercises-and-solutions/data-structures',
+                'books/algorithm-design-manual/exercises-and-solutions/sorting',
+                'books/algorithm-design-manual/exercises-and-solutions/divide-and-conquer',
+                'books/algorithm-design-manual/exercises-and-solutions/hashing-and-randomized-algorithms',
+                'books/algorithm-design-manual/exercises-and-solutions/graph-traversal',
+                'books/algorithm-design-manual/exercises-and-solutions/weighted-graph-algorithms',
+                'books/algorithm-design-manual/exercises-and-solutions/combinatorial-search',
+                'books/algorithm-design-manual/exercises-and-solutions/dynamic-programming',
+                'books/algorithm-design-manual/exercises-and-solutions/np-completeness',
+                'books/algorithm-design-manual/exercises-and-solutions/dealing-with-hard-problems',
+                'books/algorithm-design-manual/exercises-and-solutions/how-to-design-algorithms',
+              ]
+            },
             {
               type: 'category',
               label: 'Book Notes',
