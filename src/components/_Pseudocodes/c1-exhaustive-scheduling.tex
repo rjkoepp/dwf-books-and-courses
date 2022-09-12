@@ -1,0 +1,17 @@
+% page 8 of Algorithm Design Manual
+\begin{algorithm}
+\caption{Exhaustive Scheduling}
+\begin{algorithmic}
+\PROCEDURE{ExhaustiveScheduling}{$I$}
+\STATE $j=0$
+\STATE $S_{\max}=\emptyset$
+\FOR{each of the $2^n$ subsets $S_i$ of intervals $I$}
+  \IF{($S_i$ is mutually non-overlapping) and ($\operatorname{size}(S_i)>j$)}
+    \STATE $j=\operatorname{size}(S_i)$
+    \STATE $S_{\max}=S_i$
+  \ENDIF
+\ENDFOR
+\RETURN $S_{\max}$
+\ENDPROCEDURE
+\end{algorithmic}
+\end{algorithm}

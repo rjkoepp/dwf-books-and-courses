@@ -1,0 +1,12 @@
+% page 8 of Algorithm Design Manual
+\begin{algorithm}
+\caption{Shortest Job First}
+\begin{algorithmic}
+\PROCEDURE{ShortestJobFirst}{$I$}
+\WHILE{$I\neq\emptyset$}
+  \STATE Accept the shortest possible job $j$ from $I$.
+  \STATE Delete $j$, and any interval that intersects $j$, from $I$.
+\ENDWHILE
+\ENDPROCEDURE
+\end{algorithmic}
+\end{algorithm}

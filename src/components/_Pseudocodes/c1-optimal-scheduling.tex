@@ -1,0 +1,12 @@
+% page 8 of Algorithm Design Manual
+\begin{algorithm}
+\caption{Optimal Scheduling}
+\begin{algorithmic}
+\PROCEDURE{OptimalScheduling}{$I$}
+\WHILE{$I\neq\emptyset$}
+  \STATE Accept the job $j$ from $I$ with the earliest completion date.
+  \STATE Delete $j$, and any interval which intersects $j$, from $I$.
+\ENDWHILE
+\ENDPROCEDURE
+\end{algorithmic}
+\end{algorithm}

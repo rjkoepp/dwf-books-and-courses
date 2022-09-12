@@ -252,6 +252,17 @@
     ],
     "description": "Allows for easy insertion of images."
   },
+  "Algorithm design manual figure inclusion": {
+    "prefix": "adm-figure",
+    "body": [
+      "<div align='center'>",
+      "\t<img width='750px' src={require('@site/static/img/books/adm/c${1:chapterNum}-f${2:figureNum}.png').default} />",
+      "</div>",
+      "",
+      "$0",
+    ],
+    "description": "Allows for easy insertion of images."
+  },
   "PG block": {
     "prefix": "pgblock",
     "body": [

@@ -1,0 +1,16 @@
+% page 8 of Algorithm Design Manual
+\begin{algorithm}
+\caption{Optimal Traveling Salesman Problem (TSP)}
+\begin{algorithmic}
+\PROCEDURE{OptimalTSP}{$P$}
+\STATE $d=\infty$
+\FOR{each of the $n!$ permutations $P_i$ of point set $P$}
+  \IF{$\operatorname{cost}(P_i)\leq d$}
+    \STATE $d=\operatorname{cost}(P_i)$
+    \STATE $P_{\min} = P_i$
+  \ENDIF
+\ENDFOR
+\RETURN $P_{\min}$
+\ENDPROCEDURE
+\end{algorithmic}
+\end{algorithm}

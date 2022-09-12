@@ -1,0 +1,17 @@
+% page 8 of Algorithm Design Manual
+\begin{algorithm}
+\caption{Recursive Algorithm for Incrementing Natural Numbers}
+\begin{algorithmic}
+\PROCEDURE{Incremenet}{$y$}
+\IF{$y=0$}
+  \RETURN 1
+\ELSE
+  \IF{$y\bmod 2 = 1$}
+    \RETURN $2\,\cdot$ \CALL{Increment}{$\lfloor y/2\rfloor$}
+  \ELSE
+    \RETURN $y+1$
+  \ENDIF
+\ENDIF
+\ENDPROCEDURE
+\end{algorithmic}
+\end{algorithm}
