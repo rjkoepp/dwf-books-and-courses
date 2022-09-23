@@ -272,6 +272,7 @@ const sidebars = {
             id: 'reference/python/index'
           },
           items: [
+            'reference/python/google-style-guide',
             'reference/python/performance-considerations',
             'reference/python/language-observations',
             {

@@ -19,7 +19,23 @@ import TabItem from '@theme/TabItem';
 
 ### Introduction to the dataset
 
-The dataset for these exercises is for a newly created country club, with a set of members, facilities such as tennis courts, and booking history for those facilities (the Entity Relationship Diagram for this dataset is shown beneath the "Outline" outside of this note). Amongst other things, the club wants to understand how they can use their information to analyse facility usage/demand. Please note: this dataset is designed purely for supporting an interesting array of exercises, and the database schema is flawed in several aspects - please don't take it as an example of good design. We'll start off with a look at the Members table:
+The dataset for these exercises is for a newly created country club, with a set of members, facilities such as tennis courts, and booking history for those facilities. The Entity Relationship Diagram for this dataset is shown below:
+
+<div align='center'>
+  <img width="950px" src={require('@site/static/img/reference/pg-exercises/schema-reminder.png').default} />
+</div>
+
+Amongst other things, the club wants to understand how they can use their information to analyse facility usage/demand. 
+
+:::caution Dataset Design
+
+The dataset is designed purely for supporting an interesting array of exercises, and the database schema is flawed in several aspects - please don't take it as an example of good design.
+
+:::
+
+#### Members table
+
+We'll start off with a look at the `cd.members` table:
 
 ```sql
 CREATE TABLE cd.members (
@@ -39,6 +55,10 @@ CREATE TABLE cd.members (
 
 Each member has an ID `memid` (not guaranteed to be sequential), basic address information (`surname`, `firstname`, `address`, `zipcode`, `telephone`), a reference (`recommendedby`) to the member that recommended them (if any), and a timestamp for when they joined (`joindate`). The addresses in the dataset are entirely (and unrealistically) fabricated.
 
+#### Facilities table
+
+The `cd.facilities` table definition is as follows:
+
 ```sql
 CREATE TABLE cd.facilities (
   facid integer NOT NULL,
@@ -53,6 +73,10 @@ CREATE TABLE cd.facilities (
 
 The facilities table lists all the bookable facilities that the country club possesses. The club stores id/name information (`facid`, `name`), the cost to book both members and guests (`membercost`, `guestcost`), the initial cost to build the facility (`initialoutlay`), and estimated monthly upkeep costs (`monthlymaintenance`). They hope to use this information to track how financially worthwhile each facility is.
 
+#### Bookings table
+
+The `cd.bookings` table definition is as follows:
+
 ```sql
 CREATE TABLE cd.bookings (
   bookid integer NOT NULL,
@@ -66,7 +90,7 @@ CREATE TABLE cd.bookings (
 );
 ```
 
-Finally, there's a table tracking bookings of facilities. This stores the facility id (`facid`), the member who made the booking (`memid`), the start of the booking (`starttime`), and how many half hour 'slots' the booking was made for (`slots`). This idiosyncratic design will make certain queries more difficult, but should provide you with some interesting challenges - as well as prepare you for the horror of working with some real-world database
+The `cd.bookings` table is for tracking bookings of facilities. The table stores the facility id (`facid`), the member who made the booking (`memid`), the start of the booking (`starttime`), and how many half hour 'slots' the booking was made for (`slots`). This idiosyncratic design will make certain queries more difficult, but should provide you with some interesting challenges - as well as prepare you for the horror of working with some real-world databases.
 
 ### I want to use my own Postgres system
 
@@ -81,12 +105,6 @@ psql -U <username> -f clubdata.sql -d postgres -x -q
 to create the `exercises` database, the Postgres `pgexercises` user, the tables, and to load the data in. Note that you may find that the sort order of your results differs from those shown on the web site: that's probably because your Postgres is set up using a different locale to that used by PGExercises (which uses the C locale)
 
 When you're running queries, you may find `psql` a little clunky. If so, I recommend trying out pgAdmin or the Eclipse database development tools.
-
-**Schema reminder:**
-
-<div align='center'>
-  <img width="950px" src={require('@site/static/img/reference/pg-exercises/schema-reminder.png').default} />
-</div>
 
 ## Basic
 
@@ -133,14 +151,14 @@ How can you retrieve *all* information from the `cd.facilities` table (the order
 
 ```sql
 SELECT
-  *
+  F.*
 FROM
-  cd.facilities;
+  cd.facilities F;
 ```
 
----
+In general, it is best to explicitly name columns in the `SELECT` query instead of the `*` catch-all. [This answer](https://stackoverflow.com/a/65532/5209533) discusses this issue a bit more. Essentially, `*` is useful when testing things and debugging, but naming the columns is good for portability (if your table is updated in the future, `*` will result in grabbing everything from the updated table, intentional or not).
 
-**Additional comments:** In general, it is best to explicitly name columns in the `SELECT` query instead of the `*` catch-all. [This answer](https://stackoverflow.com/a/65532/5209533) discusses this issue a bit more. Essentially, `*` is useful when testing things and debugging, but naming the columns is good for portability (if your table is updated in the future, `*` will result in grabbing everything from the updated table, intentional or not).
+---
 
 </TabItem>
 <TabItem value='discussion' label='Discussion'>
@@ -152,11 +170,13 @@ FROM
   cd.facilities;
 ```
 
-The `SELECT` statement is the basic starting block for queries that read information out of the database. A minimal select statement is generally comprised of `SELECT [some set of columns] FROM [some table or group of tables]`.
+The `SELECT` statement is the basic starting block for queries that read information out of the database. A minimal `SELECT` statement is generally comprised of `SELECT [some set of columns] FROM [some table or group of tables]`.
 
 In this case, we want all of the information from the `cd.facilities` table. The `FROM` part is easy--we just need to specify the `cd.facilities` table. `cd` is the table's schema (i.e., a term used for a logical grouping of related information in the database).
 
 Next, we need to specify that we want *all* of the columns. Conveniently, there's a shorthand for "all columns": `*`. We can use this instead of laboriously specifying all the column names.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -173,7 +193,7 @@ Next, we need to specify that we want *all* of the columns. Conveniently, there'
 <Tabs>
 <TabItem value='question' label='Question'>
 
-You want to print out a list of all of the facilities and their cost to members. How would you retrieve a list of only facility names and costs?
+You want to print out a list of all of the facilities and their cost to members. How would you retrieve a list of only facility names and costs? Order does not matter.
 
 </TabItem>
 <TabItem value='expectedResult' label='Expected Result'>
@@ -198,20 +218,22 @@ You want to print out a list of all of the facilities and their cost to members.
 </TabItem>
 <TabItem value='hint' label='Hint'>
 
-The [`SELECT`](https://www.postgresqltutorial.com/postgresql-select/) statement allows you to specify column names to retrieve.
+The [`SELECT`](https://www.postgresqltutorial.com/postgresql-select/) statement allows you to specify which column names to retrieve.
 
 </TabItem>
 <TabItem value='answer' label='My Answer'>
 
 ```sql
 SELECT
-  name,
-  membercost
+  F.name,
+  F.membercost
 FROM
-  cd.facilities;
+  cd.facilities F;
 ```
 
-**Additional comments:** This is generally the way you want to go (i.e., specifying the column names as opposed to just supplying `*` to grab everything).
+This is generally the way you want to go (i.e., specifying the column names as opposed to just supplying `*` to grab everything). It is safer and more performant.
+
+---
 
 </TabItem>
 <TabItem value='discussion' label='Discussion'>
@@ -231,6 +253,8 @@ For this question, we need to specify the columns that we want. We can do that w
 </div>
 
 Generally speaking, for non-throwaway queries it's considered desirable to specify the names of the columns you want in your queries rather than using `*`. This is because your application might not be able to cope if more columns get added into the table.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -275,11 +299,11 @@ The [`WHERE`](https://www.postgresqltutorial.com/postgresql-where/) clause allow
 
 ```sql
 SELECT 
-  *
+  F.*
 FROM
-  cd.facilities
+  cd.facilities F
 WHERE
-  membercost > 0;
+  F.membercost > 0;
 ```
 
 </TabItem>
@@ -301,6 +325,8 @@ Once we've built up our set of candidate rows, the `WHERE` clause allows us to f
 <div align='center'>
   <img width="700px" src={require('@site/static/img/reference/pg-exercises/basic-3-f1.png').default} />
 </div>
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -342,16 +368,22 @@ The [`WHERE`](https://www.postgresqltutorial.com/postgresql-where/) clause allow
 
 ```sql
 SELECT
-  facid, name, membercost, monthlymaintenance
+  F.facid, 
+  F.name, 
+  F.membercost,
+  F.monthlymaintenance
 FROM
-  cd.facilities
+  cd.facilities F
 WHERE
-  membercost > 0 AND membercost < (monthlymaintenance * 1/50);
+  F.membercost > 0 
+  AND F.membercost < (F.monthlymaintenance * 1/50);
 ```
 
-**Additional comments:** You have to be somewhat careful here due to how [integer division](https://stackoverflow.com/q/34504497/5209533) works in PostgreSQL. Specifically, replacing `monthlymaintenance * 1/50` above with `1/50 * monthlymaintenance` will result in an empty result set. This is because `1/50` resolves to `0` since both are of type integer. But `monthlymaintenance` is of type numeric. Hence, we should aim to be clear with our implementation of "1/50"th--we can do something like `monthlymaintenance/50.0` where `50.0` implicitly instructs Postgres to treat `50` as a numeric type. 
+You have to be somewhat careful here due to [how integer division works in PostgreSQL](https://stackoverflow.com/q/34504497/5209533). Specifically, replacing `D.monthlymaintenance * 1/50` above with `1/50 * F.monthlymaintenance` will result in an empty result set. This is because `1/50` resolves to `0` since both are of type integer. But `monthlymaintenance` is of type numeric. Hence, we should aim to be clear with our implementation of "1/50"th--we can do something like `monthlymaintenance/50.0` where `50.0` implicitly instructs Postgres to treat `50` as a numeric type. 
 
 The [Postgres docs](https://www.postgresql.org/docs/current/functions-math.html) note that division for integral types truncates the result towards zero.
+
+---
 
 </TabItem>
 <TabItem value='discussion' label='Discussion'>
@@ -378,6 +410,8 @@ You might have noticed that this is our first query that combines a `WHERE` clau
 <div align='center'>
   <img width="700px" src={require('@site/static/img/reference/pg-exercises/basic-4-f1.png').default} />
 </div>
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -420,11 +454,11 @@ Try looking up the SQL [`LIKE`](https://www.postgresqltutorial.com/postgresql-li
 
 ```sql
 SELECT
-  *
+  F.*
 FROM
-  cd.facilities
+  cd.facilities F
 WHERE
-  name LIKE '%Tennis%';
+  F.name LIKE '%Tennis%';
 ```
 
 </TabItem>
@@ -444,6 +478,8 @@ SQL's `LIKE` operator provides simple pattern matching on strings. It's pretty m
 There's other ways to accomplish this task: Postgres supports regular expressions with the `~` operator, for example. Use whatever makes you feel comfortable, but do be aware that the `LIKE` operator is much more portable between systems.
 
 Also be aware that Postgres, unlike MySQL or SQL Server for instance, is case-*sensitive*. Postgres has an `ILIKE` operator which can be used to make the pattern matching case-*insensitive*.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -485,11 +521,11 @@ Try looking up the SQL [`IN`](https://www.postgresqltutorial.com/postgresql-in/)
 
 ```sql
 SELECT
-  *
+  F.*
 FROM
-  cd.facilities
+  cd.facilities F
 WHERE
-  facid IN (1,5);
+  F.facid IN (1,5);
 ```
 
 </TabItem>
@@ -506,7 +542,7 @@ WHERE
 
 The obvious answer to this question is to use a `WHERE` clause that looks like `WHERE facid = 1 OR facid = 5`. An alternative that is easier with large numbers of possible matches is the `IN` operator. The `IN` operator takes a list of possible values, and matches them against (in this case) the `facid`. If one of the values matches, the `WHERE` clause is true for that row, and the row is returned.
 
-The `IN` operator is a good early demonstrator of the elegance of the relational model. The argument it takes is not just a list of values - it's actually a table with a single column. Since queries also return tables, if you create a query that returns a single column, you can feed those results into an `IN` operator. To give a toy example:
+The `IN` operator is a good early demonstrator of the elegance of the relational model. The argument it takes is not just a list of values - it's actually a table with a single column. Since queries also return tables, if you create a query that returns a single column, then you can feed those results into an `IN` operator. To give a toy example:
 
 ```sql
 SELECT
@@ -518,6 +554,8 @@ WHERE
 ```
 
 This example is functionally equivalent to just selecting all the facilities, but shows you how to feed the results of one query into another. The inner query is called a *subquery* and we will learn more about those later.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -566,13 +604,13 @@ Try looking up the SQL [`CASE`](https://www.postgresqltutorial.com/postgresql-ca
 
 ```sql
 SELECT
-  name,
-  CASE
-    WHEN monthlymaintenance > 100 THEN 'expensive'
+  F.name,
+  (CASE
+    WHEN F.monthlymaintenance > 100 THEN 'expensive'
     ELSE 'cheap'
-  END AS cost
+  END) AS cost
 FROM
-  cd.facilities;
+  cd.facilities F;
 ```
 
 </TabItem>
@@ -594,6 +632,8 @@ This exercise contains a few new concepts. The first is the fact that we're doin
 The second new concept is the `CASE` statement itself. `CASE` is effectively like if/switch statements in other languages, with a form as shown in the query. To add a 'middling' option, we would simply insert another `WHEN ...THEN` section.
 
 Finally, there's the `AS` operator. This is simply used to label columns or expressions (i.e., it is a so-called *column alias*), to make them display more nicely or to make them easier to reference when used as part of a subquery.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -643,11 +683,14 @@ Look up the SQL [`TIMESTAMP`](https://www.postgresqltutorial.com/postgresql-time
 
 ```sql
 SELECT
-  memid, surname, firstname, joindate
+  M.memid,
+  M.surname,
+  M.firstname,
+  M.joindate
 FROM
-  cd.members
+  cd.members M
 WHERE
-  joindate >= '2012-09-01';
+  M.joindate >= '2012-09-01';
 ```
 
 </TabItem>
@@ -665,7 +708,9 @@ WHERE
   joindate >= '2012-09-01';
 ```
 
-This is our first look at SQL timestamps. They're formatted in descending order of magnitude: `YYYY-MM-DD HH:MM:SS.nnnnnn`. We can compare them just like we might a unix timestamp, although getting the differences between dates is a little more involved (and powerful!). In this case, we've just specified the date portion of the timestamp. This gets automatically cast by postgres into the full timestamp `2012-09-01 00:00:00`.
+This is our first look at SQL timestamps. They're formatted in descending order of magnitude: `YYYY-MM-DD HH:MM:SS.nnnnnn`. We can compare them just like we might a unix timestamp, although getting the differences between dates is a little more involved (and powerful!). In this case, we've just specified the date portion of the timestamp. This gets automatically cast by Postgres into the full timestamp `2012-09-01 00:00:00`.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -715,11 +760,11 @@ Look up [`SELECT DISTINCT`](https://www.postgresqltutorial.com/postgresql-select
 
 ```sql
 SELECT DISTINCT
-  surname
+  M.surname
 FROM
-  cd.members
+  cd.members M
 ORDER BY
-  surname
+  M.surname
 LIMIT 10;
 ```
 
@@ -739,9 +784,11 @@ LIMIT
 
 There's three new concepts here, but they're all pretty simple.
 
-- Specifying `DISTINCT` after `SELECT` removes duplicate rows from the result set. Note that this applies to *rows*: if row A has multiple columns, row B is only equal to it if the values in all columns are the same. As a general rule, don't use `DISTINCT` in a willy-nilly fashion--it's not free to remove duplicates from large query result sets, so do it as-needed.
+- Specifying `DISTINCT` after `SELECT` removes duplicate rows from the result set. Note that this applies to *rows*: if row `A` has multiple columns, row `B` is only equal to it if the values in all columns are the same. As a general rule, don't use `DISTINCT` in a willy-nilly fashion--it's not free to remove duplicates from large query result sets, so do it as-needed.
 - Specifying `ORDER BY` (after the `FROM` and `WHERE` clauses, near the end of the query) allows results to be ordered by a column or set of columns (comma separated).
 - The `LIMIT` keyword allows you to limit the number of results retrieved. This is useful for getting results a page at a time, and can be combined with the `OFFSET` keyword to get following pages. This is the same approach used by MySQL and is very convenient - you may, unfortunately, find that this process is a little more complicated in other DBs.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -758,7 +805,7 @@ There's three new concepts here, but they're all pretty simple.
 <Tabs>
 <TabItem value='question' label='Question'>
 
-You, for some reason, want a combined list of all surnames and all facility names. Yes, this is a contrived example. Produce that list!
+You, for some reason, want a combined list of all surnames and all facility names. Yes, this is a contrived example. Produce that list! The listing of surnames and names should have a column title of `surname`.
 
 </TabItem>
 <TabItem value='expectedResult' label='Expected Result'>
@@ -814,9 +861,9 @@ Look up the SQL keyword [`UNION`](https://www.postgresqltutorial.com/postgresql-
 <TabItem value='answer' label='My Answer'>
 
 ```sql
-SELECT surname FROM cd.members
+SELECT M.surname FROM cd.members M
 UNION
-SELECT name FROM cd.facilities;
+SELECT F.name FROM cd.facilities F;
 ```
 
 </TabItem>
@@ -839,6 +886,8 @@ The [`UNION`](https://www.postgresqltutorial.com/postgresql-union/) operator doe
 Additionally, the result set is not predictable in terms of what order records are returned in. To impose order, you can use `ORDER BY` *after* the second `SELECT` clause once everything has been unioned.
 
 `UNION` removes duplicate rows, while `UNION ALL` does not. Use `UNION ALL` by default, unless you care about duplicate results.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -881,11 +930,11 @@ The normal approach might be something like
 
 ```sql
 SELECT
-  joindate AS latest
+  M.joindate AS latest
 FROM
-  cd.members
+  cd.members M
 ORDER BY
-  joindate DESC
+  M.joindate DESC
 LIMIT 1;
 ```
 
@@ -893,10 +942,12 @@ but aggregate functions can work on not just numbers but dates as well:
 
 ```sql
 SELECT 
-  max(joindate) AS latest
+  MAX(M.joindate) AS latest
 FROM 
-  cd.members;
+  cd.members M;
 ```
+
+---
 
 </TabItem>
 <TabItem value='discussion' label='Discussion'>
@@ -915,6 +966,8 @@ This is our first foray into SQL's aggregate functions. They're used to extract 
 - How much time has each member spent at our facilities?
 
 The `MAX` aggregate function here is very simple: it receives all the possible values for `joindate`, and outputs the one that's biggest. There's a lot more power to aggregate functions, which you will come across in future exercises.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -957,24 +1010,34 @@ Probably the most straightforward way to accomplish this is as follows:
 
 ```sql
 SELECT
-  firstname, surname, joindate
+  M.firstname,
+  M.surname,
+  M.joindate
 FROM
-  cd.members
+  cd.members M
 ORDER BY
-  joindate DESC
+  M.joindate DESC
 LIMIT 1;
 ```
 
-But using a subquery makes things a bit more elegant:
+But using a subquery adds some flair:
 
 ```sql
 SELECT
-  firstname, surname, joindate
+  M1.firstname,
+  M1.surname,
+  M1.joindate
 FROM
-  cd.members
+  cd.members M1
 WHERE
-  joindate = (SELECT MAX(joindate) FROM cd.members);
+  M1.joindate = (SELECT MAX(M2.joindate) FROM cd.members M2);
 ```
+
+Note that the first solution, which uses `LIMIT 1`, is *functionally different* from the second solution. They do not do the same things. For example, suppose there are multiple people who signed up at the same time and that time happens to be the last time anyone signed up. Then it is technically true that *several* members were last in signing up.
+
+The first solution would only return a single member whereas the subqeury solution would return all members.
+
+---
 
 </TabItem>
 <TabItem value='discussion' label='Discussion'>
@@ -1024,6 +1087,8 @@ ORDER BY
 LIMIT
   1;
 ```
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -1110,7 +1175,8 @@ FROM
   cd.members M
   INNER JOIN cd.bookings B ON M.memid = B.memid
 WHERE
-  M.firstname = 'David' AND M.surname = 'Farrell';
+  M.firstname = 'David' 
+  AND M.surname = 'Farrell';
 ```
 
 </TabItem>
@@ -1132,7 +1198,7 @@ The most commonly used kind of join is the `INNER JOIN`. What this does is combi
 Let's ignore our `SELECT` and `WHERE` clauses for now, and focus on what the `FROM` statement produces. In all our previous examples, `FROM` has just been a simple table. What is it now? Another table! This time, it's produced as a composite of bookings and members. You can see a subset of the output of the join below:
 
 <div align='center'>
-  <img width="750px" src='/static/img/reference/pg-exercises/joins-1-f1.gif' />
+  <img width="750px" src={require('@site/static/img/reference/pg-exercises/joins-1-f1.png').default} />
 </div>
 
 For each member in the members table, the join has found all the matching member ids in the bookings table. For each match, it's then produced a row combining the row from the members table, and the row from the bookings table.
@@ -1161,6 +1227,8 @@ WHERE
 
 This is functionally exactly the same as the approved answer. If you feel more comfortable with this syntax, feel free to use it!
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -1176,7 +1244,7 @@ This is functionally exactly the same as the approved answer. If you feel more c
 <Tabs>
 <TabItem value='question' label='Question'>
 
-How can you produce a list of the start times for bookings for tennis courts, for the date `'2012-09-21'`? Return a list of start time and facility name pairings, ordered by the time.
+How can you produce a list of the start times for bookings for tennis courts, for the date `'2012-09-21'`? Return a list of start time and facility name pairings, ordered by the time (ascending).
 
 </TabItem>
 <TabItem value='expectedResult' label='Expected Result'>
@@ -1211,7 +1279,8 @@ This is another `INNER JOIN`. You may also want to think about using the `IN` or
 
 ```sql
 SELECT
-  B.starttime AS start, F.name
+  B.starttime AS start,
+  F.name
 FROM
   cd.facilities F
   INNER JOIN cd.bookings B ON F.facid = B.facid
@@ -1243,9 +1312,11 @@ ORDER BY
 
 This is another `INNER JOIN` query, although it has a fair bit more complexity in it! The `FROM` part of the query is easy - we're simply joining facilities and bookings tables together on the `facid`. This produces a table where, for each row in bookings, we've attached detailed information about the facility being booked.
 
-On to the `WHERE` component of the query. The checks on starttime are fairly self explanatory - we're making sure that all the bookings start between the specified dates. Since we're only interested in tennis courts, we're also using the `IN` operator to tell the database system to only give us back facility IDs `0` or `1` - the IDs of the courts. There's other ways to express this: We could have used where `facs.facid = 0` or `facs.facid = 1`, or even where `facs.name like 'Tennis%'`.
+On to the `WHERE` component of the query. The checks on `starttime` are fairly self explanatory - we're making sure that all the bookings start between the specified dates. Since we're only interested in tennis courts, we're also using the `IN` operator to tell the database system to only give us back facility IDs `0` or `1` - the IDs of the courts. There's other ways to express this: We could have used where `facs.facid = 0` or `facs.facid = 1`, or even where `facs.name like 'Tennis%'`.
 
 The rest is pretty simple: we `SELECT` the columns we're interested in, and `ORDER BY` the start time.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -1300,19 +1371,20 @@ There are multiple ways of going about this. Perhaps the clearest way is the sub
 
 ```sql
 SELECT DISTINCT
-  firstname, surname
+  M1.firstname,
+  M1.surname
 FROM
-  cd.members
+  cd.members M1
 WHERE
-  memid IN (SELECT DISTINCT recommendedby FROM cd.members WHERE recommendedby IS NOT NULL)
+  M1.memid IN (SELECT DISTINCT M2.recommendedby FROM cd.members M2 WHERE M2.recommendedby IS NOT NULL)
 ORDER BY
-  surname, firstname;
+  M1.surname, M1.firstname;
 ```
 
 The subquery
 
 ```sql
-SELECT DISTINCT recommendedby FROM cd.members WHERE recommendedby IS NOT NULL
+SELECT DISTINCT M2.recommendedby FROM cd.members M2 WHERE M2.recommendedby IS NOT NULL
 ```
 
 retrieves all the distinct member IDs of those who have recommended people. This gives us the complete list of member IDs for the recommenders. Hence, to find the member info for the recommenders, we simply have to find the members whose IDs are in the list obtained by the subquery.
@@ -1357,6 +1429,8 @@ ORDER BY
   surname, firstname;
 ```
 
+---
+
 </TabItem>
 <TabItem value='discussion' label='Discussion'>
 
@@ -1381,6 +1455,8 @@ If you're having trouble visualising this, remember that this works just the sam
 </div>
 
 Note that while we might have two `'surname'` columns in the output set, they can be distinguished by their table aliases. Once we've selected the columns that we want, we simply use `DISTINCT` to ensure that there are no duplicates.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -1512,6 +1588,8 @@ ORDER BY
 
 Lastly, note how we can use column aliases as above to `ORDER BY` however we see fit and keep the syntax a bit briefer than it might be otherwise.
 
+---
+
 </TabItem>
 <TabItem value='discussion' label='Discussion'>
 
@@ -1534,6 +1612,8 @@ Let's introduce another new concept: the `LEFT OUTER JOIN`. These are best expla
 This is useful in situations like this question, where we want to produce output with optional data. We want the names of all members, and the name of their recommender if that person exists. You can't express that properly with an inner join.
 
 As you may have guessed, there's other outer joins too. The `RIGHT OUTER JOIN` is much like the `LEFT OUTER JOIN`, except that the left hand side of the expression is the one that contains the optional data. The rarely-used `FULL OUTER JOIN` treats both sides of the expression as optional.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -1655,6 +1735,8 @@ Our second `INNER JOIN` in this query has a right hand side of `cd.facilities`. 
 
 As a final note, we do introduce one new thing here: the `||` operator is used to concatenate strings.
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -1768,6 +1850,8 @@ ORDER BY
 
 This is a bit of a complicated one! While it's more complex logic than we've used previously, there's not an awful lot to remark upon. The `WHERE` clause restricts our output to sufficiently costly rows on `2012-09-14`, remembering to distinguish between guests and members. We then use a `CASE` statement in the column selections to output the correct `cost` for the member or guest.
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -1867,6 +1951,8 @@ ORDER BY
 This exercise marks the introduction of subqueries. Subqueries are, as the name implies, queries within a query. They're commonly used with aggregates, to answer questions like 'get me all the details of the member who has spent the most hours on Tennis Court 1'.
 
 In this case, we're simply using the subquery to emulate an outer join. For every value of member, the subquery is run once to find the name of the individual who recommended them (if any). A subquery that uses information from the outer query in this way (and thus has to be run for each row in the result set) is known as a *correlated subquery*.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -2042,6 +2128,8 @@ ORDER BY
 
 This answer provides a mild simplification to the previous iteration: in the no-subquery version, we had to calculate the member or guest's cost in both the `WHERE` clause and the `CASE` statement. In our new version, we produce an inline query that calculates the total booking cost for us, allowing the outer query to simply select the bookings it's looking for. For reference, you may also see subqueries in the `FROM` clause referred to as *inline views*.
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -2119,6 +2207,8 @@ VALUES
 
 Generally speaking, for SQL that's going to be reused I tend to prefer being explicit and specifying the column names.
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -2189,6 +2279,8 @@ INSERT INTO cd.facilities
 
 In later exercises you'll see us using `INSERT ... SELECT` to generate data to insert based on the information already in the database.
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -2237,6 +2329,8 @@ In the previous exercises we used `VALUES` to insert constant data into the faci
 Since the `VALUES` clause is only used to supply constant data, we need to replace it with a query instead. The `SELECT` statement is fairly simple: there's an inner subquery that works out the next facid based on the largest current id, and the rest is just constant data. The output of the statement is a row that we insert into the facilities table.
 
 While this works fine in our simple example, it's not how you would generally implement an incrementing ID in the real world. Postgres provides [`SERIAL`](https://www.postgresqltutorial.com/postgresql-serial/) types that are auto-filled with the next ID when you insert a row. As well as saving us effort, these types are also safer: unlike the answer given in this exercise, there's no need to worry about concurrent operations generating the same ID.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -2292,6 +2386,8 @@ UPDATE cd.facilities
 
 There's no `WHERE` clause to filter for the rows we're interested in. The result of this is that the update runs on every row in the table! This is rarely what we want to happen.
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -2339,6 +2435,8 @@ UPDATE cd.facilities
 ```
 
 The `SET` clause accepts a comma separated list of values that you want to update.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -2414,6 +2512,8 @@ UPDATE cd.facilities facs
   WHERE facs.facid = 1;
 ```
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -2459,6 +2559,8 @@ TRUNCATE cd.bookings;
 ```
 
 `TRUNCATE` also deletes everything in the table, but does so using a quicker underlying mechanism. It's not [perfectly safe in all circumstances](https://www.postgresql.org/docs/current/mvcc-caveats.html), though, so use judiciously. When in doubt, use `DELETE`.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -2509,6 +2611,8 @@ There's one interesting wrinkle here. Try this command out, but substituting in 
 Foreign keys are a mechanism for defining relationships between columns of different tables. In our case we use them to specify that the `memid` column of the bookings table is related to the `memid` column of the members table. The relationship (or 'constraint') specifies that for a given booking, the member specified in the booking must exist in the members table. It's useful to have this guarantee enforced by the database: it means that code using the database can rely on the presence of the member. It's hard (even impossible) to enforce this at higher levels: concurrent operations can interfere and leave your database in a broken state.
 
 PostgreSQL supports various different kinds of constraints that allow you to enforce structure upon your data. For more information on constraints, check out the PostgreSQL documentation on [foreign keys](https://www.postgresql.org/docs/current/ddl-constraints.html).
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -2576,6 +2680,8 @@ WHERE
 ```
 
 The two different forms can have different performance characteristics. Under the hood, your database engine is free to transform your query to execute it in a correlated or uncorrelated fashion, though, so things can be a little hard to predict.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -2676,6 +2782,8 @@ FROM
 
 When we have a subquery that returns a scalar value like this, Postgres knows to simply repeat the value for every row in `cd.facilities`.
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -2735,6 +2843,8 @@ WHERE
 ```
 
 This one is only a simple modification to the previous question: we need to weed out the inexpensive facilities. This is easy to do using a `WHERE` clause. Our aggregation can now only see the expensive facilities.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -2839,6 +2949,8 @@ Previously, we've seen that aggregation functions are applied to a column of val
 
 In order to support this kind of behaviour, SQL has the `GROUP BY` construct. What this does is batch the data together into groups, and run the aggregation function separately for each group. When you specify a `GROUP BY`, the database produces an aggregated value for each distinct value in the supplied columns. In this case, we're saying 'for each distinct value of `recommendedby`, get me the number of times that value appears'.
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -2912,6 +3024,8 @@ ORDER BY
 ```
 
 Other than the fact that we've introduced the `SUM` aggregate function, there's not a great deal to say about this exercise. For each distinct facility id, the `SUM` function adds together everything in the slots column.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -2991,6 +3105,8 @@ ORDER BY
 ```
 
 This is only a minor alteration of our previous example. Remember that aggregation happens after the `WHERE` clause is evaluated: we thus use the `WHERE` to restrict the data we aggregate over, and our aggregation only sees data from a single month.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -3100,6 +3216,8 @@ ORDER BY facid, month;
 
 Postgres is able to use an index using these standard comparisons without any additional assistance.
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -3162,6 +3280,8 @@ SELECT COUNT(*) FROM
 ```
 
 This does work perfectly well, but we can simplify a touch with the help of a little extra knowledge in the form of `COUNT DISTINCT`. This does what you might expect, counting the distinct values in the passed column.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -3238,6 +3358,8 @@ ORDER BY
 It turns out that there's actually an SQL keyword designed to help with the filtering of output from aggregate functions. This keyword is `HAVING`.
 
 The behaviour of `HAVING` is easily confused with that of `WHERE`. The best way to think about it is that in the context of a query with an aggregate function, `WHERE` is used to filter what data gets input into the aggregate function, while `HAVING` is used to filter the data once it is output from the function. Try experimenting to explore this difference!
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -3412,6 +3534,8 @@ ORDER BY
 
 The only real complexity in this query is that guests (member ID 0) have a different cost to everyone else. We use a case statement to produce the cost for each session, and then sum each of those sessions, grouped by facility.
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -3558,6 +3682,8 @@ ORDER BY
 ```
 
 Having to repeat significant calculation code like this is messy, so our anointed solution instead just wraps the main query body as a subquery, and selects from it using a `WHERE` clause. In general, I recommend using `HAVING` for simple queries, as it increases clarity. Otherwise, this subquery approach is often easier to use.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -3855,6 +3981,8 @@ BUT WAIT. There's more. It's also possible to complete this problem using Window
 
 That's a lot of information for a single exercise. Don't worry too much if you don't get it all right now - we'll reuse these concepts in later exercises.
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -4016,6 +4144,8 @@ This version is not excessively hard on the eyes, but it becomes cumbersome as t
 
 `ROLLUP` and `CUBE` are special cases of `GROUPING SETS`. `GROUPING SETS` allow you to specify the exact aggregation permutations you want: you could, for example, ask for just `(facid, month)` and `(facid)`, skipping the top-level aggregation.
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -4098,6 +4228,8 @@ Unfortunately, depending on which database system we use, validation might not b
 Next up is the division. Those of you familiar with MySQL may be aware that integer divisions are automatically cast to floats. Postgres is a little more traditional in this respect, and expects you to tell it if you want a floating point division. You can do that easily in this case by dividing by 2.0 rather than 2.
 
 Finally, let's take a look at formatting. The `TO_CHAR` function converts values to character strings. It takes a formatting string, which we specify as (up to) lots of numbers before the decimal place, decimal place, and two numbers after the decimal place. The output of this function can be prepended with a space, which is why we include the outer `TRIM` function.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -4198,6 +4330,8 @@ ORDER BY mems.memid;
 This answer demonstrates the use of aggregate functions on dates. `MIN` works exactly as you'd expect, pulling out the lowest possible date in the result set. To make this work, we need to ensure that the result set only contains dates from September onwards. We do this using the `WHERE` clause.
 
 You might typically use a query like this to find a customer's next booking. You can use this by replacing the date `'2012-09-01'` with the function `now()`.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -4343,6 +4477,8 @@ ORDER BY joindate;
 
 Window functions are extraordinarily powerful, and they will change the way you write and think about SQL. Make good use of them!
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -4431,6 +4567,8 @@ ORDER BY joindate;
 This exercise is a simple bit of window function practise! You could just as easily use `count(*) over(order by joindate)` here, so don't worry if you used that instead.
 
 In this query, we don't define a partition, meaning that the partition is the entire dataset. Since we define an order for the window function, for any given row the window is: start of the dataset -> current row.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -4533,6 +4671,8 @@ WHERE rank = 1;
 The inner query calculates the total slots booked, the middle one ranks them, and the outer one creams off the top ranked. We can actually tidy this up a little: recall that window function get applied pretty late in the select function, after aggregation. That being the case, we can move the aggregation into the `ORDER BY` part of the function, as shown in the approved answer.
 
 While the window function approach isn't massively simpler in terms of lines of code, it arguably makes more semantic sense.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -4660,6 +4800,8 @@ SELECT firstname, surname, hours, RANK() OVER (ORDER BY hours DESC) FROM
 ORDER BY rank, surname, firstname;
 ```
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -4749,6 +4891,8 @@ ORDER BY rank;
 ```
 
 This question doesn't introduce any new concepts, and is just intended to give you the opportunity to practise what you already know. We use the `CASE` statement to calculate the revenue for each slot, and aggregate that on a per-facility basis using `SUM`. We then use the `RANK` window function to produce a ranking, wrap it all up in a subquery, and extract everything with a rank less than or equal to 3.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -4846,6 +4990,8 @@ ORDER BY class, name;
 ```
 
 This exercise should mostly use familiar concepts, although we do introduce the `NTILE` window function. `NTILE` groups values into a passed-in number of groups, as evenly as possible. It outputs a number from 1->number of groups. We then use a `CASE` statement to turn that number into a label!
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -4987,6 +5133,8 @@ ORDER BY name;
 ```
 
 This code restricts the data that goes in to complete months. It does this by selecting the maximum date, rounding down to the month, and stripping out all dates larger than that. Even this code is not completely-complete. It doesn't handle the case of a facility making a loss. Fixing that is not too hard, and is left as (another) exercise for the reader!
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -5208,6 +5356,8 @@ ORDER BY date;
 
 As well as storing frequently-used query fragments, views can be used for a variety of purposes, including restricting access to certain columns of a table.
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -5284,6 +5434,8 @@ Timestamps can be stored with or without time zone information. We've chosen not
 
 Finally, have a bit of a play around with some of the different date/time serialisations described in the Postgres docs. You'll find that Postgres is extremely flexible with the formats it accepts, although my recommendation to you would be to use the standard serialisation we've used here - you'll find it unambiguous and easy to port to other DBs.
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -5339,6 +5491,8 @@ Subtracting timestamps produces an `INTERVAL` data type. `INTERVAL`s are a speci
 One of the useful things about intervals, though, is the fact that they can encode months. Let's imagine that I want to schedule something to occur in exactly one month's time, regardless of the length of my month. To do this, I could use `[timestamp] + interval '1 month'`.
 
 Intervals stand in contrast to SQL's treatment of `DATE` types. Dates don't use intervals - instead, subtracting two dates will return an integer representing the number of days between the two dates. You can also add integer values to dates. This is sometimes more convenient, depending on how much intelligence you require in the handling of your dates!
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -5568,6 +5722,8 @@ One of the best features of Postgres over other DBs is a simple function called 
 
 On other database systems, it's not uncommon to keep a 'calendar table' full of dates, with which you can perform these joins. Alternatively, on some systems you can write an analogue to `generate_series` using recursive CTEs. Fortunately for us, Postgres makes our lives a lot easier!
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -5622,6 +5778,8 @@ SELECT
 ```
 
 The `EXTRACT` function is used for getting sections of a timestamp or interval. You can get the value of any field in the timestamp as an integer.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -5695,6 +5853,8 @@ SELECT EXTRACT(DAY FROM ts.int)*60*60*24 +
 ```
 
 This is, as you can observe, rather awful. If you're planning to write cross platform SQL, I would consider having a library of common user defined functions for each DBMS, allowing you to normalise any common requirements like this. This keeps your main codebase a lot cleaner.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -5783,6 +5943,8 @@ ORDER BY
 This answer shows several of the concepts we've learned. We use the `GENERATE_SERIES` function to produce a year's worth of timestamps, incrementing a month at a time. We then use the `EXTRACT` function to get the month number. Finally, we subtract each timestamp + 1 month from itself.
 
 It's worth noting that subtracting two timestamps will always produce an interval in terms of days (or portions of a day). You won't just get an answer in terms of months or years, because the length of those time periods is variable.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -5881,6 +6043,8 @@ The star of this particular show is the `DATE_TRUNC` function. It does pretty mu
 
 Note the way we've put the timestamp into a subquery. This isn't required, but it does mean you can give the timestamp a name, rather than having to list the literal repeatedly.
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -5957,6 +6121,8 @@ This question simply returns the start time for a booking, and a calculated end 
 
 The other thing you'll notice is the use of order by and limit to get the last ten bookings. All this does is order the bookings by the (descending) time at which they end, and pick off the top ten.
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -6025,6 +6191,8 @@ ORDER BY
 ```
 
 This one is a fairly simple reuse of concepts we've seen before. We simply count the number of bookings, and aggregate by the booking's start time, truncated to the month.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -6149,6 +6317,8 @@ This query does, unfortunately, have some other complexity in it: working out th
 
 A alternative to this workaround is to convert the interval into an epoch value: that is, a number of seconds. To do this use `EXTRACT(EPOCH FROM month)/(24*60*60)`. This is arguably a much nicer way to do things, but is much less portable to other database systems.
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -6245,6 +6415,8 @@ FROM
 
 Building strings in SQL is similar to other languages, with the exception of the concatenation operator: `||`. Some systems (like SQL Server) use `+`, but `||` is the SQL standard.
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -6307,6 +6479,8 @@ WHERE
 The SQL `LIKE` operator is a highly standard way of searching for a string using basic matching. The `%` character matches any string, while `_` matches any single character.
 
 One point that's worth considering when you use `LIKE` is how it uses indexes. If you're using the 'C' [locale](https://www.postgresql.org/docs/current/locale.html), any `LIKE` string with a fixed beginning (as in our example here) can use an index. If you're using any other locale, `LIKE` will not use any index by default. See [here](https://www.postgresql.org/docs/current/indexes-opclass.html) for details on how to change that.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -6385,6 +6559,8 @@ There's no direct operator for case-insensitive comparison in standard SQL. Fort
 Alternatively, Postgres does provide the ILIKE operator, which performs case insensitive searches. This isn't standard SQL, but it's arguably more clear.
 
 You should realise that running a function like `UPPER` over a column value prevents Postgres from making use of any indexes on the column (the same is true for `ILIKE`). Fortunately, Postgres has got your back: rather than simply creating indexes over columns, you can also create indexes over [expressions](https://www.postgresql.org/docs/current/indexes-expressional.html). If you created an index over `UPPER(name)`, this query could use it quite happily.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -6495,6 +6671,8 @@ WHERE
 
 Finally, it's worth noting that regular expressions usually don't use indexes. Generally you don't want your regex to be responsible for doing heavy lifting in your query, because it will be slow. If you need fuzzy matching that works fast, consider working out if your needs can be met by [full text search](https://www.postgresql.org/docs/current/textsearch.html).
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -6587,6 +6765,8 @@ Postgres' `LPAD` function is the star of this particular show. It does basically
 
 When inheriting an old database, It's not that unusual to find wonky decisions having been made over data types. You may wish to fix mistakes like these, but have a lot of code that would break if you changed datatypes. In that case, one option (depending on performance requirements) is to create a [view](https://www.postgresql.org/docs/current/sql-createview.html) over your table which presents the data in a fixed-up manner, and gradually migrate.
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -6667,6 +6847,8 @@ ORDER BY
 This exercise is fairly straightforward. You simply need to retrieve the first letter of the member's surname, and do some basic aggregation to achieve a count. We use the `SUBSTR` function here, but there's a variety of other ways you can achieve the same thing. The `LEFT` function, for example, returns you the first `n` characters from the left of the string. Alternatively, you could use the `SUBSTRING` function, which allows you to use regular expressions to extract a portion of the string.
 
 One point worth noting: as you can see, string functions in SQL are based on 1-indexing, not the 0-indexing that you're probably used to. This will likely trip you up once or twice before you get used to it.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -6782,6 +6964,8 @@ ORDER BY
 Making automated use of free-formatted text data can be a chore. Ideally you want to avoid having to constantly write code to clean up the data before using it, so you should consider having your database enforce correct formatting for you. You can do this using a [`CHECK`](https://www.postgresql.org/docs/current/ddl-constraints.html) constraint on your column, which allow you to reject any poorly-formatted entry. It's tempting to perform this kind of validation in the application layer, and this is certainly a valid approach. As a general rule, if your database is getting used by multiple applications, favour pushing more of your checks down into the database to ensure consistent behaviour between the apps.
 
 Occasionally, adding a constraint isn't feasible. You may, for example, have two different legacy applications asserting differently formatted information. If you're unable to alter the applications, you have a couple of options to consider. Firstly, you can define a [trigger](https://www.postgresql.org/docs/current/sql-createtrigger.html) on your table. This allows you to intercept data before (or after) it gets asserted to your table, and normalise it into a single format. Alternatively, you could build a [view](https://www.postgresql.org/docs/current/sql-createview.html) over your table that cleans up information on the fly, as it's read out. Newer applications can read from the view and benefit from more reliably formatted information.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -7685,6 +7869,8 @@ With the basics out of the way, it's fairly easy to explain our answer here. The
 
 Now that we've constructed the recommenders CTE, all our main `SELECT` statement has to do is get the member IDs from recommenders, and join to them members table to find out their names.
 
+---
+
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
 
@@ -7787,6 +7973,8 @@ ORDER BY
 ```
 
 This is a pretty minor variation on the previous question. The essential difference is that we're now heading in the opposite direction. One interesting point to note is that unlike the previous example, this CTE produces multiple rows per iteration, by virtue of the fact that we're heading down the recommendation tree (following all branches) rather than up it.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>
@@ -7893,6 +8081,8 @@ ORDER BY
 This question requires us to produce a CTE that can calculate the upward recommendation chain for any user. Most of the complexity of working out the answer is in realising that we now need our CTE to produce two columns: one to contain the member we're asking about, and another to contain the members in their recommendation tree. Essentially what we're doing is producing a table that flattens out the recommendation hierarchy.
 
 Since we're looking to produce the chain for every user, our initial statement needs to select data for each user: their ID and who recommended them. Subsequently, we want to pass the member field through each iteration without changing it, while getting the next recommender. You can see that the recursive part of our statement hasn't really changed, except to pass through the 'member' field.
+
+---
 
 </TabItem>
 <TabItem value='schema' label='Schema Reminder'>

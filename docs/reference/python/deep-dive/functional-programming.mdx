@@ -15,6 +15,24 @@ toc_max_heading_level: 5
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+<details><summary> Keyword call outs</summary>
+
+- **Implicit and explicit line continuation:** Wrap long lines using implied line continuation inside parentheses, brackets, and braces, or use explicit line continuation with the `\` character to terminate a line (no space afterwards). Use [PEP 8](https://www.python.org/dev/peps/pep-0008/) as a reference.
+- **Comments and docstrings:** There are no multiline comments in Python. Multiline strings can be used with triple single- or double-quote delimiters: `'''` or `"""`. These can also be used for docstrings. See [PEP 257](https://www.python.org/dev/peps/pep-0257/) for docstring conventions.
+- **Keywords:** List of keywords can be found by running 
+
+  ```python
+  import keyword
+  print(keyword.kwlist)
+  ```
+
+- **`while` and `for` loops can have `else` blocks**: Whatever code is in the `else` clause will be executed if the `while` or `for` loop never encounters a `break` statement. Hence, if you use an `else` clause in a `while`/`for` loop that does not have a `break` statement, then the code within the `else` block will be automatically executed at the end of the loop. The takeaway: the `else` clause only fires if the loop terminates properly (i.e., without hitting a `break` statement).
+- **`finally` always executes:** The `while` loop starts by always evaluating the conditional expression first, which *does not* guarantee that your loop will run at least once. If you need to ensure that your `while` loop runs at least once, then you can use the `while True` approach. The `while` loop has an `else` clause that can be attached which executes if and only if the `while` loop terminates normally (i.e., without encountering a `break` statement). Finally, `continue` and `break` statements can be used inside a `try` statement inside a loop and the `finally` will always execute before either `break`ing or `continue`ing from that point forward.
+- **Iterables:** In Python, an *iterable* is an object capable of returning values one at a time. The `for` loop in Python iterates an iterable.
+
+
+</details>
+
 ## Preliminaries
 
 ### The Zen of Python and "Idiomatic Python"
@@ -51,7 +69,7 @@ This listing can also be obtained by running `import this` in the Python interpr
 
 The following is a *subset* of the Python type hierarchy but the subset you will deal with most often.
 
-**Numbers:**
+#### Numbers
 
 | Integral | Non-Integral |
 | :-- | :-- |
@@ -60,7 +78,7 @@ The following is a *subset* of the Python type hierarchy but the subset you will
 | | Decimals |
 | | Fractions |
 
-**Collections:**
+#### Collections
 
 | Sequences | Sets | Mappings |
 | :-- | :-- | :-- |
@@ -68,7 +86,9 @@ The following is a *subset* of the Python type hierarchy but the subset you will
 | Tuples (immutable) | Frozen Sets (immutable) |  |
 | Strings (immutable) |  |  |
 
-**Callables:**
+#### Callables
+
+A callable is anything you can "call" or invoke:
 
 - User-defined functions 
 - Generators
@@ -78,7 +98,7 @@ The following is a *subset* of the Python type hierarchy but the subset you will
 - Built-in functions (e.g., `len()`, `open()`)
 - Built-in methods (e.g., `my_list.append(x)`)
 
-**Singletons:**
+#### Singletons
 
 - `None`
 - `NotImplemented`
@@ -91,12 +111,16 @@ The following is a *subset* of the Python type hierarchy but the subset you will
 A Python program is basically nothing more than just a text file that contains physical lines of code. These physical lines of code are often separated by physical newlines that are inserted by you by pressing the Enter key on your keyboard. The physical code is processed by the Python compiler, and it is then combined to produce logical lines of code which are then tokenized so that the Python compiler and interpreter can understand what your code is trying to do and execute it accordingly:
 
 ```
-Python program -> physical lines of code -> logical lines of code -> tokenized -> executed
+Python program 
+  -> physical lines of code 
+  -> logical lines of code 
+  -> tokenized 
+  -> executed
 ```
 
 Physical lines of code end with a physical newline character and once the code has been processed, logical lines of code will end with a logical [`NEWLINE`](https://docs.python.org/3/library/token.html#token.NEWLINE) token. Exactly *how* this gets done is not really the important part. That's what the Python development team is for! 
 
-The important thing for us to understand is that **there is a difference between a *physical* newline character and a *logical* `NEWLINE` token**. They're not necessarily the same thing. Very often they are but not always. Sometimes physical newlines are ignored and they are ignored in order to combine multiple physical lines into a single logical line of code which is then terminated by a logical newline token. This is what allows us to write code over multiple lines that *technically* should be written as a single line (kind of like a SQL query). But we want to be able to write code over multiple lines for the sake of readability. It allows us to make our code easier to read and understand. The Python interpreter and compiler really doesn't care whether you write your code over one line, two lines, thousands of lines, etc. At then end of the day, it will recombine lines of code into single lines as needed, it will tokenize everything, etc. It does not care at all about human readability. But we humans should care about readability!
+The important thing for us to understand is that **there is a difference between a *physical* newline character and a *logical* `NEWLINE` token**. They're not necessarily the same thing. Very often they are but not always. Sometimes physical newlines are ignored and they are ignored in order to combine multiple physical lines into a single logical line of code which is then terminated by a logical newline token. This is what allows us to write code over multiple lines that *technically* should be written as a single line (kind of like a SQL query). But we want to be able to write code over multiple lines for the sake of readability. It allows us to make our code easier to read and understand. The Python interpreter and compiler really doesn't care whether you write your code over one line, two lines, thousands of lines, etc. At the end of the day, it will recombine lines of code into single lines as needed, it will tokenize everything, etc. It does not care at all about human readability. But we humans should care about readability!
 
 #### Implicit and explicit conversions
 
@@ -104,7 +128,7 @@ The conversion between physical and logical newlines (i.e., the removal of physi
 
 ##### Implicit examples
 
-Expressions in the following (there's also support for inline comments):
+The following expressions may be written across multiple physical lines (they also support inline comments):
 
 - list literals: `[]`
 - tuple literals: `()`
@@ -192,11 +216,15 @@ my_func(
 )
 ```
 
+All of the examples above involve *implicit* conversion of physically multi-line code into logically single-line code (including the implicit stripping of comments and the like).
+
 ##### Explicit examples
+
+:::info Wrapping Long Lines (PEP 8)
 
 The [PEP 8 -- Style Guide for Python Code](https://www.python.org/dev/peps/pep-0008/) is worth taking a look at. In particular, note what it says about the preferred way of wrapping long lines:
 
-> The preferred way of wrapping long lines is by using Python's implied line continuation inside parentheses, brackets and braces. Long lines can be broken over multiple lines by wrapping expressions in parentheses. These should be used in preference to using a backslash for line continuation.
+> The preferred way of wrapping long lines is by using Python's implied line continuation inside parentheses, brackets and braces. Long lines can be broken over multiple lines by wrapping expressions in parentheses. **These should be used in preference to using a backslash for line continuation.**
 > 
 > Backslashes may still be appropriate at times. For example, long, multiple `with`-statements cannot use implicit continuation, so backslashes are acceptable:
 
@@ -206,7 +234,9 @@ with open('/path/to/some/file/you/want/to/read') as file_1, \
     file_2.write(file_1.read())
 ```
 
-Hence, when necessary, you can use the backslash character `\` (with no trailing space after the backslash) to explicitly create multi-line statements:
+:::
+
+As can be seen above, when necessary, you can use the backslash character `\` (with no trailing space after the backslash) to *explicitly* create multi-line statements:
 
 ```python
 a = 10
@@ -230,7 +260,7 @@ if a > 5 \
     print('yes!!')
 ```
 
-The takeaway is that multi-line statements are *not* implicitly converted to a single logical line in Python. Something like
+The takeaway from all of this is that multi-line statements (i.e., as opposed to expressions within braces or brackets) are *not* implicitly converted to a single logical line in Python. Something like
 
 ```python
 if a
@@ -238,13 +268,28 @@ if a
     and c:
 ```
 
-will not work. Python will throw an error. It will place a `NEWLINE` token after `if a`, but it will expect a colon. The workaround, if you need the multi-line format, is to use the `\` character (note, however, that comments cannot be part of a statement, not even a multi-line statement, so if you use `\` then your comments will need to go above where you start using `\` characters or below the last occurrence):
+will not work. Python will throw an error. It will place a `NEWLINE` token after `if a`, but it will expect a colon. 
+
+One workaround for using the multi-line format is to use PEP 8's advice and take advantage of "Python's *implied* line continuation inside parentheses, brackets and braces":
+
+```python 
+a = 10
+b = 20
+c = 30
+if (a > 5
+    and b > 10 # this comment is fine
+    and c > 20):
+    print('yes!!')
+```
+
+Or we can be *explicit* with our multi-line format and use the `\` character (note, however, that comments cannot be part of a statement, not even a multi-line statement, so if you use `\` then your comments will need to go above where you start using `\` characters or below the last occurrence):
 
 ```python
               # this comment is fine
 if a \
-    and b \
-    and c:    # this comment is also fine
+    # highlight-error-next-line
+    and b \   # this comment is NOT fine
+    and c:    # this comment is fine
 ```
 
 #### Multi-line strings
@@ -268,14 +313,12 @@ a multi-line string'''
 print(a)
 ```
 
-**Output:**
-
 ```
 this is
 a multi-line string
 ```
 
-In general, any character you type is preserved. You can also mix in escaped characters line any normal string.
+In general, any character you type is preserved. You can also mix in escaped characters like any normal string.
 
 ```python
 a = """some items:\n
@@ -284,8 +327,6 @@ a = """some items:\n
 
 print(a)
 ```
-
-**Output:**
 
 ```
 some items:
@@ -305,8 +346,6 @@ def my_func():
 print(my_func())
 ```
 
-**Output:**
-
 ```
 a multi-line string
     that is actually indented in the second line
@@ -317,20 +356,18 @@ In such a case, it is appropriate to manually remove what otherwise might look l
 ```python
 def my_func():
     a = '''a multi-line string
-that is actually indented in the second line'''
+that is actually not indented in the second line'''
     return a
 
 print(my_func())
 ```
 
-**Output:**
-
 ```
 a multi-line string
-that is actually indented in the second line
+that is actually not indented in the second line
 ```
 
-Important to note is that these multi-line strings are **not** comments--they are real strings and, unlike comments, are part of your compiled code. They are, however, sometimes used to *create* comments, such as docstrings (something that will be covered later). [See the article [PEP 257 -- Docstring Conventions](https://www.python.org/dev/peps/pep-0257/) for more.]
+Important to note is that these multi-line strings are **not** comments--they are real strings and, unlike comments, are part of your compiled code. They are, however, sometimes used to *create* comments, such as docstrings (something that will be covered later). See the article [PEP 257 -- Docstring Conventions](https://www.python.org/dev/peps/pep-0257/) for more.
 
 In general, use `#` to comment your code, and use multi-line strings only when actually needed (like for docstrings).
 
@@ -361,21 +398,29 @@ ham
 Ham
 ```
 
-Identifiers *must* follow certain rules and *should* follow certain conventions:
+#### Rules
 
-- **Must:**
-  + *start* with an underscore (`_`) or letter (`a-z`, `A-Z`) [You can technically go beyond this, but it's wise to stick with this character set.]
-  + *followed* by any number of underscores (`_`), letters (`a-z`, `A-Z`), or digits (`0-9`)
-  + *cannot* be reserved words. Most of these words you'll already be familiar with (e.g., `True`, `False`, `while`, etc.), but you can find the complete list by using the [`keyword`](https://docs.python.org/3/library/keyword.html#module-keyword) module that is part of the standard library:
+Identifiers must follow certain rules and should follow certain conventions:
+
+##### Strict rules
+
+- *start* with an underscore (`_`) or letter (`a-z`, `A-Z`)
+  You can technically go beyond this, but it's wise to stick with this character set.
+- *followed* by any number of underscores (`_`), letters (`a-z`, `A-Z`), or digits (`0-9`)
+- *cannot* be reserved words. Most of these words you'll already be familiar with (e.g., `True`, `False`, `while`, etc.), but you can find the complete list by using the [`keyword`](https://docs.python.org/3/library/keyword.html#module-keyword) module that is part of the standard library:
+
   ```python
   import keyword
   print(keyword.kwlist)
   ```
   This gives us the following list (string quotes removed):
+
   ```python
   [False, None, True, __peg_parser__, and, as, assert, async, await, break, class, continue, def, del, elif, else, except, finally, for, from, global, if, import, in, is, lambda, nonlocal, not, or, pass, raise, return, try, while, with, yield]
   ```
-  + All of the following are legal names although the last three conventionally have a special meaning associated with them:
+
+- All of the following are legal names although the last three conventionally have a special meaning associated with them:
+
   ```python
   var
   my_var
@@ -385,25 +430,25 @@ Identifiers *must* follow certain rules and *should* follow certain conventions:
   __var
   __lt__
   ```
-- **Should (conventions)**: 
-  + `_my_var`: It is convention to use a single underscore as part of an identifier to indicate "internal use" or "private" objects. This is a way to communicate to anyone looking at or using your code that they really shouldn't mess around with that variable. Worth noting is that objects named this way *will not get imported* by a statement such as the following: `from module import *`. 
-  + `__my_var`: The double underscore or "dunder" is used for so-called name mangling. This basically changes your variable in a very set way that can be useful for inheritance chains if you have the same name, say attribute or property in a class, and you have the same attribute in a chain of classes, then how do you differentiate which is which? This is where name mangling comes in. When you want name mangling to occur, you use `__` in front of your variable name (short version: `__` is used to mangle class attribues which is something useful in inheritance chains).
-  + `__my_var__`: Double underscores that both start and end an identifier name are used for system-defined names that have a special meaning to the interpreter. So don't invent them! Stick to the ones pre-defined by Python. Which ones exist? The [special method names](https://docs.python.org/3/reference/datamodel.html#special-method-names) article in the Python language reference is a good place to look. There you can find more information about frequently used dunder methods like `__init__` and others. [This article](http://www.ironpythoninaction.com/magic-methods.html) is also a great reference.
-  + Packages: Short, all-lowercase names. Preferably no underscores. So something like `utilities` would work well.
-  + Modules: Short, all-lowercase names. Can have underscores. Something like `db_utils` or `dbutils` would be fine.
-  + Classes: CapWords (upper camel case) convention. So something like `BankAccount` would work fine.
-  + Functions: Lowercase, words separated by underscores (snake_case). So something like `open_account` would work well.
-  + Variables: Lowercase, words separated by underscores (snake_case). So something like `account_id` would work well.
-  + Constants: All-uppercase, words separated by underscores. So something like `MIN_APR` would work well.
 
-### The `while` loop, `break`, `continue`, and the `try` statement
+##### Implied rules (conventions)
 
-#### The `while` loop
+- `_my_var`: It is convention to use a single underscore as part of an identifier to indicate "internal use" or "private" objects. This is a way to communicate to anyone looking at or using your code that they really shouldn't mess around with that variable. Worth noting is that objects named this way *will not get imported* by a statement such as the following: `from module import *`. 
+- `__my_var`: The double underscore or "dunder" is used for so-called name mangling. This basically changes your variable in a very set way that can be useful for inheritance chains if you have the same name, say attribute or property in a class, and you have the same attribute in a chain of classes, then how do you differentiate which is which? This is where name mangling comes in. When you want name mangling to occur, you use `__` in front of your variable name (short version: `__` is used to mangle class attribues which is something useful in inheritance chains).
+- `__my_var__`: Double underscores that both start and end an identifier name are used for system-defined names that have a special meaning to the interpreter. For example, suppose you have instances `x` and `y` of a class that you have created. If you try to evaluate `x < y`, then the Python interpreter will automatically look for an `__lt__` method defined on the class for which `x` and `y` are instances and run `x.__lt__(y)`. Point being: don't invent so-called magic methods (i.e., double underscore methods)! Stick to the ones pre-defined by Python. Which ones exist? The [special method names](https://docs.python.org/3/reference/datamodel.html#special-method-names) article in the Python language reference is a good place to look. There you can find more information about frequently used dunder methods like `__init__` and others.
+- Packages: Short, all-lowercase names. Preferably no underscores. So something like `utilities` would work well.
+- Modules: Short, all-lowercase names. Can have underscores. Something like `db_utils` or `dbutils` would be fine.
+- Classes: CapWords (upper camel case) convention. So something like `BankAccount` would work fine.
+- Functions: Lowercase, words separated by underscores (snake_case). So something like `open_account` would work well.
+- Variables: Lowercase, words separated by underscores (snake_case). So something like `account_id` would work well.
+- Constants: All-uppercase, words separated by underscores. So something like `MIN_APR` would work well.
+
+### The while loop
 
 Python does not have a `do ... while` construction like some other langauges have to ensure the `while` loop fires at least once. But it is easy to mimic:
 
 ```python
-i = 1
+i = 5
 
 while True:
   print(i)
@@ -523,7 +568,7 @@ Woohoo!
 
 Since there is no possibility of running into a `break` in the `while` loop above, the code in the `else` statement will automatically be executed once the `while` loop terminates.
 
-#### `break`, `continue`, and `try`
+### break, continue, and try statements
 
 We are now going to look at what happens when you try to use `break` and `continue` when you are inside a `try` statement inside a loop. So the question is: What happens? Recall that for `try` statements we have `try...except...finally`, where `try` is what we are trying to do, `except` is where we can trap specific exceptions, but there is also a `finally` clause that exsits that always runs even when there is an exception.
 
@@ -647,7 +692,7 @@ The upshot of all this is that `finally` will always run! Exception or not. `bre
 
 **Recap:** The `while` loop starts by always evaluating the conditional expression first, which *does not* guarantee that your loop will run at least once. If you need to ensure that your `while` loop runs at least once, then you can use the `while True` approach. The `while` loop has an `else` clause that can be attached which executes if and only if the `while` loop terminates normally (i.e., without encountering a `break` statement). Finally, `continue` and `break` statements can be used inside a `try` statement inside a loop and the `finally` will always execute before either `break`ing or `continue`ing from that point forward.
 
-### The `for` loop
+### The for loop
 
 The `for` loop construct in most C-like languages is as follows:
 
@@ -659,7 +704,7 @@ The `int i = 0` statement is executed at the beginning of the loop and the condi
 
 To understand the `for` loop construct in Python, we first need to understand what an iterable is:
 
-> In Python, an iterable is an object capable of returning values one at a time.
+> In Python, an *iterable* is an object capable of returning values one at a time.
 
 We could construct something similar to the `for` loop syntax above in Python:
 
@@ -673,7 +718,7 @@ i = None
 
 The last part is to mimic how `i` goes out of scope at the end of the `for` loop in most languages. We really don't need to do this in practice though (everything gets cleaned up for us).
 
-In any case, this is obviously *not* what we do in Python to use `for` loops. THe `for` *statement* in Python is something to iterate over an iterable. A very simple iterable we can create is by using the `range` function:
+In any case, this is obviously *not* what we do in Python to use `for` loops. The `for` *statement* in Python is something to iterate over an iterable. A very simple iterable we can create is by using the `range` function:
 
 ```python
 for i in range(5):
@@ -682,9 +727,29 @@ for i in range(5):
 
 The important takeaway here is that `for` iterates an iterable in Python. In fact, `range` is neither a collection nor a list. It is specifically an iterable. Of course, in general, lists, strings, tuples, etc., are iterables and can be iterated over. 
 
-We can use `break` and `continue` in a `for` statement just like we used them in a `while` loop previously. We can also attach an `else` to a `for` loop in Python which will, just like with the `while` loop, only execute if a `break` statement is not encountered.
+We can use `break` and `continue` in a `for` statement just like we used them in a `while` loop previously. We can also attach an `else` to a `for` loop in Python which will, just like with the `while` loop, only execute if a `break` statement is not encountered:
 
-Something worth remarking on is how to get at indexes for *indexed iterables* (e.g., lists, tuples, and strings are indexed iterables while, for examples, sets and dictionaries are not). To illustrate, you might normally iterate through a string like so:
+```python
+for i in range(1,5):
+  print(i)
+  if i % 7 == 0:
+    print('multiple of 7 found')
+    break
+else:
+  print('no multiples of 7 in the range')
+```
+
+```
+1
+2
+3
+4
+no multiples of 7 in the range
+```
+
+We got the output above because no multiple of `7` was found in the iterable `range(1,5)` which yielded iterated values of `1`, `2`, `3`, and `4`, respectively. Since the `break` statement was not encountered, the `else` block was executed.
+
+Something worth remarking on is how to get at indexes for *indexed iterables* (e.g., lists, tuples, and strings are indexed iterables while, for example, sets and dictionaries are not). To illustrate, you might normally iterate through a string like so:
 
 ```python
 s = 'hello'
