@@ -191,6 +191,28 @@ const sidebars = {
           items: [
             {
               type: 'category',
+              label: 'Interview Cake',
+              items: [
+                'course-notes/development-and-engineering/interview-cake/algorithmic-thinking',
+                'course-notes/development-and-engineering/interview-cake/array-string-manipulation',
+                'course-notes/development-and-engineering/interview-cake/hashing-and-hash-tables',
+                'course-notes/development-and-engineering/interview-cake/greedy-algorithms',
+                'course-notes/development-and-engineering/interview-cake/sorting-searching-and-logarithms',
+                'course-notes/development-and-engineering/interview-cake/trees-and-graphs',
+                'course-notes/development-and-engineering/interview-cake/dynamic-programming-and-recursion',
+                'course-notes/development-and-engineering/interview-cake/queues-and-stacks',
+                'course-notes/development-and-engineering/interview-cake/linked-lists',
+                'course-notes/development-and-engineering/interview-cake/system-design',
+                'course-notes/development-and-engineering/interview-cake/general-programming',
+                'course-notes/development-and-engineering/interview-cake/bit-manipulation',
+                'course-notes/development-and-engineering/interview-cake/combinatorics-probability-and-other-math',
+                'course-notes/development-and-engineering/interview-cake/javascript',
+                'course-notes/development-and-engineering/interview-cake/coding-interview-tips',
+                'course-notes/development-and-engineering/interview-cake/specific-interview-questions'
+              ]
+            },
+            {
+              type: 'category',
               label: 'MIT Missing Semester',
               link: {
                 type: 'doc',
