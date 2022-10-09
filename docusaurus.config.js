@@ -167,6 +167,7 @@ const config = {
       },
       navbar: {
         title: 'Books, Courses, Guides, Snippets',
+        hideOnScroll: true,
         logo: {
           alt: '',
           src: 'img/logo.svg',
