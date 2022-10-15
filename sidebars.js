@@ -277,6 +277,14 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: 'Cheatsheets',
+      collapsed: true,
+      items: [
+        'cheatsheets/shell',
+      ]
+    },
+    {
+      type: 'category',
       label: 'Reference',
       collapsed: true,
       link: {
