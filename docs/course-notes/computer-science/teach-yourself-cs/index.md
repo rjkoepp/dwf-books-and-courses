@@ -18,7 +18,7 @@ import TabItem from '@theme/TabItem';
 
 :::info
 
-The content that appears below comes, in large part, directly from the [Teach Yourself CS](https://teachyourselfcs.com/) website.
+The content that appears below comes directly from the [Teach Yourself CS](https://teachyourselfcs.com/) website (almost exclusively). I've tried adding links where helpful/needed.
 
 :::
 
@@ -55,7 +55,7 @@ If the idea of self-studying 9 topics over multiple years feels overwhelming, we
 
 There are 2 types of software engineer: those who understand computer science well enough to do challenging, innovative work, and those who just get by because they're familiar with a few high level tools.
 
-Both call themselves software engineers, and both tend to earn similar salaries in their early careers. But Type 1 engineers progress toward more fulfilling and well-remunerated work over time, whether that's valuable commercial work or breakthrough open-source projects, technical leadership or high-quality individual contributions.
+Both call themselves software engineers, and both tend to earn similar salaries in their early careers. But Type 1 engineers progress toward more fulfilling and well-remunerated work over time, whether that's valuable commercial work or breakthrough open-source projects, technical leadership, or high-quality individual contributions.
 
 Type 1 engineers find ways to learn computer science in depth, whether through conventional means or by relentlessly learning throughout their careers. Type 2 engineers typically stay at the surface, learning specific tools and technologies rather than their underlying foundations, only picking up new skills when the winds of technical fashion change.
 
@@ -73,15 +73,15 @@ We recommend working through at least the first three chapters of SICP and doing
 
 Since this guide was first published in 2016, one of the most commonly asked questions has been whether we'd now recommend recordings of a more recent iteration of 61A taught by John DeNero, and/or the corresponding book [*Composing Programs*](https://composingprograms.com/), which is "in the tradition of SICP" but uses Python. We think the DeNero resources are also great, and some students may end up preferring them, but we still suggest SICP, Scheme, and Brian Harvey's lectures as the first set of resources to try.
 
-Why? Because SICP is unique in its ability--at least potentially--to alter your fundamental beliefs about computers and programming. Not everybody will experience this. Some will hate the book, others won't get past the first few pages. But the potential reward makes it worth trying.
+Why? Because SICP is unique in its ability &#8212; at least potentially &#8212; to alter your fundamental beliefs about computers and programming. Not everybody will experience this. Some will hate the book, others won't get past the first few pages. But the potential reward makes it worth trying.
 
-If you don't enjoy SICP, try *Composing Programs*. If that still doesn't suit, try [*How to Design Programs*](http://htdp.org/2022-8-7/Book/index.html). If none of these seem to be rewarding your effort, perhaps that's a sign that you should focus on other topics for some time, and revisit the discipline of programming in another year or two.
+If you don't enjoy SICP, try *Composing Programs*. If that still doesn't suit you, then try [*How to Design Programs*](http://htdp.org/2022-8-7/Book/index.html). If none of these seem to be rewarding your effort, perhaps that's a sign that you should focus on other topics for some time, and revisit the discipline of programming in another year or two.
 
 Finally, a point of clarification: this guide is NOT designed for those who are entirely new to programming. We assume that you are a competent programmer without a background in computer science, looking to fill in some knowledge gaps. The fact that we've included a section on "programming" is simply a reminder that there may be more to learn. For those who've never coded before, but who'd like to, you might prefer a guide like [this one](https://www.reddit.com/r/learnprogramming/wiki/faq/).
 
 ### Computer Architecture {#architecture}
 
-Computer Architecture--sometimes called "computer systems" or "computer organization"--is an important first look at computing below the surface of software. In our experience, it's the most neglected area among self-taught software engineers.
+Computer Architecture &#8212; sometimes called "computer systems" or "computer organization" &#8212; is an important first look at computing below the surface of software. In our experience, it's the most neglected area among self-taught software engineers.
 
 Our favorite introductory book is [*Computer Systems: A Programmer's Perspective*](http://csapp.cs.cmu.edu/3e/home.html), and a typical introductory computer architecture course using the book [would cover](http://csapp.cs.cmu.edu/3e/courses.html) most of chapters 1-6.
 
@@ -105,13 +105,13 @@ There are hundreds of books available, but our favorite is [*The Algorithm Desig
 
 For those who prefer video lectures, [Skiena generously provides his online](https://www3.cs.stonybrook.edu/~skiena/373/videos/). We also really like Tim Roughgarden's course, available [on Coursera](https://www.coursera.org/specializations/algorithms) and [elsewhere](http://timroughgarden.org/videos.html). Whether you prefer Skiena's or Roughgarden's lecture style will be a matter of personal preference. In fact, there are dozens of good alternatives, so if you happen to find another that you like, we encourage you to stick with it!
 
-For practice, our preferred approach is for students to solve problems on [Leetcode](https://leetcode.com/). These tend to be interesting problems with decent accompanying solutions and discussions. They also help you test progress against questions that are commonly used in technical interviews at the more competitive software companies. We suggest solving around 100 random leetcode problems as part of your studies.
+For practice, our preferred approach is for students to solve problems on [Leetcode](https://leetcode.com/). These tend to be interesting problems with decent accompanying solutions and discussions. They also help you test progress against questions that are commonly used in technical interviews at the more competitive software companies. We suggest solving around 100 random Leetcode problems as part of your studies.
 
 Finally, we strongly recommend [*How to Solve It*](https://amazon.com/How-Solve-Mathematical-Princeton-Science/dp/069116407X/) as an excellent and unique guide to general problem solving; it's as applicable to computer science as it is to mathematics.
 
 ### Math for CS {#math}
 
-In some ways, computer science is an overgrown branch of applied mathematics. While many software engineers try--and to varying degrees succeed--at ignoring this, we encourage you to embrace it with direct study. Doing so successfully will give you an enormous competitive advantage over those who don't.
+In some ways, computer science is an overgrown branch of applied mathematics. While many software engineers try &#8212; and to varying degrees succeed &#8212; at ignoring this, we encourage you to embrace it with direct study. Doing so successfully will give you an enormous competitive advantage over those who don't.
 
 The most relevant area of math for CS is broadly called "discrete mathematics", where "discrete" is the opposite of "continuous" and is loosely a collection of interesting applied math topics outside of calculus. Given the vague definition, it's not meaningful to try to cover the entire breadth of "discrete mathematics". A more realistic goal is to build a working understanding of logic, combinatorics and probability, set theory, graph theory, and a little of the number theory informing cryptography. Linear algebra is an additional worthwhile area of study, given its importance in computer graphics and machine learning.
 
@@ -153,8 +153,6 @@ If you're adamant about using an introductory textbook, we suggest [*Database Ma
 
 Finally, data modeling is a neglected and poorly taught aspect of working with databases. Our suggested book on the topic is [*Data and Reality: A Timeless Perspective on Perceiving and Managing Information in Our Imprecise World*](https://www.amazon.com/Data-Reality-Perspective-Perceiving-Information/dp/1935504215).
 
----
-
 The [CS 186 course page](https://cs186berkeley.net/) is another potentially useful resource.
 
 ### Languages and Compilers {#compilers}
@@ -185,74 +183,71 @@ No matter the choice of textbook or other secondary resources, study of distribu
 
 | Book | Format | Status |
 | :-- | :-- | :-- |
-| *Structure and Interpretation of Computer Programs* | [Print](https://www.amazon.com/gp/product/0262510871)/[Online](https://web.mit.edu/6.001/6.037/sicp.pdf) | Purchased |
-| *Composing Programs* | [Online](https://composingprograms.com/) | Found |
-| *How to Design Programs* | [Online](https://htdp.org/2022-8-7/Book/index.html) | Found |
-| *Learn Programming Wiki FAQ* (Reddit) | [Online](https://www.reddit.com/r/learnprogramming/wiki/faq/) | Found |
+| *Structure and Interpretation of Computer Programs* | [Print](https://www.amazon.com/gp/product/0262510871) / [Online](https://web.mit.edu/6.001/6.037/sicp.pdf) | Purchased (Book and e-Book downloaded) |
+| *Composing Programs* | [Online](https://composingprograms.com/) | Found (no e-Book available) |
+| *How to Design Programs* | [Online](https://htdp.org/2022-8-7/Book/index.html) | Found (e-Book downloaded) |
+| *Learn Programming Wiki FAQ* (Reddit) | [Online](https://www.reddit.com/r/learnprogramming/wiki/faq/) | Found (no e-Book available) |
 
 ### Computer Architecture
 
 | Book | Format | Status |
 | :-- | :-- | :-- |
-| *Computer Systems: A Programmer's Perspective* | [Print](https://www.amazon.com/dp/013409266X) | Purchased |
-| *The Elements of Computing Systems* | [Print](https://www.amazon.com/Elements-Computing-Systems-second-Principles/dp/0262539802) | Purchased |
-| *Computer Organization and Design* | [Print](https://www.amazon.com/Computer-Organization-Design-MIPS-Architecture-dp-0128201096/dp/0128201096) | libgen; in Amazon cart |
+| *Computer Systems: A Programmer's Perspective* | [Print](https://www.amazon.com/dp/013409266X) | Purchased (and bad e-Book downloaded) |
+| *The Elements of Computing Systems* | [Print](https://www.amazon.com/Elements-Computing-Systems-second-Principles/dp/0262539802) | Purchased (and bad e-Book downloaded) |
+| *Computer Organization and Design* | [Print](https://www.amazon.com/Computer-Organization-Design-MIPS-Architecture-dp-0128201096/dp/0128201096) | Purchased (and good olde e-Book downloaded and bad current e-Book downloaded) |
 
 ### Algorithms and Data Structures
 
 | Book | Format | Status |
 | :-- | :-- | :-- |
-| *The Algorithm Design Manual* | [Print](https://www.amazon.com/Algorithm-Design-Manual-Steven-Skiena/dp/1848000693/) | libgen |
-| *How to Solve It* | [Print](https://www.amazon.com/How-Solve-Mathematical-Princeton-Science/dp/069116407X/) | in Amazon cart |
+| *The Algorithm Design Manual* | [Print](https://www.amazon.com/Algorithm-Design-Manual-Steven-Skiena/dp/1848000693/) | e-Book downloaded |
+| *How to Solve It* | [Print](https://www.amazon.com/How-Solve-Mathematical-Princeton-Science/dp/069116407X/) | Purchased (and e-Book downloaded) |
 
 ### Math for CS
 
 | Book | Format | Status |
 | :-- | :-- | :-- |
-| *Lecture Notes by László Lovász* | [Online](https://cims.nyu.edu/~regev/teaching/discrete_math_fall_2005/dmbook.pdf) | Found |
-| *Mathematics for Computer Science* | [Online](https://courses.csail.mit.edu/6.042/spring17/mcs.pdf) | Purchased |
-| *Introduction to Linear Algebra* | [Print](https://www.amazon.com/Introduction-Linear-Algebra-Gilbert-Strang/dp/0980232775/) | in Amazon cart |
+| *Lecture Notes by László Lovász* | [Online](https://cims.nyu.edu/~regev/teaching/discrete_math_fall_2005/dmbook.pdf) | Found (e-Book downloaded) |
+| *Mathematics for Computer Science* | [Online](https://courses.csail.mit.edu/6.042/spring17/mcs.pdf) | Found (e-Book downloaded) |
+| *Introduction to Linear Algebra* | [Print](https://www.amazon.com/Introduction-Linear-Algebra-Gilbert-Strang/dp/0980232775/) | e-Book downloaded |
 
 ### Operating Systems
 
 | Book | Format | Status |
 | :-- | :-- | :-- |
-| *Operating System Concepts* | [Print](https://www.amazon.com/dp/1118063333/) | in Amazon cart |
-| *Modern Operating Systems* | [Print](https://www.amazon.com/Modern-Operating-Systems-Andrew-Tanenbaum/dp/013359162X) | libgen |
-| *Operating Systems: Three Easy Pieces* | [Print](https://www.amazon.com/gp/product/198508659X)/[Online](https://pages.cs.wisc.edu/~remzi/OSTEP/) | Purchased |
+| *Operating System Concepts* | [Print](https://www.amazon.com/dp/1118063333/) | e-Book downloaded |
+| *Modern Operating Systems* | [Print](https://www.amazon.com/Modern-Operating-Systems-Andrew-Tanenbaum/dp/013359162X) | e-Book downloaded |
+| *Operating Systems: Three Easy Pieces* | [Print](https://www.amazon.com/gp/product/198508659X)/[Online](https://pages.cs.wisc.edu/~remzi/OSTEP/) | Purchased (and e-Book downloaded) |
 
 ### Computer Networking
 
 | Book | Format | Status |
 | :-- | :-- | :-- |
-| *Computer Networking: A Top-Down Approach* | [Print](https://www.amazon.com/Computer-Networking-Top-Down-Approach-7th/dp/0133594149/) | libgen |
-| *Title* | [Print](link)/[Online](link) | Purchased |
-| *Title* | [Print](link)/[Online](link) | Purchased |
+| *Computer Networking: A Top-Down Approach* | [Print](https://www.amazon.com/Computer-Networking-Top-Down-Approach-7th/dp/0133594149/) | e-Book downloaded |
 
 ### Databases
 
 | Book | Format | Status |
 | :-- | :-- | :-- |
-| *Architecture of a Database System* | [Online](https://dsf.berkeley.edu/papers/fntdb07-architecture.pdf) | Printed |
-| *Red Book* | [Online](http://www.redbook.io/) | Purchased |
-| *Database Management Systems* | [Print](https://www.amazon.com/Database-Management-Systems-Raghu-Ramakrishnan/dp/0072465638/) | libgen |
-| *Transaction Processing: Concepts and Techniques* | [Print](https://www.amazon.com/Transaction-Processing-Concepts-Techniques-Management/dp/1558601902) | libgen |
-| *Data and Reality: A Timeless Perspective on Perceiving and Managing Information in Our Imprecise World* | [Print](https://www.amazon.com/Data-Reality-Perspective-Perceiving-Information/dp/1935504215) | Purchased |
+| *Architecture of a Database System* | [Online](https://dsf.berkeley.edu/papers/fntdb07-architecture.pdf) | Printed (and e-Book downloaded) |
+| *Red Book* | [Online](http://www.redbook.io/) | E-book downloaded |
+| *Database Management Systems* | [Print](https://www.amazon.com/Database-Management-Systems-Raghu-Ramakrishnan/dp/0072465638/) | E-book downloaded |
+| *Transaction Processing: Concepts and Techniques* | [Print](https://www.amazon.com/Transaction-Processing-Concepts-Techniques-Management/dp/1558601902) | E-book downloaded |
+| *Data and Reality: A Timeless Perspective on Perceiving and Managing Information in Our Imprecise World* | [Print](https://www.amazon.com/Data-Reality-Perspective-Perceiving-Information/dp/1935504215) | Purchased (and e-Book downloaded) |
 
 ### Languages and Compilers
 
 | Book | Format | Status |
 | :-- | :-- | :-- |
-| *Crafting Interpreters* | [Print](lhttps://www.amazon.com/Crafting-Interpreters-Robert-Nystrom/dp/0990582930ink)/[Online](https://craftinginterpreters.com/contents.html) | Purchased |
-| *Compilers: Principles, Techniques, and Tools* | [Print](https://www.amazon.com/Compilers-Principles-Techniques-Tools-2nd/dp/0321486811) | libgen |
-| *Title* | [Print](link)/[Online](link) | Purchased |
+| *Crafting Interpreters* | [Print](lhttps://www.amazon.com/Crafting-Interpreters-Robert-Nystrom/dp/0990582930ink)/[Online](https://craftinginterpreters.com/contents.html) | Purchased (and e-Book downloaded) |
+| *Compilers: Principles, Techniques, and Tools* | [Print](https://www.amazon.com/Compilers-Principles-Techniques-Tools-2nd/dp/0321486811) | E-book downloaded |
 
 ### Distributed Systems
 
 | Book | Format | Status |
 | :-- | :-- | :-- |
-| *Designing Data-Intensive Applications* | [Print](https://www.amazon.com/dp/1449373321) | Purchased |
-| *Distributed Systems* | [Print](https://www.amazon.com/dp/1543057381/)/[Online](https://www.distributed-systems.net/index.php/books/ds3/) | Purchased |
+| *Designing Data-Intensive Applications* | [Print](https://www.amazon.com/dp/1449373321) | Purchased (and e-Book downloaded) |
+| *Distributed Systems* | [Print](https://www.amazon.com/dp/1543057381/) / [Online](https://www.distributed-systems.net/index.php/books/ds3/) | E-book downloaded |
 
 ## Frequently asked questions
 
@@ -323,3 +318,8 @@ For updates to this guide and general computer science news and resources, you m
 - [You Are Not Google](https://blog.bradfieldcs.com/you-are-not-google-84912cf44afb) implores you to avoid hype and make good technology choices.
 - [Learn every language](https://blog.bradfieldcs.com/in-2017-learn-every-language-59b11f68eee#.i500mt6fg) suggest that you understand languages and compilers generally, rather than just the details of any one in particular.
 - [The cost of forsaking C](https://blog.bradfieldcs.com/the-cost-of-forsaking-c-113986438784) suggests that while C may not be the right tool for every job, most software engineers should still know it.
+
+## Additional resources
+
+- [From coding bootcamp graduate to building distributed databases](https://medium.com/swlh/from-coding-bootcamp-graduate-to-building-distributed-databases-29acbb723d8)
+- [Bradfield School of Computer Science is phenomenal](https://www.echevarria.io/blog/bradfield-is-phenomenal/index.html) (Ivan Echevarria)
