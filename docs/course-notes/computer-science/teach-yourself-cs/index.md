@@ -3,7 +3,7 @@ title: Teach Yourself CS
 hide_title: false
 description: Overview of Teach Yourself CS
 draft: false
-tags: [tbd]
+tags: [Teach Yourself CS]
 keywords: [tbd]
 image: https://github.com/farlowdw.png
 hide_table_of_contents: false
@@ -321,5 +321,35 @@ For updates to this guide and general computer science news and resources, you m
 
 ## Additional resources
 
+### Bradfield blog
+
+- [Moving Online](https://blog.bradfieldcs.com/moving-online-635f6526ef90)
+- [You Are Not Google](https://blog.bradfieldcs.com/you-are-not-google-84912cf44afb)
+- [Learn how computers work](https://blog.bradfieldcs.com/learn-how-computers-work-e7d33dba0238)
+- [The Secret Life Of Your Login Credentials](https://blog.bradfieldcs.com/the-secret-life-of-your-login-credentials-6a254bad52ce)
+- [A review of Bradfield’s algorithms course](https://blog.bradfieldcs.com/a-review-of-bradfields-algorithms-course-d236ae68a963)
+- [Free tuition for teachers](https://blog.bradfieldcs.com/free-tuition-for-teachers-e29098f01f9d)
+- [What Your Standup Reveals About Your Team](https://blog.bradfieldcs.com/what-your-standup-reveals-about-your-team-ccebfb3a0b0f)
+- [Performance Reviews Are a Waste of Time](https://blog.bradfieldcs.com/performance-reviews-are-a-waste-of-time-87c88d7553b4)
+- [An Introduction to Hashing in the Era of Machine Learning](https://blog.bradfieldcs.com/an-introduction-to-hashing-in-the-era-of-machine-learning-6039394549b0)
+- [First week of the Bradfield Sabbatical Program](https://blog.bradfieldcs.com/first-week-of-the-bradfield-sabbatical-program-e6009ec0c0a4)
+- [Credit to Dev Bootcamp](https://blog.bradfieldcs.com/credit-to-dev-bootcamp-8eac706b247d)
+- [Why I Am Joining Bradfield](https://blog.bradfieldcs.com/why-i-am-joining-bradfield-cf9e6e83f938)
+- [Improve Your Hex Life With This One Weird Trick](https://blog.bradfieldcs.com/improve-your-hex-life-with-this-one-weird-trick-afed36055e8c)
+- [How to teach yourself computer science](https://blog.bradfieldcs.com/how-to-teach-yourself-computer-science-7c55624a4e4e)
+- [How to learn about database systems](https://blog.bradfieldcs.com/how-to-learn-about-database-systems-40c7432f471d)
+- [Learn every language](https://blog.bradfieldcs.com/in-2017-learn-every-language-59b11f68eee)
+- [All the talks from Systems We Love](https://blog.bradfieldcs.com/all-the-talks-from-systems-we-love-debcd9cffca)
+- [Fish and Tomatoes](https://blog.bradfieldcs.com/tomatoes-and-fishes-664667cf107f)
+- [Taxpayer-funded Zachtronics games](https://blog.bradfieldcs.com/taxpayer-funded-zachtronics-games-b7a56ba616c4)
+- [How to learn C](https://blog.bradfieldcs.com/how-to-learn-c-59222a627a4c)
+- [One problem, many angles](https://blog.bradfieldcs.com/one-problem-many-angles-9318b6d8a985)
+- [The cost of forsaking C](https://blog.bradfieldcs.com/the-cost-of-forsaking-c-113986438784)
+- [Cutting through to what matters](https://blog.bradfieldcs.com/cutting-through-to-what-matters-48baf397806f)
+
+### External reviews
+
 - [From coding bootcamp graduate to building distributed databases](https://medium.com/swlh/from-coding-bootcamp-graduate-to-building-distributed-databases-29acbb723d8)
+- [My Thoughts on Bradfield](https://gist.github.com/rouxcaesar/9eced2261681efc268789f3fb2c8f958) (GitHub gist)
+- [My experience of the Bradfield Computer Science Intensive](https://gist.github.com/RP-3/67c77a81274ba6ad4db9e27af8d014cc) (GitHub gist)
 - [Bradfield School of Computer Science is phenomenal](https://www.echevarria.io/blog/bradfield-is-phenomenal/index.html) (Ivan Echevarria)
