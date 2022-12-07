@@ -1,9 +1,10 @@
 ---
 title: Nand to Tetris
 hide_title: false
-description: Overview of Nand to Tetris
+sidebar_label: Overview
+description: Introduction to Nand to Tetris
 draft: false
-tags: [tbd]
+tags: [NandToTetris]
 keywords: [tbd]
 image: https://github.com/farlowdw.png
 hide_table_of_contents: false

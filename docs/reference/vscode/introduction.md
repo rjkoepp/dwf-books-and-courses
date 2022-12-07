@@ -1,10 +1,11 @@
 ---
 title: VSCode Keyboard Shortcuts
 hide_title: false
-description: VSCode Keyboard Shortcuts
+sidebar_label: Keyboard Shortcuts
+description: Overview of keyboard shortcuts in VSCode
 draft: false
-tags: [VSCode]
-keywords: [VSCode]
+tags: [vscode]
+keywords: [vscode]
 image: https://github.com/farlowdw.png
 hide_table_of_contents: false
 toc_min_heading_level: 2

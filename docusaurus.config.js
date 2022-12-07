@@ -27,9 +27,9 @@ const macros = {
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'BCGS',
-  tagline: 'Books, courses, and guides are cool',
-  url: 'https://dwf-books.netlify.app',
+  title: 'BCG',
+  tagline: 'Books | Courses | Guides',
+  url: 'https://bcg.dwf.dev',
   baseUrl: '/',
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
@@ -37,8 +37,8 @@ const config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'farlowdw', // Usually your GitHub org/user name.
+  projectName: 'bcg', // Usually your repo name.
 
   customFields: {
     things: {
@@ -64,7 +64,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/farlowdw/software-development-handbook/tree/master/',
+            'https://github.com/farlowdw/dwf-books-and-courses/tree/master/',
           remarkPlugins: [math, mermaid],
           rehypePlugins: [[katex, {
             throwOnError: true,
@@ -78,7 +78,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/farlowdw/dwf-books-and-courses/tree/master/',
           remarkPlugins: [math, mermaid],
           rehypePlugins: [[katex, {
             throwOnError: true,
@@ -166,50 +166,43 @@ const config = {
         maxHeadingLevel: 5,
       },
       navbar: {
-        title: 'Books, Courses, Guides, Snippets',
+        title: 'Books, Courses, Guides',
         hideOnScroll: true,
         logo: {
           alt: '',
-          src: 'img/logo.svg',
+          src: 'img/logo.png',
         },
         items: [
           {
             to: '/docs/intro',
             label: 'Home',
             position: 'left',
+            activeBaseRegex: `/docs/(?!tags)`,
           },
           {
-            to: '/docs/reference/docusaurus/templates',
-            label: 'Docusaurus',
+            to: '/docs/tags',
+            label: 'Tags',
             position: 'left',
-          },
-          {
-            to: 'docs/course-notes/development-and-engineering/javascript/jsnad-course-notes',
-            label: 'JSNAD',
-            position: 'left'
-          },
-          {
-            to: 'docs/course-notes/development-and-engineering/javascript/jsnsd-course-notes',
-            label: 'JSNSD',
-            position: 'left'
-          },
-          {
-            to: 'docs/reference/python/',
-            label: 'Python',
-            position: 'left'
+            activeBaseRegex: `/docs/tags`,
           },
           {
             to: '/blog',
             label: 'Blog',
-            position: 'right'
+            position: 'left',
+            activeBaseRegex: `/blog(?!/archive|/tags)`,
           },
           {
             to: '/blog/archive',
             label: 'Blog Archive',
-            position: 'right'
+            position: 'left'
           },
           {
-            href: 'https://github.com/facebook/docusaurus',
+            to: '/blog/tags',
+            label: 'Blog Tags',
+            position: 'left'
+          },
+          {
+            href: `https://github.com/farlowdw/dwf-books-and-courses`,
             label: 'GitHub',
             position: 'right',
           },
@@ -219,46 +212,43 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Docs',
+            title: 'Books',
             items: [
               {
-                label: 'Tutorial',
-                to: '/docs/intro',
+                label: 'Algorithm Design Manual',
+                to: '/docs/books/algorithm-design-manual/book-notes/introduction-to-algorithm-design',
               },
             ],
           },
           {
-            title: 'Community',
+            title: 'Courses',
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-              },
-              {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
-              },
-              {
-                label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
+                label: 'Learn You Node',
+                to: '/docs/course-notes/development-and-engineering/javascript/learn-you-node',
               },
             ],
           },
           {
-            title: 'More',
+            title: 'Guides',
             items: [
               {
-                label: 'Blog',
-                to: '/blog',
+                label: 'AWS Deployment',
+                to: '/docs/guides/deploying-on-aws',
               },
+            ],
+          },
+          {
+            title: 'External',
+            items: [
               {
-                label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                label: 'LeetCode',
+                href: `https://leetcode.com/`,
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} DWF.DEV`,
       },
       zoom: {
         selector: '.markdown :not(em) > img',

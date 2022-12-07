@@ -1,7 +1,8 @@
 ---
 title: MIT Missing Semester Overview
 hide_title: false
-description: descForHead
+sidebar_label: Overview
+description: MIT Missing Semester course description and overview.
 draft: false
 tags: [Missing Semester]
 keywords: [missing semester]

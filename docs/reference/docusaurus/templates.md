@@ -12,7 +12,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import TOCInline from '@theme/TOCInline';
 import ImageSwitcher from '@site/src/components/ImageSwitcher';
-import PartialExample from '@site/docs/_Partials/_markdown-partial-example.mdx';
+import PartialExample from '@site/docs/_Partials/_markdown-partial-example.md';
 import ExportCustomToolbar from '@site/src/components/CustomToolbar';
 import VideoContent from '@site/src/components/VideoContent';
 import ReactPlayer from 'react-player';

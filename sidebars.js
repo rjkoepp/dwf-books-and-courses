@@ -114,11 +114,8 @@ const sidebars = {
           type: 'category',
           label: 'Nand to Tetris',
           collapsed: true,
-          link: {
-            type: 'doc',
-            id: 'books/nand-to-tetris/index'
-          },
           items: [
+            'books/nand-to-tetris/introduction',
             'books/nand-to-tetris/boolean-logic',
             'books/nand-to-tetris/boolean-arithmetic',
             'books/nand-to-tetris/memory',
@@ -139,10 +136,6 @@ const sidebars = {
           type: 'category',
           label: 'System Design',
           collapsed: true,
-          link: {
-            type: 'doc',
-            id: 'books/system-design/index'
-          },
           items: [
             "books/system-design/c0",
             "books/system-design/c1",
@@ -214,11 +207,8 @@ const sidebars = {
             {
               type: 'category',
               label: 'MIT Missing Semester',
-              link: {
-                type: 'doc',
-                id: 'course-notes/development-and-engineering/mit-missing-semester/index'
-              },
               items: [
+                'course-notes/development-and-engineering/mit-missing-semester/introduction',
                 'course-notes/development-and-engineering/mit-missing-semester/2020',
                 'course-notes/development-and-engineering/mit-missing-semester/2019',
               ]
@@ -242,17 +232,7 @@ const sidebars = {
           label: 'Computer Science',
           collapsed: true,
           items: [
-            {
-              type: 'category',
-              label: 'Teach Yourself CS',
-              link: {
-                type: 'doc',
-                id: 'course-notes/computer-science/teach-yourself-cs/index'
-              },
-              items: [
-
-              ]
-            },
+            'course-notes/computer-science/teach-yourself-cs'
           ]
         },
       ]
@@ -269,39 +249,14 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Snippets',
-      collapsed: true,
-      items: [
-        'snippets/express-js-snippets',
-      ]
-    },
-    {
-      type: 'category',
-      label: 'Cheatsheets',
-      collapsed: true,
-      items: [
-        'cheatsheets/shell',
-      ]
-    },
-    {
-      type: 'category',
       label: 'Reference',
       collapsed: true,
-      link: {
-        type: 'generated-index',
-        title: 'Reference Resources',
-        description: 'Something kind of wonderful.',
-        keywords: ['reference']
-      },
       items: [
         {
           type: 'category',
           label: 'Python',
-          link: {
-            type: 'doc',
-            id: 'reference/python/index'
-          },
           items: [
+            'reference/python/introduction',
             'reference/python/google-style-guide',
             'reference/python/performance-considerations',
             'reference/python/language-observations',
@@ -324,10 +279,6 @@ const sidebars = {
         {
           type: 'category',
           label: 'CSS',
-          link: {
-            type: 'doc',
-            id: 'reference/css/index'
-          },
           items: [
             'reference/css/css-diner',
             'reference/css/flexbox-froggy',
@@ -338,10 +289,6 @@ const sidebars = {
           type: 'category',
           label: 'Docusaurus',
           collapsed: true,
-          link: {
-            type: 'doc',
-            id: 'reference/docusaurus/index'
-          },
           items: [
             'reference/docusaurus/documentation-notes',
             'reference/docusaurus/cheatsheet',
@@ -363,12 +310,9 @@ const sidebars = {
         {
           type: 'category',
           label: 'Visual Studio Code',
-          link: {
-            type: 'doc',
-            id: 'reference/vscode/index'
-          },
           collapsed: true,
           items: [
+            'reference/vscode/introduction',
             'reference/vscode/mac',
             'reference/vscode/windows',
           ]
