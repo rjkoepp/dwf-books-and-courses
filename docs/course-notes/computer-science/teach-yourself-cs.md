@@ -1,6 +1,7 @@
 ---
 title: Teach Yourself CS
 hide_title: false
+sidebar_label: Teach Yourself CS
 description: Overview of Teach Yourself CS
 draft: false
 tags: [Teach Yourself CS]

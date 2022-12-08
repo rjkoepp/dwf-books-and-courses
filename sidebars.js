@@ -206,15 +206,6 @@ const sidebars = {
             },
             {
               type: 'category',
-              label: 'MIT Missing Semester',
-              items: [
-                'course-notes/development-and-engineering/mit-missing-semester/introduction',
-                'course-notes/development-and-engineering/mit-missing-semester/2020',
-                'course-notes/development-and-engineering/mit-missing-semester/2019',
-              ]
-            },
-            {
-              type: 'category',
               label: 'JavaScript',
               items: [
                 'course-notes/development-and-engineering/javascript/learn-you-node',
@@ -232,7 +223,15 @@ const sidebars = {
           label: 'Computer Science',
           collapsed: true,
           items: [
-            'course-notes/computer-science/teach-yourself-cs'
+            {
+              type: 'category',
+              label: 'MIT Missing Semester',
+              items: [
+                'course-notes/computer-science/mit-missing-semester/introduction',
+                'course-notes/computer-science/mit-missing-semester/2020',
+                'course-notes/computer-science/mit-missing-semester/2019',
+              ]
+            },
           ]
         },
       ]
