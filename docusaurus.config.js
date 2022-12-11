@@ -27,9 +27,9 @@ const macros = {
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'BCG',
-  tagline: 'Books | Courses | Guides',
-  url: 'https://bcg.dwf.dev',
+  title: 'Book Notes',
+  tagline: 'Attempting to misunderstand less',
+  url: 'https://books.dwf.dev',
   baseUrl: '/',
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
@@ -38,7 +38,7 @@ const config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'farlowdw', // Usually your GitHub org/user name.
-  projectName: 'bcg', // Usually your repo name.
+  projectName: 'books', // Usually your repo name.
 
   customFields: {
     things: {
@@ -166,7 +166,7 @@ const config = {
         maxHeadingLevel: 5,
       },
       navbar: {
-        title: 'Books, Courses, Guides',
+        title: 'Book Notes',
         hideOnScroll: true,
         logo: {
           alt: '',
@@ -175,7 +175,7 @@ const config = {
         items: [
           {
             to: '/docs/intro',
-            label: 'Home',
+            label: 'Notebook',
             position: 'left',
             activeBaseRegex: `/docs/(?!tags)`,
           },
@@ -218,23 +218,26 @@ const config = {
                 label: 'Algorithm Design Manual',
                 to: '/docs/books/algorithm-design-manual/book-notes/introduction-to-algorithm-design',
               },
-            ],
-          },
-          {
-            title: 'Courses',
-            items: [
               {
-                label: 'Learn You Node',
-                to: '/docs/course-notes/development-and-engineering/javascript/learn-you-node',
+                label: 'C Programming Language',
+                to: '/docs/c-programming-language/book-notes/introduction',
+              },
+              {
+                label: 'Nand to Tetris',
+                to: '/docs/nand-to-tetris/introduction',
+              },
+              {
+                label: 'System Design',
+                to: '/docs/system-design/c0',
               },
             ],
           },
           {
-            title: 'Guides',
+            title: 'Blog',
             items: [
               {
-                label: 'AWS Deployment',
-                to: '/docs/guides/deploying-on-aws',
+                label: 'TBD',
+                to: '#',
               },
             ],
           },

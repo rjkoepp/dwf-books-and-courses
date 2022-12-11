@@ -46,7 +46,7 @@ function Home() {
           <div className={styles.getStarted} >
             <Button variant="contained" color="inherit">
               <Link className={styles.checkItOut} to={useBaseUrl('docs/intro')}>
-                <span style={{ fontFamily: 'IBM Plex Sans' }}>Check it out</span>
+                <span style={{ fontFamily: 'IBM Plex Sans' }}>Start Reading</span>
               </Link>
             </Button>
           </div>
