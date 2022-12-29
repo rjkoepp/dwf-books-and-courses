@@ -310,4 +310,23 @@
     ],
     "description": "Allows for easy reference to the catalog."
   },
+  "Exercise boilerplate": {
+    "prefix": "cex",
+    "body": [
+      "## Exercise ${1:chapNum}-${2:exNum}",
+      "",
+      "$0",
+      "",
+      "<BibRef id='KR1988' pages='p. ${3:pageNum}'></BibRef>",
+      "",
+      "### My solution",
+      "",
+      "tbd",
+      "",
+      "### Official solution",
+      "",
+      "tbd"
+    ],
+    "description": "Allows for easy creation of exercises"
+  },
 }

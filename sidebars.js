@@ -112,6 +112,21 @@ const sidebars = {
       items: [
         {
           type: 'category',
+          label: 'Exercises and Solutions',
+          collapsed: true,
+          items: [
+            'c-programming-language/exercises-and-solutions/a-tutorial-introduction',
+            'c-programming-language/exercises-and-solutions/types-operators-expressions',
+            'c-programming-language/exercises-and-solutions/control-flow',
+            'c-programming-language/exercises-and-solutions/functions-program-structures',
+            'c-programming-language/exercises-and-solutions/pointers-arrays',
+            'c-programming-language/exercises-and-solutions/structures',
+            'c-programming-language/exercises-and-solutions/input-output',
+            'c-programming-language/exercises-and-solutions/unix-system-interface',
+          ]
+        },
+        {
+          type: 'category',
           label: 'Book Notes',
           collapsed: true,
           items: [
