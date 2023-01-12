@@ -329,4 +329,15 @@
     ],
     "description": "Allows for easy creation of exercises"
   },
+  "Chuckism": {
+    "prefix": "ww",
+    "body": [
+      ":::info Chuckism",
+      "",
+      "$0",
+      "",
+      ":::",
+    ],
+    "description": "Allows for easy reference to the catalog."
+  },
 }

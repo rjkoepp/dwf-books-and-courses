@@ -44,9 +44,9 @@ it as a framework on which to hang the more detailed descriptions that begin in
 ## 1.1 - Getting Started
 
 The only way to learn a new programming language is by writing programs
-in it. The first program to write is the same for all languages:
+in it. The first program to write is the same for all languages (print the words):
 
-```a title="Print the words"
+```a
 hello, world
 ```
 
@@ -719,7 +719,7 @@ c = (getchar() != EOF)
 This has the undesired effect of setting `c` to `0` or `1`, depending on whether or not
 the call of `getchar` encountered end of file. (More on this in Chapter 2.)
 
-### 1.5.3 - Character Counting
+### 1.5.2 - Character Counting
 
 The next program counts characters; it is similar to the copy program.
 
@@ -793,7 +793,7 @@ even if that means never going through the loop body. Programs should act
 intelligently when given zero-length input. The `while` and `for` statements
 help ensure that programs do reasonable things with boundary conditions.
 
-### 1.5.3 Line Counting
+### 1.5.3 - Line Counting
 
 The next program counts input lines. As we mentioned above, the standard
 library ensures that an input text stream appears as a sequence of lines, each
@@ -841,7 +841,7 @@ expressions is just an integer; on the other hand, `"\n"` is a string constant t
 happens to contain only one character. The topic of strings versus characters is
 discussed further in Chapter 2.
 
-### 1.5.4 Word Counting
+### 1.5.4 - Word Counting
 
 The fourth in our series of useful programs counts lines, words, and characters,
 with the loose definition that a word is any sequence of characters that
