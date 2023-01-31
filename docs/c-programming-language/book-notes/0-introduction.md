@@ -16,6 +16,41 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import BibRef from '@site/src/components/BibRef';
 
+<details><summary> Housekeeping notes</summary>
+
+The original text has been reproduced in these notes, but comments (like this) stand out as so-called [details](https://docusaurus.io/docs/markdown-features#details) and/or [admonitions](https://docusaurus.io/docs/markdown-features/admonitions). They are my own thoughts/perspectives. When running code samples from the book as well as my own experiments, I have used the `cc` program, where `cc --version` currently (Jan 30, 2023) gives me the following:
+
+```
+Apple clang version 14.0.0 (clang-1400.0.29.102)
+Target: x86_64-apple-darwin21.6.0
+Thread model: posix
+InstalledDir: /Library/Developer/CommandLineTools/usr/bin
+```
+
+But what language standard is being used? As [this post](https://stackoverflow.com/a/53063656/5209533) details, we can use the following minimal test program to discover the details for ourselves:
+
+```c
+#include <stdio.h>
+
+int main(void) {
+#ifdef __STDC_VERSION__
+    printf("__STDC_VERSION__ = %ld \n", __STDC_VERSION__);
+#endif
+#ifdef __STRICT_ANSI__
+    puts("__STRICT_ANSI__");
+#endif
+    return 0;
+}
+```
+
+Running the executable prints the following to standard output: `__STDC_VERSION__ = 201710`. Hence, C17 is the default language standard being used by `cc`. Of course, the language standard for C89 (when Kernighan and Ritchie authored the book) is quite different than C17 &#8212; differences have been remarked upon as appropriate (for my own uses).
+
+To use `cc` in all its original glory (i.e., where the C89 language standard is being used), one can use `cc -ansi ...` or `cc -std=c89 ...` (they're equivalent).
+
+</details>
+
+---
+
 <details><summary> Preface</summary>
 
 The computing world has undergone a revolution since the publication of

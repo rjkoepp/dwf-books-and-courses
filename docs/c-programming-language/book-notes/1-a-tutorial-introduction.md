@@ -57,7 +57,7 @@ easy.
 
 In C, the program to print `"hello, world"` is
 
-```c title="The first C program"
+```c title="hello.c (the first C program)"
 #include <stdio.h>
 
 main()
@@ -90,6 +90,304 @@ hello, world
 ```
 
 On other systems, the rules will be different; check with a local expert.
+
+<details><summary> Variations and notes concerning the "hello, world" program in C</summary>
+
+**TLDR:** It is now standard (literally part of the language standard) for `main` to have an explicit return type, namely `int`. If the terminating `}` for `main` is reached, then it's as if `return 0;` were included at the end of `main`, signifying that a successful [exit status](https://en.wikipedia.org/wiki/Exit_status) was emitted.
+
+---
+
+If you ran the `hello.c` program as it exists above, using `cc hello.c`, then you might get the following warning:
+
+```
+hello.c:3:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+main()
+^
+1 warning generated.
+```
+
+We could retry with `cc -ansi hello.c`, and the warning would go away, but it might be worth understanding why the warning was produced in the first place. We could follow the advice in [this post](https://stackoverflow.com/a/43819125/5209533) by giving `main` a return type (i.e., `int main()`) and then use `return 0;` as the last statement in the definition of `main()` &#8212; the warning would go away, but, again, we wouldn't really be all that closer to understanding *why* we need `int main()` in the first place.
+
+The explanation, it turns out, is primarily historical. [This post](https://stackoverflow.com/a/83763/5209533), which lists places to find various C/C++ standard documents, can lead us to a key excerpt from [ISO/IEC 9899:2018 (C17/C18)](https://web.archive.org/web/20181230041359if_/http://www.open-std.org/jtc1/sc22/wg14/www/abq/c17_updated_proposed_fdis.pdf) (p. 11):
+
+> If the return type of the `main` function is a type compatible with `int`, a return from the initial call
+> to the `main` function is equivalent to calling the `exit` function with the value returned by the `main`
+> function as its argument; reaching the `}` that terminates the `main` function returns a value of `0`. If
+> the return type is not compatible with `int`, the termination status returned to the host environment
+> is unspecified.
+
+Of course, this excerpt concerns the `main` function specifically, which has special significance in C; in general, however, it is helpful to note the following excerpt from [the same document](https://web.archive.org/web/20181230041359if_/http://www.open-std.org/jtc1/sc22/wg14/www/abq/c17_updated_proposed_fdis.pdf) (p. 114): 
+
+> If the `}` that terminates a function is reached, and the value of the function call is used by the caller,
+> the behavior is undefined.
+
+Consequently, [as this post notes](https://stackoverflow.com/a/10079465/5209533), the `return` statement is never mandatory at the end of a function, even if the function return type is not void. No diagnostic is required and it is not undefined behavior; for example, consider the following (defined behavior):
+
+```c showLineNumbers
+int foo(void)
+{
+}
+
+int main()
+{
+    foo();
+}
+```
+
+Reading the return value of `foo` (lines 1-3 above) is undefined behavior per the second excerpt above:
+
+```c
+int bla = foo();  // undefined behavior
+```
+
+But the `main` function is an exception to this rule &#8212; per the first excerpt, if the `}` terminating `main` is reached, then this is equivalent to there being a `return 0;` statement at the end of `main`.
+
+> Why does any of this matter? The answer has its roots in Unix (the birthplace of C), specifically the importance of [exit status](https://en.wikipedia.org/wiki/Exit_status) codes. The Wiki page has a [useful excerpt](https://en.wikipedia.org/wiki/Exit_status#C_language) as it pertains to C in particular:
+>
+> The C programming language allows programs exiting or returning from the [main function](https://en.wikipedia.org/wiki/Entry_point) to signal success or failure by returning an integer, or returning the macros `EXIT_SUCCESS` and `EXIT_FAILURE`. On Unix-like systems these are equal to `0` and `1`, respectively. A C program may also use the `exit()` function specifying the integer status or exit macro as the first parameter.
+> 
+> The return value from `main` is passed to the `exit` function, which for values zero, `EXIT_SUCCESS` or `EXIT_FAILURE` may translate it to "an implementation defined form" of *successful termination* or *unsuccessful termination*.
+> 
+> Apart from zero and the macros `EXIT_SUCCESS` and `EXIT_FAILURE`, the C standard does not define the meaning of return codes. Rules for the use of return codes vary on different platforms (see the platform-specific sections).
+
+Some examples are provided below of successful and unsuccessful `hello.c` programs and the output of trying to compile and then execute the program and *then* run a subsequent "program", `echo "Nice!"`, based on the successful compilation/termination of the `hello.c` program.
+
+<details open><summary> Examples</summary>
+
+<Tabs groupId="c-hello">
+<TabItem value="ex1" label="Ex. 1">
+
+```c title="hello.c" showLineNumbers
+#include <stdio.h>
+
+// highlight-next-line
+main()
+{
+  printf("hello, world\n");
+}
+```
+
+```bash
+cc hello.c && ./a.out && echo "Nice!"
+```
+
+</TabItem>
+<TabItem value="ex2" label="Ex. 2">
+
+```c title="hello.c" showLineNumbers
+#include <stdio.h>
+
+main()
+{
+  printf("hello, world\n");
+}
+```
+
+```bash
+# highlight-next-line
+cc -ansi hello.c && ./a.out && echo "Nice!"
+```
+
+</TabItem>
+<TabItem value="ex3" label="Ex. 3">
+
+```c title="hello.c" showLineNumbers
+#include <stdio.h>
+
+// highlight-next-line
+int main()
+{
+  printf("hello, world\n");
+}
+```
+
+```bash
+cc hello.c && ./a.out && echo "Nice!"
+```
+
+</TabItem>
+<TabItem value="ex4" label="Ex. 4">
+
+```c title="hello.c" showLineNumbers
+#include <stdio.h>
+
+int main()
+{
+  printf("hello, world\n");
+  // highlight-next-line
+  return 0;
+}
+```
+
+```bash
+cc hello.c && ./a.out && echo "Nice!"
+```
+
+</TabItem>
+<TabItem value="ex5" label="Ex. 5 (fail)">
+
+```c title="hello.c" showLineNumbers
+#include <stdio.h>
+
+int main()
+{
+  printf("hello, world\n");
+  // highlight-error-next-line
+  return 8;
+}
+```
+
+```bash
+cc hello.c && ./a.out && echo "Nice!"
+```
+
+</TabItem>
+<TabItem value="ex6" label="Ex. 6">
+
+```c title="hello.c" showLineNumbers
+#include <stdio.h>
+// highlight-next-line
+#include <stdlib.h>
+
+int main()
+{
+  printf("hello, world\n");
+  // highlight-next-line
+  return EXIT_SUCCESS;
+}
+```
+
+```bash
+cc hello.c && ./a.out && echo "Nice!"
+```
+
+</TabItem>
+<TabItem value="ex7" label="Ex. 7 (fail)">
+
+```c title="hello.c" showLineNumbers
+#include <stdio.h>
+// highlight-next-line
+#include <stdlib.h>
+
+int main()
+{
+  printf("hello, world\n");
+  // highlight-error-next-line
+  return EXIT_FAILURE;
+}
+```
+
+```bash
+cc hello.c && ./a.out && echo "Nice!"
+```
+
+</TabItem>
+</Tabs>
+
+<Tabs groupId="c-hello">
+<TabItem value="ex1" label="Out 1">
+
+```
+hello.c:3:1: warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+main()
+^
+1 warning generated.
+hello, world
+Nice!
+```
+
+</TabItem>
+<TabItem value="ex2" label="Out 2">
+
+```
+hello, world
+Nice!
+```
+
+</TabItem>
+<TabItem value="ex3" label="Out 3">
+
+```
+hello, world
+Nice!
+```
+
+</TabItem>
+<TabItem value="ex4" label="Out 4">
+
+```
+hello, world
+Nice!
+```
+
+</TabItem>
+<TabItem value="ex5" label="Out 5">
+
+```
+hello, world
+```
+
+</TabItem>
+<TabItem value="ex6" label="Out 6">
+
+```
+hello, world
+Nice!
+```
+
+</TabItem>
+<TabItem value="ex7" label="Out 7">
+
+```
+hello, world
+```
+
+</TabItem>
+</Tabs>
+
+<Tabs groupId="c-hello">
+<TabItem value="ex1" label="Why 1">
+
+This is the original `hello.c` program along with the generated warning remarked on previously (due to the fact that `main` is not declared with an explicit `int` return type, as shown on line 3, the highlighted line).
+
+</TabItem>
+<TabItem value="ex2" label="Why 2">
+
+We did not modify the original `hello.c` program, only the manner in which it was compiled. Specifically, `cc hello.c && ./a.out && echo "Nice!"` was changed to `cc -ansi hello.c && ./a.out && echo "Nice!"`. The presence of the `-ansi` flag, or the equivalent `-std=c89` flag, ensures we're running the compiler to respect constraints as defined when K&R C was written. Hence, there's no warning.
+
+</TabItem>
+<TabItem value="ex3" label="Why 3">
+
+An explicit `int` return type has been added to `main` (line 3), and we have implicitly taken advantage of C's special treatment of `main` as defined in the C17 standard:
+
+> [...] reaching the `}` that terminates the `main` function returns a value of `0` [...]
+
+</TabItem>
+<TabItem value="ex4" label="Why 4">
+
+An explicit return statement, `return 0;`, was added to the end of `main` (line 6). Since `0` signals a successful termination, the output is `Nice!`, as expected.
+
+</TabItem>
+<TabItem value="ex5" label="Why 5">
+
+Instead of relying on an implicit return in `main` or returning `0` (which signals success), we explicitly return a non-zero integer (line 6) &#8212; a non-zero integer return value indicates failure. Hence, `cc hello.c` compiles the program, we execute it with `./a.out`, and `hello, world` prints as expected, but the termination of the program indicates failure; thus, `echo "Nice!"` *does not run* as a result.
+
+</TabItem>
+<TabItem value="ex6" label="Why 6">
+
+We now make use of the `<stdlib.h>` header and the `EXIT_SUCCESS` macros contained therein (lines 2 and 7). The result is predictable.
+
+</TabItem>
+<TabItem value="ex7" label="Why 7">
+
+We now make use of the `<stdlib.h>` header and the `EXIT_FAILURE` macros contained therein (lines 2 and 7). The result is predictable.
+
+</TabItem>
+</Tabs>
+
+</details>
+
+</details>
 
 Now for some explanations about the program itself:
 
