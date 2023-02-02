@@ -1,5 +1,5 @@
 ---
-title: Introduction
+title: Introduction (p. ix, xi, 1)
 hide_title: false
 sidebar_label: Introduction
 description: Notes on the introduction.
@@ -16,9 +16,15 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import BibRef from '@site/src/components/BibRef';
 
-<details><summary> Housekeeping notes</summary>
+<details><summary> Housekeeping</summary>
 
-The original text has been reproduced in these notes, but comments (like this) stand out as so-called [details](https://docusaurus.io/docs/markdown-features#details) and/or [admonitions](https://docusaurus.io/docs/markdown-features/admonitions). They are my own thoughts/perspectives. When running code samples from the book as well as my own experiments, I have used the `cc` program, where `cc --version` currently (Jan 30, 2023) gives me the following:
+The original text has been reproduced in these notes, but comments (like this one) stand out as so-called [details](https://docusaurus.io/docs/markdown-features#details) and/or [admonitions](https://docusaurus.io/docs/markdown-features/admonitions). They are my own thoughts/perspectives.
+
+</details>
+
+<details><summary> Language version used in notes</summary>
+
+When running code samples from the book as well as my own experiments, I have used the `cc` program, where `cc --version` currently (Jan 30, 2023) gives me the following:
 
 ```
 Apple clang version 14.0.0 (clang-1400.0.29.102)
@@ -27,9 +33,9 @@ Thread model: posix
 InstalledDir: /Library/Developer/CommandLineTools/usr/bin
 ```
 
-But what language standard is being used? As [this post](https://stackoverflow.com/a/53063656/5209533) details, we can use the following minimal test program to discover the details for ourselves:
+But what language version and standard are being used? As [this post](https://stackoverflow.com/a/53063656/5209533) details, we can use the following minimal test program to discover the details for ourselves:
 
-```c
+```c title="details.c"
 #include <stdio.h>
 
 int main(void) {
@@ -43,7 +49,7 @@ int main(void) {
 }
 ```
 
-Running the executable prints the following to standard output: `__STDC_VERSION__ = 201710`. Hence, C17 is the default language standard being used by `cc`. Of course, the language standard for C89 (when Kernighan and Ritchie authored the book) is quite different than C17 &#8212; differences have been remarked upon as appropriate (for my own uses).
+Compiling `details.c` and running the executable (i.e., `cc details.c && ./a.out`) prints the following to standard output: `__STDC_VERSION__ = 201710`. Hence, C17 is the default language standard being used by `cc`. Of course, the language standard for C89 (when Kernighan and Ritchie authored the book) is quite different than C17 &#8212; differences have been remarked upon as appropriate (for my own uses).
 
 To use `cc` in all its original glory (i.e., where the C89 language standard is being used), one can use `cc -ansi ...` or `cc -std=c89 ...` (they're equivalent).
 
@@ -62,13 +68,13 @@ far beyond its origins as the language of the UNIX operating system.
 The growing popularity of C, the changes in the language over the years,
 and the creation of compilers by groups not involved in its design, combined to
 demonstrate a need for a more precise and more contemporary definition of the
-language than the first edition of this book provided. In 1983, the American
-National Standards Institute (ANSI) established a committee whose goal was to
+language than the first edition of this book provided. In 1983, the [American
+National Standards Institute (ANSI)](https://en.wikipedia.org/wiki/American_National_Standards_Institute) established a committee whose goal was to
 produce "an unambiguous and machine-independent definition of the language
 C," while still retaining its spirit. The result is the ANSI standard for C.
 
 The standard formalizes constructions that were hinted at but not described
-in the first edition, particularly structure assignment and enumerations. It provides
+in the first edition, particularly [structure assignment](https://en.wikipedia.org/wiki/Struct_(C_programming_language)) and [enumerations](https://en.wikipedia.org/wiki/Enumerated_type#C). It provides
 a new form of function declaration that permits cross-checking of definition
 with use. It specifies a standard library, with an extensive set of functions
 for performing input and output, memory management, string manipulation,
@@ -85,20 +91,21 @@ most features of the standard.
 
 We have tried to retain the brevity of the first edition. C is not a big
 language, and it is not well served by a big book. We have improved the exposition
-of critical features, such as pointers, that are central to C programming.
+of critical features, such as [pointers](https://en.wikipedia.org/wiki/Pointer_(computer_programming)), that are central to C programming.
 We have refined the original examples, and have added new examples in several
 chapters. For instance, the treatment of complicated declarations is augmented
 by programs that convert declarations into words and vice versa. As before, all
 examples have been tested directly from the text, which is in machine-readable
 form.
 
-[Appendix A](/docs/c-programming-language/book-notes/appendix-a-reference-manual), the reference manual, is not the standard, but our attempt to
+- [Appendix A](/docs/c-programming-language/book-notes/appendix-a-reference-manual), the reference manual, is not the standard, but our attempt to
 convey the essentials of the standard in a smaller space. It is meant for easy
 comprehension by programmers, but not as a definition for compiler writers &#8212; that
-role properly belongs to the standard itself. [Appendix B](/docs/c-programming-language/book-notes/appendix-b-standard-library) is a summary of
+role properly belongs to the standard itself.
+- [Appendix B](/docs/c-programming-language/book-notes/appendix-b-standard-library) is a summary of
 the facilities of the standard library. It too is meant for reference by programmers,
-not implementers. [Appendix C](/docs/c-programming-language/book-notes/appendix-c-summary-of-changes) is a concise summary of the changes from
-the original version.
+not implementers.
+- [Appendix C](/docs/c-programming-language/book-notes/appendix-c-summary-of-changes) is a concise summary of the changes from the original version.
 
 As we said in the preface to the first edition, C "wears well as one's experience
 with it grows." With a decade more experience, we still feel that way.
@@ -107,10 +114,10 @@ We hope that this book will help you to learn C and to use it well.
 We are deeply indebted to friends who helped us to produce this second edition.
 Jon Bentley, Doug Gwyn, Doug Mcilroy, Peter Nelson, and Rob Pike
 gave us perceptive comments on almost every page of draft manuscripts. We
-are grateful for careful reading by AI Abo, Dennis Allison, Joe Campbell, G. R.
+are grateful for careful reading by Al Aho, Dennis Allison, Joe Campbell, G. R.
 Emlin, Karen Fortgang, Allen Holub, Andrew Hume, Dave Kristol, John
 Linderman, Dave Prosser, Gene Spafford, and Chris Van Wyk. We also
-received helpfpl suggestions from Bill Cheswick, Mark Kernighan, Andy
+received helpful suggestions from Bill Cheswick, Mark Kernighan, Andy
 Koenig, Robin Lake, Tom London, Jim Reeds, Clovis Tondo, and Peter Weinberger.
 Dave Prosser answered many detailed questions about the ANSI standard.
 We used Bjarne Stroustrup's C++ translator extensively for local testing
@@ -131,11 +138,11 @@ make it more convenient and effective for many tasks than supposedly
 more powerful languages.
 
 C was originally designed for and implemented on the UNIX operating system
-on the DEC PDP-11, by Dennis Ritchie. The operating system, the C com·
+on the [DEC PDP-11](https://en.wikipedia.org/wiki/PDP-11), by Dennis Ritchie. The operating system, the C com·
 piler, and essentially all UNIX applications programs (including all of the
 software used to prepare this book) are written in C. Production compilers also
-exist for several other machines, including the IBM System/370, the Honeywell
-6000, and the Interdata 8/32. C is not tied to any particular hardware or system,
+exist for several other machines, including the [IBM System/370](https://en.wikipedia.org/wiki/IBM_System/370), the 
+[Honeywell 6000](https://en.wikipedia.org/wiki/Honeywell_6000_series), and the [Interdata 8/32](https://en.wikipedia.org/wiki/Interdata_7/32_and_8/32). C is not tied to any particular hardware or system,
 however, and it is easy to write programs that will run without change on
 any machine that supports C.
 
@@ -164,7 +171,7 @@ The thoughtful criticisms and suggestions of many friends and colleagues
 have added greatly to this book and to our pleasure in writing it. In particular,
 Mike Bianchi, Jim Blue, Stu Feldman, Doug Mcilroy, Bill Roome, Bob Rosin,
 and Larry Rosier all read multiple versions with care. We are also indebted to
-AI Abo, Steve Bourne, Dan Dvorak, Chuck Haley, Debbie Haley, Marion
+Al Aho, Steve Bourne, Dan Dvorak, Chuck Haley, Debbie Haley, Marion
 Harris, Rick Holt, Steve Johnson, John Mashey, Bob Mitze, Ralph Muha, Peter
 Nelson, Elliot Pinson, Bill Plauger, Jerry Spivack, Ken Thompson, and Peter
 Weinberger for helpful comments at various stages, and to Mike Lesk and Joe
@@ -173,19 +180,19 @@ Ossanna for invaluable assistance with typesetting.
 </details>
 
 C is a general-purpose programming language. It has been closely associated
-with the UNIX system where it was developed, since both the system and
+with the [UNIX system](https://en.wikipedia.org/wiki/Unix) where it was developed, since both the system and
 most of the programs that run on it are written in C. The language, however, is
 not tied to any one operating system or machine; and although it has been
 called a "system programming language" because it is useful for writing compilers
 and operating systems, it has been used equally well to write major programs
 in many different domains.
 
-Many of the important ideas of C stem from the language BCPL, developed
+Many of the important ideas of C stem from the language [BCPL](https://en.wikipedia.org/wiki/BCPL), developed
 by Martin Richards. The influence of BCPL on C proceeded indirectly through
 the language B, which was written by Ken Thompson in 1970 for the first
-UNIX system on the DEC PDP-7.
+UNIX system on the [DEC PDP-7](https://en.wikipedia.org/wiki/PDP-7).
 
-BCPL and B are "typeless" languages. By contrast, C provides a variety of
+BCPL and [B](https://en.wikipedia.org/wiki/B_(programming_language)) are "typeless" languages. By contrast, C provides a variety of
 data types. The fundamental types are characters, and integers and floating-point
 numbers of several sizes. In addition, there is a hierarchy of derived data
 types created with pointers, arrays, structures, and unions. Expressions are
@@ -301,43 +308,19 @@ the wrong precedence; some parts of the syntax could be better. Nonetheless, C
 has proven to be an extremely effective and expressive language for a wide
 variety of programming applications.
 
-The book is organized as follows. Chapter 1 is a tutorial on the central part
-of C. The purpose is to get the reader started as quickly as possible, since we
-believe strongly that the way to learn a new language is to write programs in it.
-The tutorial does assume a working knowledge of the basic elements of programming;
-there is no explanation of computers, of compilation, nor of the
-meaning of an expression like `n = n + 1`. Although we have tried where possible to
-show useful programming techniques, the book is not intended to be a reference
-work on data structures and algorithms; when forced to make a choice, we have
-concentrated on the language.
+The book is organized as follows. 
 
-Chapters 2 through 6 discuss various aspects of C in more detail, and rather
+- [Chapter 1](/docs/c-programming-language/book-notes/a-tutorial-introduction) is a tutorial on the central part of C. The purpose is to get the reader started as quickly as possible, since we believe strongly that the way to learn a new language is to write programs in it. The tutorial does assume a working knowledge of the basic elements of programming; there is no explanation of computers, of compilation, nor of the meaning of an expression like `n = n + 1`. Although we have tried where possible to show useful programming techniques, the book is not intended to be a reference work on data structures and algorithms; when forced to make a choice, we have concentrated on the language.
+- Chapters 2 through 6 discuss various aspects of C in more detail, and rather
 more formally, than does Chapter 1, although the emphasis is still on examples
-of complete programs, rather than isolated fragments. Chapter 2 deals with the
-basic data types, operators and expressions. Chapter 3 treats control flow:
-`if-else`, `switch`, `while`, `for`, etc. Chapter 4 covers functions and program
-structur &#8212; external variables, scope rules, multiple source files, and so on &#8212; and
-also touches on the preprocessor. Chapter 5 discusses pointers and address
-arithmetic. Chapter 6 covers structures and unions.
-
-Chapter 7 describes the standard library, which provides a common interface
-to the operating system. This library is defined by the ANSI standard and is
-meant to be supported on all machines that support C, so programs that use it
-for input, output, and other operating system access can be moved from one system
-to another without change.
-
-Chapter 8 describes an interface between C programs and the UNIX operating
-system, concentrating on input/output, the file system, and storage allocation.
-Although some of this chapter is specific to UNIX systems, programmers
-who use other systems should still find useful material here, including some
-insight into how one version of the standard library is implemented, and suggestions
-on portability.
-
-Appendix A contains a language reference manual. The official statement of
-the syntax and semantics of C is the ANSI standard itself. That document,
-however, is intended foremost for compiler writers. The reference manual here
-conveys the definition of the language more concisely and without the same
-legalistic style. Appendix B is a summary of the standard library, again for
-users rather than implementers. Appendix C is a short summary of changes
-from the original language. In cases of doubt, however, the standard and one's
-own compiler remain the final authorities on the language.
+of complete programs, rather than isolated fragments. 
+  + [Chapter 2](/docs/c-programming-language/book-notes/types-operators-expressions) deals with the basic data types, operators and expressions. 
+  + [Chapter 3](/docs/c-programming-language/book-notes/control-flow) treats control flow: `if-else`, `switch`, `while`, `for`, etc. 
+  + [Chapter 4](/docs/c-programming-language/book-notes/functions-program-structures) covers functions and program structure &#8212; external variables, scope rules, multiple source files, and so on &#8212; and also touches on the preprocessor. 
+  + [Chapter 5](/docs/c-programming-language/book-notes/pointers-arrays) discusses pointers and address arithmetic. 
+  + [Chapter 6](/docs/c-programming-language/book-notes/structures) covers structures and unions.
+- [Chapter 7](/docs/c-programming-language/book-notes/input-output) describes the standard library, which provides a common interface to the operating system. This library is defined by the ANSI standard and is meant to be supported on all machines that support C, so programs that use it for input, output, and other operating system access can be moved from one system to another without change.
+- [Chapter 8](/docs/c-programming-language/book-notes/unix-system-interface) describes an interface between C programs and the UNIX operating system, concentrating on input/output, the file system, and storage allocation. Although some of this chapter is specific to UNIX systems, programmers who use other systems should still find useful material here, including some insight into how one version of the standard library is implemented, and suggestions on portability.
+- [Appendix A](/docs/c-programming-language/book-notes/appendix-a-reference-manual) contains a language reference manual. The official statement of the syntax and semantics of C is the ANSI standard itself. That document, however, is intended foremost for compiler writers. The reference manual here conveys the definition of the language more concisely and without the same legalistic style. 
+- [Appendix B](/docs/c-programming-language/book-notes/appendix-b-standard-library) is a summary of the standard library, again for users rather than implementers. 
+- [Appendix C](/docs/c-programming-language/book-notes/appendix-c-summary-of-changes) is a short summary of changes from the original language. In cases of doubt, however, the standard and one's own compiler remain the final authorities on the language.

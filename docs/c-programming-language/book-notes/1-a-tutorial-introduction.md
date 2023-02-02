@@ -1,5 +1,5 @@
 ---
-title: 1 - A Tutorial Introduction
+title: 1 - A Tutorial Introduction (p. 5)
 hide_title: false
 sidebar_label: 1 - A tutorial introduction
 description: Notes on the first chapter.
@@ -57,7 +57,7 @@ easy.
 
 In C, the program to print `"hello, world"` is
 
-```c title="hello.c (the first C program)"
+```c title="hello.c"
 #include <stdio.h>
 
 main()
@@ -142,8 +142,8 @@ int bla = foo();  // undefined behavior
 
 But the `main` function is an exception to this rule &#8212; per the first excerpt, if the `}` terminating `main` is reached, then this is equivalent to there being a `return 0;` statement at the end of `main`.
 
-> Why does any of this matter? The answer has its roots in Unix (the birthplace of C), specifically the importance of [exit status](https://en.wikipedia.org/wiki/Exit_status) codes. The Wiki page has a [useful excerpt](https://en.wikipedia.org/wiki/Exit_status#C_language) as it pertains to C in particular:
->
+Why does any of this matter? The answer has its roots in Unix (the birthplace of C), specifically the importance of [exit status](https://en.wikipedia.org/wiki/Exit_status) codes. The Wiki page has a [useful excerpt](https://en.wikipedia.org/wiki/Exit_status#C_language) as it pertains to C in particular:
+
 > The C programming language allows programs exiting or returning from the [main function](https://en.wikipedia.org/wiki/Entry_point) to signal success or failure by returning an integer, or returning the macros `EXIT_SUCCESS` and `EXIT_FAILURE`. On Unix-like systems these are equal to `0` and `1`, respectively. A C program may also use the `exit()` function specifying the integer status or exit macro as the first parameter.
 > 
 > The return value from `main` is passed to the `exit` function, which for values zero, `EXIT_SUCCESS` or `EXIT_FAILURE` may translate it to "an implementation defined form" of *successful termination* or *unsuccessful termination*.
@@ -387,6 +387,45 @@ We now make use of the `<stdlib.h>` header and the `EXIT_FAILURE` macros contain
 
 </details>
 
+As noted in [this answer](https://stackoverflow.com/a/13543736/5209533), a lot of the discussion around the most appropriate choice of `main()`, `int main()`, `int main(void)`, etc., is highly standard-version dependent; thus, a general answer would not be entirely accurate. As [this answer](https://stackoverflow.com/a/3711070/5209533) notes, there's no difference between `main()` and `main(void)` in C under ordinary circumstances; under un-ordinary circumstances, however, if you write your own call to `main`, then `main()` will permit you to pass it any parameters you like, while `main(void)` will *force you* to pass it none. Still, none of this matters in terms of the 99.99999999% case, which is `main` being invoked by the runtime to launch your program. The runtime neither knows nor cares if you write `main()` or `main(void)`; it is worth noting that if you code the standard int main(int argc, char **argv) you will get your command-line parameters in there.
+
+Keith Thompson on Quora has a rather [direct answer](https://qr.ae/prkerG) to why we should write `int main()` as opposed to `void main()` or just `main()`: because the language standard says so.
+
+> Why does it say so? Because many operating systems use the status returned by the `main` program, 
+> and because in C the `void` type and keyword wasn't even introduced until the language had been in 
+> use for a number of years, and there was no particular reason to change it when `void` was introduced.
+> 
+> C and C++ are two different languages.
+> 
+> In C, `main` can be defined as:
+> 
+> ```c
+> int main(void) { /* … */ }
+> ```
+> 
+> or
+> 
+> ```c
+> int main(int argc, int *argv[]) { /* … */ }
+> ```
+> 
+> or equivalent, or in some other implementation-defined way. So a compiler can accept `void main()`, but it's not 
+> required to &#8212; and there's no good reason not to use one of the standard forms.
+> 
+> For C++, it's mostly the same &#8212; except that the parameterless form is
+> 
+> ```cpp
+> int main() { /* … */ }
+> ```
+> 
+> though C++ allows `(void)` for compatibility with C. (Empty parentheses have a different meaning in C++ than in 
+> C). C++ also allows other implementation-defined forms &#8212; but the return type **must** be `int`.
+> 
+> (All this is for hosted implementations. For freestanding implementations, typically for targets with no 
+> operating system, the program entry point is implementation-defined, and might not even be called `main`.)
+
+All of this to say: there's no silver bullet for an answer &#8212; most responses will have merit. Effective answers depend on the question (as usual).
+
 </details>
 
 Now for some explanations about the program itself:
@@ -423,7 +462,7 @@ example, `main` is defined to be a function that expects no arguments, which is
 indicated by the empty list `( )`.
 
 The statements of a function are enclosed in braces `{ }`. The function `main`
-contains only one statement,
+contains only one statement:
 
 ```c
 printf( "hello, world\n");

@@ -1,5 +1,5 @@
 ---
-title: 6 - Structures
+title: 6 - Structures (p. 127)
 hide_title: false
 sidebar_label: 6 - Structures
 description: Notes on structures

@@ -1,5 +1,5 @@
 ---
-title: 4 - Functions and Program Structure
+title: 4 - Functions and Program Structure (p. 67)
 hide_title: false
 sidebar_label: 4 - Functions and Program Structure
 description: Notes on chapter 4

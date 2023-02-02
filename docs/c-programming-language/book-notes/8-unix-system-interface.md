@@ -1,5 +1,5 @@
 ---
-title: 8 - The UNIX System Interface
+title: 8 - The UNIX System Interface (p. 169)
 hide_title: false
 sidebar_label: 8 - The UNIX system interface
 description: Notes on chapter 8

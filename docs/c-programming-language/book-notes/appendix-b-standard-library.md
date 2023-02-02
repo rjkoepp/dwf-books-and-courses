@@ -1,5 +1,5 @@
 ---
-title: Appendix B - Standard Library
+title: Appendix B - Standard Library (p. 241)
 hide_title: false
 sidebar_label: Appendix B - Standard library
 description: Notes on appendix B

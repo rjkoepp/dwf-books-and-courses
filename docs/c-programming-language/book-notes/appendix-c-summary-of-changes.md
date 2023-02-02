@@ -1,5 +1,5 @@
 ---
-title: Appendix C - Summary of Changes
+title: Appendix C - Summary of Changes (p. 259)
 hide_title: false
 sidebar_label: Appendix C - Summary of changes
 description: Notes on appendix C

@@ -1,5 +1,5 @@
 ---
-title: 2 - Types, Operators, and Expressions
+title: 2 - Types, Operators, and Expressions (p. 35)
 hide_title: false
 sidebar_label: 2 - Types, operators, and expressions
 description: Notes on chapter 2

@@ -1,5 +1,5 @@
 ---
-title: 3 - Control Flow
+title: 3 - Control Flow (p. 55)
 hide_title: false
 sidebar_label: 3 - Control Flow
 description: Notes on control flow

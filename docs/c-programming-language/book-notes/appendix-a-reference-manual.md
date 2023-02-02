@@ -1,5 +1,5 @@
 ---
-title: Appendix A - Reference Manual
+title: Appendix A - Reference Manual (p. 191)
 hide_title: false
 sidebar_label: Appendix A - Reference manual
 description: Notes on appendix A

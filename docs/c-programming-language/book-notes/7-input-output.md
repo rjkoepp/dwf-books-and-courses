@@ -1,5 +1,5 @@
 ---
-title: 7 - Input and Output
+title: 7 - Input and Output (p. 151)
 hide_title: false
 sidebar_label: 7 - Input and output
 description: Notes on chapter 7

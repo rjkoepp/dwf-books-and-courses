@@ -1,5 +1,5 @@
 ---
-title: 5 - Pointers and Arrays
+title: 5 - Pointers and Arrays (p. 93)
 hide_title: false
 sidebar_label: 5 - Pointers and arrays
 description: Notes on pointers and arrays
