@@ -542,7 +542,7 @@ The program itself still consists of the definition of a single function named
 It introduces several new ideas, including comments, declarations, variables,
 arithmetic expressions, loops, and formatted output.
 
-```c 
+```c
 #include <stdio.h>
 
 /* print Fahrenheit-Celsius table 
@@ -615,7 +615,7 @@ statements*
 lower = 0;
 upper = 300;
 step = 20;
-fahr = lower
+fahr = lower;
 ```
 
 which set the variables to their initial values. Individual statements are terminated
@@ -653,7 +653,6 @@ looks, proper indentation and spacing are critical in making programs easy
 for people to read. We recommend writing only one statement per line, and
 using blanks around operators to clarify grouping. The position of braces is less
 important, although people hold passionate beliefs. We have chosen one of
-
 several popular styles. Pick a style that suits you, then use it consistently.
 Most of the work gets done in the body of the loop. The Celsius temperature
 is computed and assigned to the variable `celsius` by the statement
@@ -698,7 +697,7 @@ you have to input numbers, read the discussion of the function `scanf` in Sectio
 output.
 
 There are a couple of problems with the temperature conversion program.
-The simpler one is that the output isn't very pretty because the numbers are rtot
+The simpler one is that the output isn't very pretty because the numbers are not
 right-justified. That's easy to fix; if we augment each `%d` in the `printf` statement
 with a width, the numbers printed will be right-justified in their fields.
 For instance, we might say
@@ -726,7 +725,7 @@ about $-17.8^{\circ}\mathrm{C}$, not $-17$. To get more accurate answers, we sho
 floating-point arithmetic instead of integer. This requires some changes in the
 program. Here is a second version:
 
-```c 
+```c
 #include <stdio.h>
 
 /* print Fahrenheit-Celsius table 
