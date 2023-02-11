@@ -1,0 +1,4 @@
+import BibRef from '@site/src/components/BibRef';
+
+Write a program to copy its input to its output, replacing each
+string of one or more blanks by a single blank. <BibRef id='KR1988' pages='p. 20'></BibRef>
