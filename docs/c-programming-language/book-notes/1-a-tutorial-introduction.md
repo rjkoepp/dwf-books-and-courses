@@ -16,6 +16,31 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import BibRef from '@site/src/components/BibRef';
 
+import C1X1 from '@site/docs/_partials/krc/c1ex1.md';
+import C1X2 from '@site/docs/_partials/krc/c1ex2.md';
+import C1X3 from '@site/docs/_partials/krc/c1ex3.md';
+import C1X4 from '@site/docs/_partials/krc/c1ex4.md';
+import C1X5 from '@site/docs/_partials/krc/c1ex5.md';
+import C1X6 from '@site/docs/_partials/krc/c1ex6.md';
+import C1X7 from '@site/docs/_partials/krc/c1ex7.md';
+import C1X8 from '@site/docs/_partials/krc/c1ex8.md';
+import C1X9 from '@site/docs/_partials/krc/c1ex9.md';
+import C1X10 from '@site/docs/_partials/krc/c1ex10.md';
+import C1X11 from '@site/docs/_partials/krc/c1ex11.md';
+import C1X12 from '@site/docs/_partials/krc/c1ex12.md';
+import C1X13 from '@site/docs/_partials/krc/c1ex13.md';
+import C1X14 from '@site/docs/_partials/krc/c1ex14.md';
+import C1X15 from '@site/docs/_partials/krc/c1ex15.md';
+import C1X16 from '@site/docs/_partials/krc/c1ex16.md';
+import C1X17 from '@site/docs/_partials/krc/c1ex17.md';
+import C1X18 from '@site/docs/_partials/krc/c1ex18.md';
+import C1X19 from '@site/docs/_partials/krc/c1ex19.md';
+import C1X20 from '@site/docs/_partials/krc/c1ex20.md';
+import C1X21 from '@site/docs/_partials/krc/c1ex21.md';
+import C1X22 from '@site/docs/_partials/krc/c1ex22.md';
+import C1X23 from '@site/docs/_partials/krc/c1ex23.md';
+import C1X24 from '@site/docs/_partials/krc/c1ex24.md';
+
 Let us begin with a quick introduction to C. Our aim is to show the essential
 elements of the language in real programs, but without getting bogged down
 in details, rules, and exceptions. At this point, we are not trying to be complete
@@ -41,7 +66,7 @@ it by writing small, similar programs of their own. Both groups can use
 it as a framework on which to hang the more detailed descriptions that begin in
 [Chapter 2](/docs/c-programming-language/book-notes/types-operators-expressions).
 
-## 1.1 - Getting Started
+## 1.1 - Getting Started {#sec-1-1}
 
 The only way to learn a new programming language is by writing programs
 in it. The first program to write is the same for all languages (print the words):
@@ -93,7 +118,16 @@ On other systems, the rules will be different; check with a local expert.
 
 <details><summary> Variations and notes concerning the "hello, world" program in C</summary>
 
-**TLDR:** It is now standard (literally part of the language standard) for `main` to have an explicit return type, namely `int`. If the terminating `}` for `main` is reached, then it's as if `return 0;` were included at the end of `main`, signifying that a successful [exit status](https://en.wikipedia.org/wiki/Exit_status) was emitted.
+**TLDR:** It is now standard (literally part of the language standard) for `main` to have an explicit return type, namely `int`. If the terminating `}` for `main` is reached, then it's as if `return 0;` were included at the end of `main`, signifying that a successful [exit status](https://en.wikipedia.org/wiki/Exit_status) was emitted. Perhaps the clearest note on this matter may be found in <BibRef id='KR1988' pages='p. 26'></BibRef>, K&R C itself:
+
+> You may have noticed that there is a return statement at the end of `main`.
+> Since `main` is a function like any other, it may return a value to its caller,
+> which is in effect the environment in which the program was executed. Typically,
+> a return value of zero implies normal termination; non-zero values signal
+> unusual or erroneous termination conditions. In the interests of simplicity, we
+> have omitted `return` statements from our `main` functions up to this point, but
+> we will include them hereafter, as a reminder that programs should return
+> status to their environment.
 
 ---
 
@@ -428,9 +462,17 @@ All of this to say: there's no silver bullet for an answer &#8212; most response
 
 </details>
 
+<details><summary> A note about the <code>a.out</code> command</summary>
+
+If you blindly try to execute the `a.out` program by typing the command [`a.out`](https://en.wikipedia.org/wiki/A.out), then you will likely encounter some sort of `Unknown command` error.
+
+As others on [this thread](https://stackoverflow.com/q/23024016/5209533) have noted, this problem is more of a shell-related problem than a C problem. See the [top answer](https://stackoverflow.com/a/23024147/5209533) for more details &#8212; the short version is that you should type the command `./a.out` in the same directory as `a.out` (this tells the shell to look for `a.out` in the *current directory*).
+
+</details>
+
 Now for some explanations about the program itself:
 
-<div align='center'>
+<div align='center' className='centeredImageDiv'>
   <img width='800px' src={require('@site/static/img/books/c-programming-language/c1-first-c-program.png').default} />
 </div>
 
@@ -465,7 +507,7 @@ The statements of a function are enclosed in braces `{ }`. The function `main`
 contains only one statement:
 
 ```c
-printf( "hello, world\n");
+printf("hello, world\n");
 ```
 
 A function is called by naming it, followed by a parenthesized list of arguments,
@@ -484,7 +526,7 @@ advance after the output is printed. You must use `\n` to include a newline
 character in the `printf` argument; if you try something like
 
 ```c
-printf( "hello, world
+printf("hello, world
 ");
 ```
 
@@ -511,9 +553,21 @@ Notice that `\n` represents only a single character. An *escape sequence* like
 `\n` provides a general and extensible mechanism for representing hard-to-type
 or invisible characters. Among the others that C provides are `\t` for tab, `\b`
 for backspace, `\"` for the double quote, and `\\` for the backslash itself. There
-is a complete list in Section 2.3.
+is a complete list in [Section 2.3](/docs/c-programming-language/book-notes/types-operators-expressions#sec-2-3).
 
-## 1.2 - Variables and Arithmetic Expressions
+<details><summary> Exercises</summary>
+
+- [Exercise 1-1](/docs/c-programming-language/exercises-and-solutions/a-tutorial-introduction#exercise-1-1):
+
+  <C1X1 />
+
+- [Exercise 1-2](/docs/c-programming-language/exercises-and-solutions/a-tutorial-introduction#exercise-1-2)
+
+  <C1X2 />
+
+</details>
+
+## 1.2 - Variables and Arithmetic Expressions {#sec-1-2}
 
 The next program uses the formula ${}^\circ C=(5/9)({}^\circ F-32)$ to print the following
 table of Fahrenheit temperatures and their centigrade or Celsius equivalents:
@@ -668,8 +722,8 @@ truncated to zero and so all the Celsius temperatures would be reported as zero.
 
 This example also shows a bit more of how `printf` works. `printf` is a
 general-purpose output formatting function, which we will describe in detail in
-Chapter 7. Its first argument is a string of characters to be printed, with each
-`%` indicating where one of the other (second, third, ...) arguments is to be substituted,
+[Chapter 7](/docs/c-programming-language/book-notes/input-output). Its first argument is a string of characters to be printed, with each
+`%` indicating where one of the other (second, third, ... ) arguments is to be substituted,
 and in what form it is to be printed. For instance, `%d` specifies an integer
 argument, so the statement
 
@@ -691,9 +745,9 @@ of `printf` is defined in the ANSI standard, however, so its properties should b
 the same with any compiler and library that conforms to the standard.
 
 In order to concentrate on C itself, we won't talk much about input and output
-until Chapter 7. In particular, we will defer formatted input until then. If
-you have to input numbers, read the discussion of the function `scanf` in Section
-7.4. `scanf` is like `printf`, except that it reads input instead of writing
+until [Chapter 7](/docs/c-programming-language/book-notes/input-output). In particular, we will defer formatted input until then. If
+you have to input numbers, read the discussion of the function `scanf` in [Section
+7.4](/docs/c-programming-language/book-notes/input-output#sec-7-4). `scanf` is like `printf`, except that it reads input instead of writing
 output.
 
 There are a couple of problems with the temperature conversion program.
@@ -765,7 +819,7 @@ with explicit decimal points even when they have integral values emphasizes
 their floating-point nature for human readers.
 
 The detailed rules for when integers are converted to floating point are in
-Chapter 2. For now, notice that the assignment
+[Chapter 2](/docs/c-programming-language/book-notes/types-operators-expressions). For now, notice that the assignment
 
 ```c
 fahr = lower;
@@ -810,7 +864,19 @@ the number as floating point.
 Among others, `printf` also recognizes `%o` for octal, `%x` for hexadecimal, `%c` for
 character, `%s` for character string, and `%%` for `%` itself.
 
-## 1.3 - The For Statement 
+<details><summary> Exercises</summary>
+
+- [Exercise 1-3](/docs/c-programming-language/exercises-and-solutions/a-tutorial-introduction#exercise-1-3):
+
+  <C1X3 />
+
+- [Exercise 1-4](/docs/c-programming-language/exercises-and-solutions/a-tutorial-introduction#exercise-1-4):
+
+  <C1X4 />
+
+</details>
+
+## 1.3 - The For Statement {#sec-1-3}
 
 There are plenty of different ways to write a program for a particular task.
 Let's try a variation on the temperature converter.
@@ -857,7 +923,7 @@ fahr <= 300
 ```
 
 This condition is evaluated; if it is true, the body of the loop (here a single
-printf) is executed. Then the increment step
+`printf`) is executed. Then the increment step
 
 ```c
 fahr = fahr + 20
@@ -873,7 +939,13 @@ clearer. The `for` is usually appropriate for loops in which the initialization 
 increment are single statements and logically related, since it is more compact
 than `while` and it keeps the loop control statements together in one place.
 
-## 1.4 - Symbolic Constants
+<details><summary> Exercises</summary>
+
+- [Exercise 1-5](/docs/c-programming-language/exercises-and-solutions/a-tutorial-introduction#exercise-1-5)
+
+</details>
+
+## 1.4 - Symbolic Constants {#sec-1-4}
 
 A final observation before we leave temperature conversion forever. It's bad
 practice to bury "magic numbers" like 300 and 20 in a program; they convey
@@ -915,7 +987,7 @@ written in upper case so they can be readily distinguished from lower case
 variable names. Notice that there is no semicolon at the end of a `#define`
 line.
 
-## 1.5 - Character Input and Output
+## 1.5 - Character Input and Output {#sec-1-5}
 
 We are now going to consider a family of related programs for processing
 character data. You will find that many programs are just expanded versions of
@@ -923,7 +995,7 @@ the prototypes that we discuss here.
 
 The model of input and output supported by the standard library is very simple.
 Text input or output, regardless of where it originates or where it goes to,
-is dealt with as streams of characters. A *text stream* is a sequence ofcharacters
+is dealt with as streams of characters. A *text stream* is a sequence of characters
 divided into lines; each line consists of zero or more characters followed by
 a newline character. It is the responsibility of the library to make each input or
 output stream conform to this model; the C programmer using the library need
@@ -939,7 +1011,7 @@ c = getchar()
 ```
 
 the variable `c` contains the next character of input. The characters normally
-come from the keyboard; input from files is discussed in Chapter 7.
+come from the keyboard; input from files is discussed in [Chapter 7](/docs/c-programming-language/book-notes/input-output).
 
 The function `putchar` prints a character each time it is called:
 
@@ -951,7 +1023,7 @@ prints the contents of the integer variable `c` as a character, usually on the
 screen. Calls to `putchar` and `printf` may be interleaved; the output will
 appear in the order in which the calls are made.
 
-### 1.5.1 - File Copying
+### 1.5.1 - File Copying {#sec-1-5-1}
 
 Given `getchar` and `putchar`, you can write a surprising amount of useful
 code without knowing anything more about input and output. The simplest
@@ -1053,9 +1125,16 @@ c = (getchar() != EOF)
 ```
 
 This has the undesired effect of setting `c` to `0` or `1`, depending on whether or not
-the call of `getchar` encountered end of file. (More on this in Chapter 2.)
+the call of `getchar` encountered end of file. (More on this in [Chapter 2](/docs/c-programming-language/book-notes/types-operators-expressions).)
 
-### 1.5.2 - Character Counting
+<details><summary> Exercises</summary>
+
+- [Exercise 1-6](/docs/c-programming-language/exercises-and-solutions/a-tutorial-introduction#exercise-1-6)
+- [Exercise 1-7](/docs/c-programming-language/exercises-and-solutions/a-tutorial-introduction#exercise-1-7)
+
+</details>
+
+### 1.5.2 - Character Counting {#sec-1-5-2}
 
 The next program counts characters; it is similar to the copy program.
 
@@ -1084,7 +1163,7 @@ presents a new operator, `++`, which means *increment by one*. You could instead
 write `nc = nc + 1` but `++nc` is more concise and often more efficient. There is a
 corresponding operator `--` to decrement by `1`. The operators `++` and `--` can be
 either prefix operators (`++nc`) or postfix (`nc++`); these two forms have different
-values in expressions, as will be shown in Chapter 2, but `++nc` and `nc++`
+values in expressions, as will be shown in [Chapter 2](/docs/c-programming-language/book-notes/types-operators-expressions), but `++nc` and `nc++`
 both increment `nc`. For the moment we will stick to the prefix form.
 
 The character counting program accumulates its count in a `long` variable
@@ -1112,7 +1191,7 @@ main()
 }
 ```
 
-`printf` uses `%f` for both `float` and `double; %.0f` suppresses printing of the
+`printf` uses `%f` for both `float` and `double`; `%.0f` suppresses printing of the
 decimal point and the fraction part, which is zero.
 
 The body of this `for` loop is empty, because all of the work is done in the
@@ -1129,7 +1208,7 @@ even if that means never going through the loop body. Programs should act
 intelligently when given zero-length input. The `while` and `for` statements
 help ensure that programs do reasonable things with boundary conditions.
 
-### 1.5.3 - Line Counting
+### 1.5.3 - Line Counting {#sec-1-5-3}
 
 The next program counts input lines. As we mentioned above, the standard
 library ensures that an input text stream appears as a sequence of lines, each
@@ -1159,7 +1238,7 @@ follows. We have again indented to show what is controlled by what.
 The double equals sign `==` is the C notation for "is equal to" (like Pascal's
 single `=` or Fortran's `.EQ.`). This symbol is used to distinguish the equality test
 from the single `=` that C uses for assignment. A word of caution: newcomers to
-C occasionally write `=` when they mean `==`. As we will see in Chapter 2, the
+C occasionally write `=` when they mean `==`. As we will see in [Chapter 2](/docs/c-programming-language/book-notes/types-operators-expressions), the
 result is usually a legal expression, so you will get no warning.
 
 A character written between single quotes represents an integer value equal
@@ -1175,9 +1254,25 @@ constants, so `'\n'` stands for the value of the newline character, which is `10
 ASCII. You should note carefully that `'\n'` is a single character, and in
 expressions is just an integer; on the other hand, `"\n"` is a string constant that
 happens to contain only one character. The topic of strings versus characters is
-discussed further in Chapter 2.
+discussed further in [Chapter 2](/docs/c-programming-language/book-notes/types-operators-expressions).
 
-### 1.5.4 - Word Counting
+<details><summary> Exercises</summary>
+
+- [Exercise 1-8](/docs/c-programming-language/exercises-and-solutions/a-tutorial-introduction#exercise-1-8):
+
+  <C1X8 />
+
+- [Exercise 1-9](/docs/c-programming-language/exercises-and-solutions/a-tutorial-introduction#exercise-1-9):
+
+  <C1X9 />
+
+- [Exercise 1-10](/docs/c-programming-language/exercises-and-solutions/a-tutorial-introduction#exercise-1-10):
+
+  <C1X10 />
+
+</details>
+
+### 1.5.4 - Word Counting {#sec-1-5-4}
 
 The fourth in our series of useful programs counts lines, words, and characters,
 with the loose definition that a word is any sequence of characters that
@@ -1268,7 +1363,19 @@ executed. Each *statement* can be a single statement or several in braces. In th
 word count program, the one after the `else` is an `if` that controls two statements
 in braces.
 
-## 1.6 - Arrays
+<details><summary> Exercises</summary>
+
+- [Exercise 1-11](/docs/c-programming-language/exercises-and-solutions/a-tutorial-introduction#exercise-1-11):
+
+  <C1X11 />
+
+- [Exercise 1-12](/docs/c-programming-language/exercises-and-solutions/a-tutorial-introduction#exercise-1-12):
+
+  <C1X12 />
+
+</details>
+
+## 1.6 - Arrays {#sec-1-6}
 
 Let us write a program to count the number of occurrences of each digit, of
 white space characters (blank, tab, newline), and of all other characters. This
@@ -1343,7 +1450,7 @@ c - '0'
 This works only if `'0', '1', ... , '9'` have consecutive increasing values. Fortunately,
 this is true for all character sets.
 
-By definition, `chars` are just small integers, so `char` variables and constants
+By definition, `char`s are just small integers, so `char` variables and constants
 are identical to `int`s in arithmetic expressions. This is natural and convenient;
 for example, `c-'0'` is an integer expression with a value between `0` and `9`
 corresponding to the character `'0'` to `'9'` stored in `c`, and is thus a valid subscript
@@ -1379,7 +1486,7 @@ occurs frequently in programs as a way to express a multi-way decision. The
 at that point the corresponding *statement* part is executed, and the entire construction
 is finished. (Any *statement* can be several statements enclosed in
 braces.) If none of the conditions is satisfied, the *statement* after the final
-`else` is executed if it is present. If the final `else` and statement are omitted,
+`else` is executed if it is present. If the final `else` and *statement* are omitted,
 as in the word count program, no action takes place. There can be any number
 of
 
@@ -1394,12 +1501,24 @@ As a matter of style, it is advisable to format this construction as we have
 shown; if each `if` were indented past the previous `else`, a long sequence of
 decisions would march off the right side of the page.
 
-The `switch` statement, to be discussed in Chapter 3, provides another way
+The `switch` statement, to be discussed in [Chapter 3](/docs/c-programming-language/book-notes/control-flow), provides another way
 to write a multi-way branch that is particularly suitable when the condition is
 whether some integer or character expression matches one of a set of constants.
-For contrast, we will present a `switch` version of this program in Section 3.4.
+For contrast, we will present a `switch` version of this program in [Section 3.4](/docs/c-programming-language/book-notes/control-flow#sec-3-4).
 
-## 1.7 - Functions 
+<details><summary> Exercises</summary>
+
+- [Exercise 1-13](/docs/c-programming-language/exercises-and-solutions/a-tutorial-introduction#exercise-1-13):
+
+  <C1X13 />
+
+- [Exercise 1-14](/docs/c-programming-language/exercises-and-solutions/a-tutorial-introduction#exercise-1-14):
+
+  <C1X14 />
+
+</details>
+
+## 1.7 - Functions {#sec-1-7}
 
 In C, a function is equivalent to a subroutine or function in Fortran, or a
 procedure or function in Pascal. A function provides a convenient way to
@@ -1432,7 +1551,7 @@ main()
   int i;
 
   for (i = 0; i < 10; ++i)
-    printf("%d %d %d\n", i, power(2, i) power(-3, i));
+    printf("%d %d %d\n", i, power(2, i), power(-3, i));
   return 0;
 }
 
@@ -1475,7 +1594,7 @@ printf("%d %d %d\n", i, power(2, i), power(-3, i));
 Each call passes two arguments to `power`, which each time returns an integer
 to be formatted and printed. In an expression, `power(2, i)` is an integer just
 as `2` and `i` are. (Not all functions produce an integer value; we will take this
-up in Chapter 4.)
+up in [Chapter 4](/docs/c-programming-language/book-notes/functions-program-structures).)
 
 The first line of `power` itself,
 
@@ -1576,7 +1695,15 @@ declaration and definition still works in ANSI C, at least for a transition peri
 but we strongly recommend that you use the new form when you have a compiler
 that supports it.
 
-## 1.8 - Arguments (Call by Value)
+<details><summary> Exercises</summary>
+
+- [Exercise 1-15](/docs/c-programming-language/exercises-and-solutions/a-tutorial-introduction#exercise-1-15):
+
+  <C1X15 />
+
+</details>
+
+## 1.8 - Arguments (Call by Value) {#sec-1-8}
 
 One aspect of C functions may be unfamiliar to programmers who are used
 to some other languages, particularly Fortran. In C, all function arguments are
@@ -1615,7 +1742,7 @@ When necessary, it is possible to arrange for a function to modify a variable
 in a calling routine. The caller must provide the *address* of the variable to be
 set (technically a *pointer* to the variable), and the called function must declare
 the parameter to be a pointer and access the variable indirectly through it. We
-will cover pointers in Chapter 5.
+will cover pointers in [Chapter 5](/docs/c-programming-language/book-notes/pointers-arrays).
 
 The story is different for arrays. When the name of an array is used as an
 argument, the value passed to the function is the location or address of the
@@ -1623,7 +1750,7 @@ beginning of the array &#8212; there is no copying of array elements. By subscri
 this value, the function can access and alter any element of the array. This is
 the topic of the next section.
 
-## 1.9 - Character Arrays
+## 1.9 - Character Arrays {#sec-1-9}
 
 The most common type of array in C is the array of characters. To illustrate
 the use of character arrays and functions to manipulate them, let's write a
@@ -1647,7 +1774,7 @@ Accordingly, let us first write a separate function `getline` to fetch the next
 line of input. We will try to make the function useful in other contexts. At the
 minimum, `getline` has to return a signal about possible end of file; a more
 useful design would be to return the length of the line, or zero if end of file is
-encountered. Zerois an acceptable end-of-file return because it is never a valid
+encountered. Zero is an acceptable end-of-file return because it is never a valid
 line length. Every text line has at least one character; even a line containing
 only a newline has length `1`.
 
@@ -1764,7 +1891,27 @@ input line might be, so `getline` checks for overflow. On the other hand, the
 user of `copy` already knows (or can find out) how big the strings are, so we
 have chosen not to add error checking to it.
 
-## 1.10 - External Variables and Scope
+<details><summary> Exercises</summary>
+
+- [Exercise 1-16](/docs/c-programming-language/exercises-and-solutions/a-tutorial-introduction#exercise-1-16):
+
+  <C1X16 />
+
+- [Exercise 1-17](/docs/c-programming-language/exercises-and-solutions/a-tutorial-introduction#exercise-1-17):
+
+  <C1X17 />
+
+- [Exercise 1-18](/docs/c-programming-language/exercises-and-solutions/a-tutorial-introduction#exercise-1-18):
+
+  <C1X18 />
+
+- [Exercise 1-19](/docs/c-programming-language/exercises-and-solutions/a-tutorial-introduction#exercise-1-19):
+
+  <C1X19 />
+
+</details>
+
+## 1.10 - External Variables and Scope {#sec-1-10}
 
 The variables in `main`, such as `line`, `longest`, etc., are private or local to
 `main`. Because they are declared within `main`, no other function can have
@@ -1774,7 +1921,7 @@ variable in a function comes into existence only when the function is called, an
 disappears when the function is exited. This is why such variables are usually
 known as *automatic* variables, following terminology in other languages. We
 will use the term automatic henceforth to refer to these local variables.
-(Chapter 4 discusses the static storage class, in which local variables do
+([Chapter 4](/docs/c-programming-language/book-notes/functions-program-structures) discusses the static storage class, in which local variables do
 retain their values between calls.)
 
 Because automatic variables come and go with function invocation, they do
@@ -1882,15 +2029,14 @@ and used in *file2* and *file3*, then `extern` declarations are needed in *file2
 called a *header*, that is included by `#include` at the front of each source file.
 The suffix `.h` is conventional for header names. The functions of the standard
 library, for example, are declared in headers like `<stdio.h>`. This topic is
-discussed at length in Chapter 4, and the library itself in Chapter 7 and Appendix
-B.
+discussed at length in [Chapter 4](/docs/c-programming-language/book-notes/functions-program-structures), and the library itself in [Chapter 7](/docs/c-programming-language/book-notes/input-output) and [Appendix B](/docs/c-programming-language/book-notes/appendix-b-standard-library).
 
 Since the specialized versions of `getline` and `copy` have no arguments,
 logic would suggest that their prototypes at the beginning of the file should be
 `getline()` and `copy()`. But for compatibility with older C programs the
 standard takes an empty list as an old-style declaration, and turns off all argument
 list checking; the word `void` must be used for an explicitly empty list.
-We will discuss this further in Chapter 4.
+We will discuss this further in [Chapter 4](/docs/c-programming-language/book-notes/functions-program-structures).
 
 You should note that we are using the words *definition* and *declaration* carefully
 when we refer to external variables in this section. "Definition" refers to
@@ -1913,3 +2059,137 @@ C. With this handful of building blocks, it's possible to write useful programs
 of considerable size, and it would probably be a good idea if you paused long
 enough to do so. These exercises suggest programs of somewhat greater complexity
 than the ones earlier in this chapter.
+
+<details><summary> Exercises</summary>
+
+- [Exercise 1-20](/docs/c-programming-language/exercises-and-solutions/a-tutorial-introduction#exercise-1-20):
+
+  <C1X20 />
+
+- [Exercise 1-21](/docs/c-programming-language/exercises-and-solutions/a-tutorial-introduction#exercise-1-21):
+
+  <C1X21 />
+
+- [Exercise 1-22](/docs/c-programming-language/exercises-and-solutions/a-tutorial-introduction#exercise-1-22):
+
+  <C1X22 />
+
+- [Exercise 1-23](/docs/c-programming-language/exercises-and-solutions/a-tutorial-introduction#exercise-1-23):
+
+  <C1X23 />
+
+- [Exercise 1-24](/docs/c-programming-language/exercises-and-solutions/a-tutorial-introduction#exercise-1-24):
+
+  <C1X24 />
+
+</details>
+
+## Questions
+
+<details><summary> Machine-dependent object sizes</summary>
+
+<Tabs>
+<TabItem value='q' label='Question'>
+
+> The range of both `int` and `float` depends on the machine you are using [...]. [...] The sizes of these objects [i.e., `char`, `short`, `long`, `double`] are also machine-dependent.
+
+What are the practical consequences of this, if any?
+
+</TabItem>
+<TabItem value='a' label='Answer'>
+
+TBD
+
+</TabItem>
+</Tabs>
+
+</details>
+
+<details><summary> Type coercion of symbolic constants</summary>
+
+<Tabs>
+<TabItem value='q' label='Question'>
+
+Something like
+
+```c
+#define UPPER 300
+```
+
+defines the `UPPER` symbolic constant as `300`. But what *is* `300` and how is it treated in different contexts (e.g., comparison with other integers, floats, strings, etc.)?
+
+</TabItem>
+<TabItem value='a' label='Answer'>
+
+TBD
+
+</TabItem>
+</Tabs>
+
+</details>
+
+<details><summary> Function prototypes</summary>
+
+<Tabs>
+<TabItem value='q' label='Question'>
+
+The following example of the `power` function is given earlier in this chapter:
+
+```c
+#include <stdio.h>
+
+// highlight-next-line
+int power(int m, int n);
+
+/* test power function */
+main()
+{
+  int i;
+
+  for (i = 0; i < 10; ++i)
+    printf("%d %d %d\n", i, power(2, i), power(-3, i));
+  return 0;
+}
+
+/* power: raise base to n-th power; n >= 0 */
+int power(int base, int n)
+{
+  int i, p;
+
+  p = 1;
+  for (i = 1; i <= n; i++)
+    p = p * base;
+  return p;
+}
+```
+
+The highlighted declaration above is the *function prototype* for `power` &#8212; what is the importance of this? It seems like a function definition itself should be enough. Is it important for function prototypes to appear before `main`?
+
+> It is an error if the definition of a function or any uses of it do not agree with its prototype.
+
+Why does a function's prototype need to be declared in addition to its definition?
+
+</TabItem>
+<TabItem value='a' label='Answer'>
+
+TBD
+
+</TabItem>
+</Tabs>
+
+</details>
+
+## Quick takeaways
+
+- **Comments:** Comments may appear anywhere a blank or tab or newline can.
+- **`while` loop syntax:** The body of a `while` can be one or more statements enclosed in braces, as in the temperature converter, or a single statement without braces.
+- **Truncated integer division:** In C, as in many other languages, integer division truncates: any fractional part is discarded.
+- **`printf` arguments and types:** Each `%` construction in the first argument of `printf` is paired with the corresponding second argument, third argument, etc.; they must match up properly by number and type, or you'll get wrong answers.
+- **Use of expressions for values:** In any context where it is permissible to use the value of a variable of some type, you can use a more complicated expression of that type.
+- **`for` loop syntax:** As with the `while`, the body of the loop can be a single statement, or a group of statements enclosed in braces. The initialization, condition, and increment can be any expressions.
+- **Text streams:** Text input or output, regardless of where it originates or where it goes to, is dealt with as streams of characters. A *text stream* is a sequence of characters divided into lines; each line consists of zero or more characters followed by a newline character.
+- **Using assignments as values:** In C, any assignment, such as `c = getchar()`, is an expression and has a value, which is the value of the left hand side after the assignment. This means that an assignment can appear as part of a larger expression. If you use this pattern to make comparisons, then make sure you wrap the assignment in parentheses; for example, write `(c = getchar()) != EOF` instead of `c = getchar() != EOF`. The reason is that `!=` has higher precedence than `=`, which means `c = getchar() != EOF` would be equivalent to writing `c = (getchar() != EOF)`. In general, wrapping assignments in parentheses makes it unambiguous what you are trying to do.
+- **`printf` syntax for floats and doubles:** `printf` uses `%f` for both `float` and `double`
+- **Null statements in loops:** The grammatical rules of C require that a `for` statement have a body. An isolated semicolon, called a *null statement*, is there to satisfy that requirement. You will often see it on a separate line for the sake of visibility.
+- **Assignments have values (multiple assignments on one line):** The line `nl = nw = nc = 0;` sets all three variables to zero. This is not a special case, but a consequence of the fact that an assignment is an expression with a value and assignments associate from right to left. It's as if we had written `nl = (nw = (nc = 0));`.
+- **External variables:** Syntactically, external definitions are just like definitions of local variables, but since they occur outside of functions, the variables are external. Before a function can use an external variable, the name of the variable must be made known to the function. One way to do this is to write an `extern` declaration in the function; the declaration is the same as before except for the added keyword `extern`.

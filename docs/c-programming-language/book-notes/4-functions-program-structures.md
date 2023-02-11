@@ -16,6 +16,21 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import BibRef from '@site/src/components/BibRef';
 
+import C4X1 from '@site/docs/_partials/krc/c4ex1.md';
+import C4X2 from '@site/docs/_partials/krc/c4ex2.md';
+import C4X3 from '@site/docs/_partials/krc/c4ex3.md';
+import C4X4 from '@site/docs/_partials/krc/c4ex4.md';
+import C4X5 from '@site/docs/_partials/krc/c4ex5.md';
+import C4X6 from '@site/docs/_partials/krc/c4ex6.md';
+import C4X7 from '@site/docs/_partials/krc/c4ex7.md';
+import C4X8 from '@site/docs/_partials/krc/c4ex8.md';
+import C4X9 from '@site/docs/_partials/krc/c4ex9.md';
+import C4X10 from '@site/docs/_partials/krc/c4ex10.md';
+import C4X11 from '@site/docs/_partials/krc/c4ex11.md';
+import C4X12 from '@site/docs/_partials/krc/c4ex12.md';
+import C4X13 from '@site/docs/_partials/krc/c4ex13.md';
+import C4X14 from '@site/docs/_partials/krc/c4ex14.md';
+
 Functions break large computing tasks into smaller ones, and enable people
 to build on what others have done instead of starting over from scratch.
 Appropriate functions hide details of operation from parts of the program that
@@ -46,7 +61,7 @@ include a more complete set of conditional compilation directives, a way to
 create quoted strings from macro arguments, and better control over the macro
 expansion process.
 
-## 4.1 - Basics of Functions 
+## 4.1 - Basics of Functions {#sec-4-1}
 
 To begin, let us design and write a program to print each line of its input
 that contains a particular "pattern" or string of characters. (This is a special
@@ -226,7 +241,15 @@ cc main.c getline.o strindex.o
 The `cc` command uses the "`.c`" versus "`.o`" naming convention to distinguish
 source files from object files.
 
-## 4.2 - Functions Returning Non-integers
+<details><summary> Exercises</summary>
+
+- [Exercise 4-1](/docs/c-programming-language/exercises-and-solutions/functions-program-structures#exercise-4-1):
+
+  <C4X1 />
+
+</details>
+
+## 4.2 - Functions Returning Non-integers {#sec-4-2}
 
 So far our examples of functions have returned either no value (`void`) or an
 `int`. What if a function must return some other type? Many numerical functions
@@ -363,7 +386,15 @@ does potentially discard information, however, so some compilers warn of it.
 The cast states explicitly that the operation is intended, and suppresses any
 warning.
 
-## 4.3 - External Variables
+<details><summary> Exercises</summary>
+
+- [Exercise 4-2](/docs/c-programming-language/exercises-and-solutions/functions-program-structures#exercise-4-2):
+
+  <C4X2 />
+
+</details>
+
+## 4.3 - External Variables {#sec-4-3}
 
 A C program consists of a set of external objects, which are either variables
 or functions. The adjective "external" is used in contrast to "internal," which
@@ -666,7 +697,43 @@ The standard library includes a function `ungetc` that provides one character of
 push back; we will discuss it in Chapter 7. We have used an array for the pushback,
 rather than a single character, to illustrate a more general approach.
 
-## 4.4 - Scope Rules
+<details><summary> Exercises</summary>
+
+- [Exercise 4-3](/docs/c-programming-language/exercises-and-solutions/functions-program-structures#exercise-4-3):
+
+  <C4X3 />
+
+- [Exercise 4-4](/docs/c-programming-language/exercises-and-solutions/functions-program-structures#exercise-4-4):
+
+  <C4X4 />
+
+- [Exercise 4-5](/docs/c-programming-language/exercises-and-solutions/functions-program-structures#exercise-4-5):
+
+  <C4X5 />
+
+- [Exercise 4-6](/docs/c-programming-language/exercises-and-solutions/functions-program-structures#exercise-4-6):
+
+  <C4X6 />
+
+- [Exercise 4-7](/docs/c-programming-language/exercises-and-solutions/functions-program-structures#exercise-4-7):
+
+  <C4X7 />
+
+- [Exercise 4-8](/docs/c-programming-language/exercises-and-solutions/functions-program-structures#exercise-4-8):
+
+  <C4X8 />
+
+- [Exercise 4-9](/docs/c-programming-language/exercises-and-solutions/functions-program-structures#exercise-4-9):
+
+  <C4X9 />
+
+- [Exercise 4-10](/docs/c-programming-language/exercises-and-solutions/functions-program-structures#exercise-4-10):
+
+  <C4X10 />
+
+</details>
+
+## 4.4 - Scope Rules {#sec-4-4}
 
 The functions and external variables that make up a C program need not all
 be compiled at the same time; the source text of the program may be kept in
@@ -763,7 +830,7 @@ definitions, they apply to all functions; one set of declarations suffices for a
 *file1*. This same organization would also be needed if the definitions of `sp` and
 `val` followed their use in one file.
 
-## 4.5 - Header Files 
+## 4.5 - Header Files {#sec-4-5}
 
 Let us now consider dividing the calculator program into several source files,
 as it might be if each of the components were substantially bigger. The `main`
@@ -791,7 +858,7 @@ best to have one header file that contains everything that is to be shared
 between any two parts of the program; that is the decision we made here. For a
 much larger program, more organization and more headers would be needed.
 
-## 4.6 - Static Variables
+## 4.6 - Static Variables {#sec-4-6}
 
 The variables `sp` and `val` in `stack.c`, and `buf` and `bufp` in `getch.c`,
 are for the private use of the functions in their respective source files, and are
@@ -831,7 +898,15 @@ are, but unlike automatics, they remain in existence rather than coming and
 going each time the function is activated. This means that internal `static`
 variables provide private, permanent storage within a single function.
 
-## 4.7 - Register Variables
+<details><summary> Exercises</summary>
+
+- [Exercise 4-11](/docs/c-programming-language/exercises-and-solutions/functions-program-structures#exercise-4-11):
+
+  <C4X11 />
+
+</details>
+
+## 4.7 - Register Variables {#sec-4-7}
 
 A `register` declaration advises the compiler that the variable in question
 will be heavily used. The idea is that `register` variables are to be placed in
@@ -866,7 +941,7 @@ topic to be covered in Chapter 5), regardless of whether the variable is actuall
 placed in a register. The specific restrictions on number and types of register
 variables vary from machine to machine.
 
-## 4.8 - Block Structure
+## 4.8 - Block Structure {#sec-4-8}
 
 C is not a block-structured language in the sense of Pascal or similar
 languages, because functions may not be defined within other functions. On the
@@ -912,7 +987,7 @@ variable `y`.
 As a matter of style, it's best to avoid variable names that conceal names in
 an outer scope; the potential for confusion and error is too great.
 
-## 4.9 - Initialization
+## 4.9 - Initialization {#sec-4-9}
 
 Initialization has been mentioned in passing many times so far, but always
 peripherally to some other topic. This section summarizes some of the rules,
@@ -997,7 +1072,7 @@ char pattern[] = { 'o', 'u', 'l', 'd', '\0' };
 
 In this case, the array size is five (four characters plus the terminating `'\0'`).
 
-## 4.10 - Recursion
+## 4.10 - Recursion {#sec-4-10}
 
 C functions may be used recursively; that is, a function may call itself either
 directly or indirectly. Consider printing a number as a character string. As we
@@ -1088,7 +1163,19 @@ code is more compact, and often much easier to write and understand than the
 non-recursive equivalent. Recursion is especially convenient for recursively
 defined data structures like trees; we will see a nice example in Section 6.5.
 
-## 4.11 - The C Preprocessor
+<details><summary> Exercises</summary>
+
+- [Exercise 4-12](/docs/c-programming-language/exercises-and-solutions/functions-program-structures#exercise-4-12):
+
+  <C4X12 />
+
+- [Exercise 4-13](/docs/c-programming-language/exercises-and-solutions/functions-program-structures#exercise-4-13):
+
+  <C4X13 />
+
+</details>
+
+## 4.11 - The C Preprocessor {#sec-4-11}
 
 C provides certain language facilities by means of a preprocessor, which is
 conceptually a separate first step in compilation. The two most frequently used
@@ -1097,7 +1184,7 @@ and `#define`, to replace a token by an arbitrary sequence of characters. Other
 features described in this section include conditional compilation and macros
 with arguments.
 
-### 4.11.1 - File Inclusion
+### 4.11.1 - File Inclusion {#sec-4-11-1}
 
 File inclusion makes it easy to handle collections of `#defines` and declarations
 (among other things). Any source line of the form
@@ -1130,7 +1217,7 @@ definitions and variable declarations, and thus eliminates a particularly nasty
 kind of bug. Naturally, when an included file is changed, all files that depend
 on it must be recompiled.
 
-### 4.11.1 - Macro Substitution
+### 4.11.2 - Macro Substitution {#sec-4-11-2}
 
 A definition has the form
 
@@ -1261,7 +1348,15 @@ so `paste(name, 1)` creates the token `name 1`.
 The rules for nested uses of `##` are arcane; further details may be found in
 Appendix A.
 
-### 4.11.3 - Conditional Inclusion
+<details><summary> Exercises</summary>
+
+- [Exercise 4-14](/docs/c-programming-language/exercises-and-solutions/functions-program-structures#exercise-4-14):
+
+  <C4X14 />
+
+</details>
+
+### 4.11.3 - Conditional Inclusion {#sec-4-11-3}
 
 It is possible to control preprocessing itself with conditional statements that
 are evaluated during preprocessing. This provides a way to include code selectively,

@@ -16,6 +16,13 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import BibRef from '@site/src/components/BibRef';
 
+import C6X1 from '@site/docs/_partials/krc/c6ex1.md';
+import C6X2 from '@site/docs/_partials/krc/c6ex2.md';
+import C6X3 from '@site/docs/_partials/krc/c6ex3.md';
+import C6X4 from '@site/docs/_partials/krc/c6ex4.md';
+import C6X5 from '@site/docs/_partials/krc/c6ex5.md';
+import C6X6 from '@site/docs/_partials/krc/c6ex6.md';
+
 A structure is a collection of one or more variables, possibly of different
 types, grouped together under a single name for convenient handling. (Structures
 are called "records" in some languages, notably Pascal.) Structures help
@@ -36,7 +43,7 @@ returned by functions. This has been supported by most compilers for many
 years, but the properties are now precisely defined. Automatic structures and
 arrays may now also be initialized.
 
-## 6.1 - Basics of Structures
+## 6.1 - Basics of Structures {#sec-6-1}
 
 Let us create a few structures suitable for graphics. The basic object is a
 point, which we will assume has an $x$ coordinate and a $y$ coordinate, both
@@ -155,7 +162,7 @@ screen.pt1.x
 
 refers to the `x` coordinate of the `pt1` member of `screen`.
 
-## 6.2 - Structures and Functions 
+## 6.2 - Structures and Functions {#sec-6-2}
 
 The only legal operations on a structure are copying it or assigning to it as a
 unit, taking its address with `&`, and accessing its members. Copy and assignment
@@ -329,7 +336,7 @@ increments `str` after accessing whatever it points to (just like `*s++`);
 `(*p->str)++` increments whatever `str` points to; and `*p++->str` increments
 `p` after accessing whatever `str` points to.
 
-## 6.3 - Arrays of Structures
+## 6.3 - Arrays of Structures {#sec-6-3}
 
 Consider writing a program to count the occurrences of each C keyword.
 We need an array of character strings to hold the names, and an array of
@@ -563,7 +570,15 @@ next call. `getword` also uses `isspace` to skip white space, `isalpha` to ident
 letters, and `isalnum` to identify letters and digits; all are from the standard
 header `<ctype.h>`.
 
-## 6.4 - Pointers to Structures
+<details><summary> Exercises</summary>
+
+- [Exercise 6-1](/docs/c-programming-language/exercises-and-solutions/structures#exercise-6-1):
+
+  <C6X1 />
+
+</details>
+
+## 6.4 - Pointers to Structures {#sec-6-4}
 
 To illustrate some of the considerations involved with pointers to and arrays
 of structures, let us write the keyword-counting program again, this time using
@@ -695,7 +710,7 @@ binsearch(char *word, struct key *tab, int n)
 
 This is a matter of personal taste; pick the form you like and hold to it.
 
-## 6.5 - Self-referential Structures
+## 6.5 - Self-referential Structures {#sec-6-5}
 
 Suppose we want to handle the more general problem of counting the
 occurrences of *all* the words in some input. Since the list of words isn't known
@@ -924,7 +939,23 @@ leaving error-handling to its caller.
 Storage obtained by calling `malloc` may be freed for re-use by calling
 `free`; see Chapters 7 and 8.
 
-## 6.6 - Table Lookup
+<details><summary> Exercises</summary>
+
+- [Exercise 6-2](/docs/c-programming-language/exercises-and-solutions/structures#exercise-6-2):
+
+  <C6X2 />
+
+- [Exercise 6-3](/docs/c-programming-language/exercises-and-solutions/structures#exercise-6-3):
+
+  <C6X3 />
+
+- [Exercise 6-4](/docs/c-programming-language/exercises-and-solutions/structures#exercise-6-4):
+
+  <C6X4 />
+
+</details>
+
+## 6.6 - Table Lookup {#sec-6-6}
 
 In this section we will write the innards of a table-lookup package, to illustrate
 more aspects of structures. This code is typical of what might be found in
@@ -1052,7 +1083,19 @@ struct nlist *install(char *name, char *defn)
 }
 ```
 
-## 6.7 - Typedef
+<details><summary> Exercises</summary>
+
+- [Exercise 6-5](/docs/c-programming-language/exercises-and-solutions/structures#exercise-6-5):
+
+  <C6X5 />
+
+- [Exercise 6-6](/docs/c-programming-language/exercises-and-solutions/structures#exercise-6-6):
+
+  <C6X6 />
+
+</details>
+
+## 6.7 - Typedef {#sec-6-7}
 
 C provides a facility called `typedef` for creating new data type names. For
 example, the declaration
@@ -1145,7 +1188,7 @@ The second purpose of `typedef`s is to provide better documentation for a
 program &#8212; a type called `Treeptr` may be easier to understand than one
 declared only as a pointer to a complicated structure.
 
-## 6.8 - Unions
+## 6.8 - Unions {#sec-6-8}
 
 A *union* is a variable that may hold (at different times) objects of different
 types and sizes, with the compiler keeping track of size and alignment requirements.
@@ -1246,7 +1289,7 @@ thus the union `u` described above can only be initialized with an integer value
 The storage allocator in Chapter 8 shows how a union can be used to force a
 variable to be aligned on a particular kind of storage boundary.
 
-## 6.9 - Bit-fields
+## 6.9 - Bit-fields {#sec-6-9}
 
 When storage space is at a premium, it may be necessary to pack several
 objects into a single machine word; one common use is a set of single-bit flags in

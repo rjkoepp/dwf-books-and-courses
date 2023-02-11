@@ -16,7 +16,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import BibRef from '@site/src/components/BibRef';
 
-## A1 - Introduction
+## A1 - Introduction {#sec-a-1}
 
 This manual describes the C language specified by the draft submitted to ANSI on
 31 October, 1988, for approval as "American National Standard for Information
@@ -35,7 +35,7 @@ equivalent to that of the Standard.
 > ANSI Standard C differs from the language defined by the first edition of this
 > book, or from refinements subsequently introduced in various compilers.
 
-## A2 - Lexical Conventions
+## A2 - Lexical Conventions {#sec-a-2}
 
 A program consists of one or more *translation units* stored in files. It is translated
 in several phases, which are described in §A12. The first phases do low-level lexical
@@ -43,7 +43,7 @@ transformations, carry out directives introduced by lines beginning with the `#`
 and perform macro definition and expansion. When the preprocessing of §A12 is complete,
 the program has been reduced to a sequence of tokens.
 
-### A2.1 - Tokens
+### A2.1 - Tokens {#sec-a-2-1}
 
 There are six classes of tokens: identifiers, keywords, constants, string literals, operators,
 and other separators. Blanks, horizontal and vertical tabs, newlines, formfeeds, and
@@ -54,12 +54,12 @@ keywords, and constants.
 If the input stream has been separated into tokens up to a given character, the next
 token is the longest string of characters that could constitute a token.
 
-### A2.2 - Comments 
+### A2.2 - Comments {#sec-a-2-2}
 
 The characters `/*` introduce a comment, which terminates with the characters `*/`.
 Comments do not nest, and they do not occur within string or character literals.
 
-### A2.3 - Identifiers
+### A2.3 - Identifiers {#sec-a-2-3}
 
 An identifier is a sequence of letters and digits. The first character must be a letter;
 the underscore `_` counts as a letter. Upper and lower case letters are different. Identifiers
@@ -69,7 +69,7 @@ include preprocessor macro names and all other names that do not have external
 linkage (§A11.2). Identifiers with external linkage are more restricted: implementations '
 may make as few as the first six characters as significant, and may ignore case distinctions.
 
-### A2.4 - Keywords
+### A2.4 - Keywords {#sec-a-2-4}
 
 The following identifiers are reserved for use as keywords, and may not be used
 otherwise:
@@ -91,7 +91,7 @@ Some implementations also reserve the words `fortran` and `asm`.
 > `enum` and `void` are new since the first edition, but in common use;
 > `entry`, formerly reserved but never used, is no longer reserved.
 
-### A2.5 - Constants
+### A2.5 - Constants {#sec-a-2-5}
 
 There are several kinds of constants. Each has a data type; §A4.2 discusses the basic
 types.
@@ -104,7 +104,7 @@ constant:
     enumeration-constant
 ```
 
-#### A2.5.1 - Integer Constants
+#### A2.5.1 - Integer Constants {#sec-a-2-5-1}
 
 An integer constant consisting of a sequence of digits is taken to be octal if it begins
 with `0` (digit zero), decimal otherwise. Octal constants do not contain the digits `8` or `9`.
@@ -126,7 +126,7 @@ unsuffixed octal or hexadecimal, it has the first possible of these types: `int`
 > first edition, which merely caused large integer constants to be `long`. The `U`
 > suffixes are new.
 
-#### A2.5.2 - Character Constants
+#### A2.5.2 - Character Constants {#sec-a-2-5-2}
 
 A character constant is a sequence of one or more characters enclosed in single
 quotes, as in `'x'`. The value of a character constant with only one character is the
@@ -169,7 +169,7 @@ undefined if the specified value exceeds that representable with `wchar_t`.
 > `char` type; the main intent in adding `wchar_t` was to accommodate Asian
 > languages.
 
-#### 2.5.3 - Floating Constants
+#### 2.5.3 - Floating Constants {#sec-a-2-5-3}
 
 A floating constant consists of an integer part, a decimal point, a fraction part, an `e`
 or `E`, an optionally signed integer exponent and an optional type suffix, one of `f`, `F`, `l`, or
@@ -180,11 +180,11 @@ and the exponent (not both) may be missing. The type is determined by the suffix
 
 > Suffixes on floating constants are new.
 
-#### 2.5.4 - Enumeration Constants
+#### 2.5.4 - Enumeration Constants {#sec-a-2-5-4}
 
 Identifiers declared as enumerators (see §A8.4) are constants of type `int`.
 
-### 2.6 - String Literals
+### 2.6 - String Literals {#sec-a-2-6}
 
 A string literal, also called a string constant, is a sequence of characters surrounded
 by double quotes, as in `"..."`. A string has type "array of characters" and storage
@@ -205,7 +205,7 @@ with a preceding `L`, as in `L"..."`. Wide-character string literals have type "
 > against modifying them, are new in the ANSI standard, as is the concatenation
 > of adjacent string literals. Wide-character string literals are new.
 
-## A3 - Syntax Notation
+## A3 - Syntax Notation {#sec-a-3}
 
 In the syntax notation used in this manual, syntactic categories are indicated by
 `<angled>` type, and literal words and characters in `typewriter` style. Alternative
@@ -222,7 +222,7 @@ means an optional expression, enclosed in braces. The syntax is summarized in §
 > Unlike the grammar given in the first edition of this book, the one given here
 > makes precedence and associativity of expression operators explicit.
 
-## A4 - Meaning of Identifiers
+## A4 - Meaning of Identifiers {#sec-a-4}
 
 Identifiers, or names, refer to a variety of things: functions; tags of structures,
 unions, and enumerations; members of structures or unions; enumeration constants;
@@ -234,7 +234,7 @@ A name also has a scope, which is the region of the program in which it is known
 linkage, which determines whether the same name in another scope refers to the same
 object or function. Scope and linkage are discussed in §A11.
 
-### A4.1 - Storage Class 
+### A4.1 - Storage Class  {#sec-a-4-1}
 
 There are two storage classes: automatic and static. Several keywords, together with
 the context of an object's declaration, specify its storage class. Automatic objects are
@@ -252,7 +252,7 @@ unit by use of the `static` keyword; this gives them *internal linkage*. They be
 to an entire program by omitting an explicit storage class, or by using the keyword
 `extern`; this gives them *external linkage*.
 
-### A4.2 - Basic Types
+### A4.2 - Basic Types {#sec-a-4-2}
 
 There are several fundamental types. The standard header `<limits.h>` described
 in Appendix B defines the largest and smallest values of each type in the local implementation.
@@ -305,7 +305,7 @@ also enumeration types, will collectively be called *integral* types. The types 
 The `void` type specifies an empty set of values. It is used as the type returned by
 functions that generate no value.
 
-### A4.3 - Derived Types
+### A4.3 - Derived Types {#sec-a-4-3}
 
 Besides the basic types, there is a conceptually infinite class of derived types constructed
 from the fundamental types in the following ways:
@@ -318,14 +318,14 @@ from the fundamental types in the following ways:
 
 In general these methods of constructing objects can be applied recursively.
 
-### A4.4 - Type Qualifiers
+### A4.4 - Type Qualifiers {#sec-a-4-4}
 
 An object's type may have additional qualifiers. Declaring an object const
 announces that its value will not be changed; declaring it `volatile` announces that it
 has special properties relevant to optimization. Neither qualifier affects the range of
 values or arithmetic properties of the object. Qualifiers are discussed in §A8.2.
 
-## A5 - Objects and Lvalues
+## A5 - Objects and Lvalues {#sec-a-5}
 
 An *object* is a named region of storage; an `lvalue` is an expression referring to an
 object. An obvious example of an lvalue expression is an identifier with suitable type
@@ -335,14 +335,14 @@ points. The name "lvalue" comes from the assignment expression `E1 = E2` in whic
 the left operand `E1` must be an lvalue expression. The discussion of each operator specifies
 whether it expects lvalue operands and whether it yields an lvalue.
 
-## A6 - Conversions
+## A6 - Conversions {#sec-a-6}
 
 Some operators may, depending on their operands, cause conversion of the value of
 an operand from one type to another. This section explains the result to be expected
 from such conversions. §A6.5 summarizes the conversions demanded by most ordinary
 operators; it will be supplemented as required by the discussion of each operator.
 
-### A6.1 - Integral Promotion
+### A6.1 - Integral Promotion {#sec-a-6-1}
 
 A character, a short integer, or an integer bit-field, all either signed or not, or an
 object of enumeration type, may be used in an expression wherever an integer may be
@@ -350,7 +350,7 @@ used. If an `int` can represent all the values of the original type, then the va
 to `int`; otherwise the value is converted to `unsigned int`. This process is
 called *integral promotion*.
 
-### A6.2 - Integral Conversions
+### A6.2 - Integral Conversions {#sec-a-6-2}
 
 Any integer is converted to a given unsigned type by finding the smallest nonnegative
 value that is congruent to that integer, modulo one more than the largest value
@@ -362,7 +362,7 @@ wider.
 When any integer is converted to a signed type, the value is unchanged if it can be
 represented in the new type and is implementation-defined otherwise.
 
-### A6.3 - Integer and Floating
+### A6.3 - Integer and Floating {#sec-a-6-3}
 
 When a value of floating type is converted to integral type, the fractional part is discarded;
 if the resulting value cannot be represented in the integral type, the behavior is
@@ -374,7 +374,7 @@ representable range but is not exactly representable, then the result may be eit
 next higher or next lower representable value. If the result is out of range, the behavior
 is undefined.
 
-### A6.4 - Floating Types
+### A6.4 - Floating Types {#sec-a-6-4}
 
 When a less precise floating value is converted to an equally or more precise floating
 type, the value is unchanged. When a more precise floating value is converted to a less
@@ -382,7 +382,7 @@ precise floating type, and the value is within representable range, the result m
 either the next higher or the next lower representable value. If the result is out of range,
 the behavior is undefined.
 
-### A6.5 - Arithmetic Conversions
+### A6.5 - Arithmetic Conversions {#sec-a-6-5}
 
 Many operators cause conversions and yield result types in a similar way. The effect
 is to bring operands into a common type, which is also the type of the result. This pattern
@@ -407,7 +407,7 @@ is called the usual *arithmetic conversions*.
 > occur when an unsigned expression is compared to a signed expression of the
 > same size.
 
-### A6.6 - Pointers and Integers
+### A6.6 - Pointers and Integers {#sec-a-6-6}
 
 An expression of integral type may be added to or subtracted from a pointer; in such
 a case the integral expression is converted as spe~ified in the discussion of the addition
@@ -453,7 +453,7 @@ type. Calling the function specified by the converted pointer is implementationd
 however, if the converted pointer is reconverted to its original type, the result
 is identical to the original pointer.
 
-### A6.7 - Void
+### A6.7 - Void {#sec-a-6-7}
 
 The (nonexistent) value of a `void` object may not be used in any way, and neither
 explicit nor implicit conversion to any non-void type may be applied. Because a void
@@ -467,7 +467,7 @@ documents the discarding of the value of a function call used as an expression s
 > `void` did not appear in the first edition of this book, but has become common
 > since.
 
-### A6.8 - Pointers to Void
+### A6.8 - Pointers to Void {#sec-a-6-8}
 
 Any pointer to an object may be converted to type `void *` without loss of information.
 If the result is converted back to the original pointer type, the original pointer is
@@ -480,7 +480,7 @@ and may be compared with them.
 > meeting of `void *` pointers with object pointers in assignments and relationals,
 > while requiring explicit casts for other pointer mixtures.
 
-## A7 - Expressions
+## A7 - Expressions {#sec-a-7}
 
 The precedence of expression operators is the same a.s the order of the major subsections
 of this section, highest precedence first. Thus, for example, the expressions
@@ -508,7 +508,7 @@ evaluation of signed integral expressions and assignments, but this behavior is 
 guaranteed. Treatment of division by 0, and all floating-point exceptions, varies among
 implementations; sometimes it is adjustable by a non-standard library function.
 
-### A7.1 - Pointer Generation
+### A7.1 - Pointer Generation {#sec-a-7-1}
 
 If the type of an expression or subexpression is "array of $T$," for some type $T$, then
 the value of the expression is a pointer to the first object in the array, and the type of
@@ -518,7 +518,7 @@ operand of an assignment operator or the `.` operator. Similarly, an expression 
 "function returning $T$," except when used as the operand of the `&` operator, is converted
 to "pointer to function returning $T$."
 
-### A7.2 - Primary Expressions
+### A7.2 - Primary Expressions {#sec-a-7-2}
 
 Primary expressions are identifiers, constants, strings, or expressions in parentheses.
 
@@ -547,7 +547,7 @@ A parenthesized expression is a primary expression whose type and value are iden
 to those of the unadorned expression. The presence of parentheses does not affect
 whether the expression is an lvalue.
 
-### A7.3 - Postfix Expressions
+### A7.3 - Postfix Expressions {#sec-a-7-3}
 
 The operators in postfix expressions group left to right.
 
@@ -566,7 +566,7 @@ argument-expression-list:
     argument-expression-list , assignment-expression
 ```
 
-#### A7.3.1 - Array References
+#### A7.3.1 - Array References {#sec-a-7-3-1}
 
 A postfix expression followed by an expression in square brackets is a postfix expression
 denoting a subscripted array reference. One of the two expressions must have type
@@ -574,7 +574,7 @@ denoting a subscripted array reference. One of the two expressions must have typ
 the subscript expression is $T$. The expression `E1[E2]` is identical (by definition) to
 `*((E1)+(E2))`. See §A8.6.2 for further discussion.
 
-#### A7.3.2 - Function Calls
+#### A7.3.2 - Function Calls {#sec-a-7-3-2}
 
 A function call is a postfix expression, called the function designator, followed by
 parentheses containing a possibly empty, comma-separated list of assignment expressions
@@ -644,7 +644,7 @@ differ. However, the arguments and the function designator are completely evalua
 including all side effects, before the function is entered. Recursive calls to any function
 are permitted.
 
-#### A7.3.3 - Structure References
+#### A7.3.3 - Structure References {#sec-a-7-3-3}
 
 A postfix expression followed by a dot followed by an identifier is a postfix expression.
 The first operand expression must be a structure or a union, and the identifier
@@ -668,7 +668,7 @@ are discussed in §A8.3.
 > postfix expression; however, a note admitted that this rule was not firmly
 > enforced. Recent compilers, and ANSI, do enforce it.
 
-#### A7.3.4 - Postfix Incrementation
+#### A7.3.4 - Postfix Incrementation {#sec-a-7-3-4}
 
 A postfix expression followed by a `++` or `--` operator is a postfix expression. The
 value of the expression is the value of the operand. After the value is noted, the operand
@@ -676,7 +676,7 @@ is incremented (`++`) or decremented (`--`) by `1`. The operand must be an lvalu
 discussion of additive operators (§A7.7) and assignment (§A7.17) for further constraints
 on the operand and details of the operation. The result is not an lvalue.
 
-### A7.4 - Unary Operators
+### A7.4 - Unary Operators {#sec-a-7-4}
 
 Expressions with unary operators group right-to-left.
 
@@ -695,7 +695,7 @@ unary-operator: one of
     &   *   +   -   ~   !
 ```
 
-#### A7.4.1 - Prefix Incrementation Operators
+#### A7.4.1 - Prefix Incrementation Operators {#sec-a-7-4-1}
 
 A unary expression preceded by a `++` or `--` operator is a unary expression. The
 operand is incremented (`++`) or decremented (`--`) by `1`. The value of the expression is
@@ -703,21 +703,21 @@ the value after the incrementation (decrementation). The operand must be an I va
 see the discussion of additive operators (§A7.7) and assignment (§A7.17) for further
 constraints on the operand and details of the operation. The result is not an lvalue.
 
-#### A7.4.2 - Address Operator
+#### A7.4.2 - Address Operator {#sec-a-7-4-2}
 
 The unary `&` operator takes the address of its operand. The operand must be an
 lvalue referring neither to a bit-field nor to an object declared as `register`, or must be
 of function type. The result is a pointer to the object or function referred to by the
 lvalue. If the type of the operand is T, the type of the result is "pointer to $T$."
 
-#### A7.4.3 - Indirection Operator
+#### A7.4.3 - Indirection Operator {#sec-a-7-4-3}
 
 The unary `*` operator denotes indirection, and returns the object or function to which
 its operand points. It is an lvalue if the operand is a pointer to an object of arithmetic,
 structure, union, or pointer type. If the type of the expression is "pointer to $T$," the type
 of the result is $T$.
 
-#### A7.4.4 - Unary Plus Operator
+#### A7.4.4 - Unary Plus Operator {#sec-a-7-4-4}
 
 The operand of the unary `+` operator must have arithmetic type, and the result is the
 value of the operand. An integral operand undergoes integral promotion. The type of
@@ -726,7 +726,7 @@ the result is the type of the promoted operand.
 > The unary `+` is new with the ANSI standard. It was added for symmetry with
 > unary `-`.
 
-#### A7.4.5 - Unary Minus Operator
+#### A7.4.5 - Unary Minus Operator {#sec-a-7-4-5}
 
 The operand of the unary `-` operator must have arithmetic type, and the result is the
 negative of its operand. An integral operand undergoes integral promotion. The negative
@@ -734,7 +734,7 @@ of an unsigned quantity is computed by subtracting the promoted value from the
 largest value of the promoted type and adding one; but negative zero is zero. The type
 of the result is the type of the promoted operand.
 
-#### A7.4.6 - One's Complement Operator
+#### A7.4.6 - One's Complement Operator {#sec-a-7-4-6}
 
 The operand of the `~` operator must have integral type, and the result is the one's
 complement of its operand. The integral promotions are performed. If the operand is
@@ -743,13 +743,13 @@ promoted type. If the operand is signed, the result is computed by converting th
 operand to the corresponding unsigned type, applying `~`, and converting back to
 the signed type. The type of the result is the type of the promoted operand.
 
-#### A7.4.7 - Logical Negation Operator
+#### A7.4.7 - Logical Negation Operator {#sec-a-7-4-7}
 
 The operand of the `!` operator must have arithmetic type or be a pointer, and the
 result is 1 if the value of its operand compares equal to 0, and 0 otherwise. The type of
 the result is `int`.
 
-#### A7.4.8 - Sizeof Operator
+#### A7.4.8 - Sizeof Operator {#sec-a-7-4-8}
 
 The `sizeof` operator yields the number of bytes required to store an object of the
 type of its operand. The operand is either an expression, which is not evaluated, or a
@@ -762,7 +762,7 @@ type, or of incomplete type, or to a bit-field. The result is an unsigned integr
 the particular type is implementation-defined. The standard header `<stddef.h>`
 (see Appendix B) defines this type as `size_t`.
 
-### A7.5 - Casts
+### A7.5 - Casts {#sec-a-7-5}
 
 A unary expression preceded by the parenthesized name of a type causes conversion
 of the value of the expression to the named type.
@@ -776,7 +776,7 @@ cast-expression:
 This construction is called a *cast*. Type names are described in §A8.8. The effects of
 conversions are described in §A6. An expression with a cast is not an lvalue.
 
-### A7.6 - Multiplicative Operators
+### A7.6 - Multiplicative Operators {#sec-a-7-6}
 
 The multiplicative operators `*`, `/`, and `%` group left-to-right.
 
@@ -801,7 +801,7 @@ operands are non-negative, then the remainder is non-negative and smaller than t
 if not, it is guaranteed only that the absolute value of the remainder is smaller than
 the absolute value of the divisor.
 
-### 7.7 - Additive Operators
+### 7.7 - Additive Operators {#sec-a-7-7}
 
 The additive operators `+` and `-` group left-to-right. If the operands have arithmetic
 type, the usual arithmetic conversions are performed. There are some additional type
@@ -837,7 +837,7 @@ is defined as `ptrdiff_t` in the standard header `<stddef.h>`. The value is unde
 unless the pointers point to objects within the same array; however if `P` points to the last
 member of an array, then `(P + 1) - P` has value 1.
 
-### 7.8 - Shift Operators
+### 7.8 - Shift Operators {#sec-a-7-8}
 
 The shift operators `<<` and `>>` group left-to-right. For both operators, each operand
 must be integral, and is subject to the integral promotions. The type of the result is that
@@ -856,7 +856,7 @@ absence of overflow, this is eqqivalent to multiplication by $2^{E2}$. The value
 `E1` right-shifted `E2` bit positions. The right shift is equivalent to division by $2^{E2}$ if `E1` is
 unsigned or if it has a non-negative value; otherwise the result is implementation-<lefined.
 
-### 7.9 - Relational Operators
+### 7.9 - Relational Operators {#sec-a-7-9}
 
 The relational operators group left-to-right, but this fact is not useful; `a < b < c` is
 parsed as `(a < b) < c`, and `a < b` evaluates to either 0 or 1.
@@ -887,7 +887,7 @@ points to the last member of an array, then `P + 1` compares higher than `P`, ev
 > comparison of pointers to different members of a structure or union.
 > They also legalize comparison with a pointer just off the end of an array.
 
-### 7.10 - Equality Operators
+### 7.10 - Equality Operators {#sec-a-7-10}
 
 ```
 equality-expression:
@@ -904,7 +904,7 @@ The equality operators follow the same rules as the relational operators, but pe
 additional possibilities: a pointer may be compared to a constant integral expression with
 value 0, or to a pointer to `void`. See §A6.6.
 
-### 7.11 - Bitwise AND Operator
+### 7.11 - Bitwise AND Operator {#sec-a-7-11}
 
 ```
 AND-expression:
@@ -915,7 +915,7 @@ AND-expression:
 The usual arithmetic conversions are performed; the result is the bitwise AND function
 of the operands. The operator applies only to integral operands.
 
-### 7.12 - Bitwise Exclusive OR Operator
+### 7.12 - Bitwise Exclusive OR Operator {#sec-a-7-12}
 
 ```
 exclusive-OR-expression:
@@ -926,7 +926,7 @@ exclusive-OR-expression:
 The usual arithmetic conversions are performed; the result is the bitwise exclusive OR
 function of the operands. The operator applies only to integral operands.
 
-### 7.13 - Bitwise Inclusive OR Operator
+### 7.13 - Bitwise Inclusive OR Operator {#sec-a-7-13}
 
 ```
 inclusive-OR-expression:
@@ -937,7 +937,7 @@ inclusive-OR-expression:
 The usual arithmetic conversions are performed; the result is the bitwise inclusive OR
 function of its operands. The operator applies only to integral operands.
 
-### 7.14 - Logical AND Operator
+### 7.14 - Logical AND Operator {#sec-a-7-14}
 
 ```
 logical-AND-expression:
@@ -954,7 +954,7 @@ Otherwise, the right operand is evaluated, and if it is equal to 0, the expressi
 The operands need not have the same type, but each must have arithmetic type or be
 a pointer. The result is `int`.
 
-### 7.15 - Logical OR Operator
+### 7.15 - Logical OR Operator {#sec-a-7-15}
 
 ```
 logical-OR-expression:
@@ -971,7 +971,7 @@ expression's value is 1, otherwise 0.
 The operands need not have the same type, but each must have arithmetic type or be
 a pointer. The result is `int`.
 
-### 7.16 - Conditional Operator
+### 7.16 - Conditional Operator {#sec-a-7-16}
 
 ```
 conditional-expression:
@@ -993,7 +993,7 @@ In the type comparison for pointers, any type qualifiers (§A8.2) in the type to
 the pointer points are insignificant, but the result type inherits qualifiers from both arms
 of the conditional.
 
-### 7.17 - Assignment Expressions
+### 7.17 - Assignment Expressions {#sec-a-7-17}
 
 There are several assignment operators; all group right-to-left.
 
@@ -1025,7 +1025,7 @@ of `const` or `volatile` in the right operand.
 An expression of the form `E1 op = E2` is equivalent to `E1 = E1 op (E2)` except
 that `E1` is evaluated only once.
 
-### 7.18 - Comma Operator
+### 7.18 - Comma Operator {#sec-a-7-18}
 
 ```
 expression:
@@ -1047,7 +1047,7 @@ f(a, (t = 3, t + 2), c)
 
 has three arguments, the second of which has the value 5.
 
-### 7.19 - Constant Expressions
+### 7.19 - Constant Expressions {#sec-a-7-19}
 
 Syntactically, a constant expression is an expression restricted to a subset of operators:
 
@@ -1078,7 +1078,7 @@ a previously declared external or static object plus or minus a constant.
 Less latitude is allowed for the integral constant expressions after `#if`; `sizeof`
 expressions, enumeration constants, and casts are not permitted. See §A12.5.
 
-## A8 - Declarations
+## A8 - Declarations {#sec-a-8}
 
 Declarations specify the interpretation given to each identifier; they do not neces·
 sarily reserve storage associated with the identifier. Declarations that reserve storage are
@@ -1111,7 +1111,7 @@ Declarators will be discussed later (§A8.5); they contain the names being decla
 declaration must have at least one declarator, or its type specifier must declare a structure
 tag, a union tag, or the members of an enumeration; empty declarations are not permitted.
 
-### A8.1 - Storage Class Specifiers
+### A8.1 - Storage Class Specifiers {#sec-a-8-1}
 
 The storage class specifiers are:
 
@@ -1152,7 +1152,7 @@ these rules are used: objects declared inside a function are taken to be `auto`;
 declared within a function are taken to be `extern`; objects and functions declared outside
 a function are taken to be static, with external linkage. See §§A10-A11.
 
-### A8.2 - Type Specifiers
+### A8.2 - Type Specifiers {#sec-a-8-2}
 
 The type-specifiers are
 
@@ -1205,7 +1205,7 @@ but not thereafter assigned to. There are no implementation-independent semantic
 > references through the pointer. Except that it should diagnose explicit
 > attempts to change `const` objects, a compiler may ignore these qualifiers.
 
-### A8.3 - Structure and Union Declarations
+### A8.3 - Structure and Union Declarations {#sec-a-8-3}
 
 A structure is an object consisting of a sequence of named members of various types.
 A union is an object that contains, at different times, any one of several members of
@@ -1405,7 +1405,7 @@ if (u.n.type == FLOAT)
   ... sin(u.nf.floatnode) ...
 ```
 
-### A8.4 - Enumerations
+### A8.4 - Enumerations {#sec-a-8-4}
 
 Enumerations are unique types with values ranging over a set of named constants
 called enumerators. The form of an enumeration specifier borrows from that of structures
@@ -1443,7 +1443,7 @@ without an enumerator list must refer to an in-scope specifier with a list.
 > Enumerations are new since the first edition of this book, but have been part of
 > the language for some years.
 
-### A8.5 - Declarators
+### A8.5 - Declarators {#sec-a-8-5}
 
 Declarators have the syntax:
 
@@ -1470,7 +1470,7 @@ type-qualifier-list:
 The structure of declarators resembles that of indirection, function, and array expressions;
 the grouping is the same.
 
-### A8.6 - Meaning of Declarators
+### A8.6 - Meaning of Declarators {#sec-a-8-6}
 
 A list of declarators appears after a sequence of type and storage class specifiers.
 Each declarator declares a unique main identifier, the one that appears as the first alternative
@@ -1495,7 +1495,7 @@ In a declaration `T D` where `D` has the form
 then the type of the identifier in `D1` is the same as that of `D`. The parentheses do not
 alter the type, but may change the binding of complex declarators.
 
-#### A8.6.1 - Pointer Declarators
+#### A8.6.1 - Pointer Declarators {#sec-a-8-6-1}
 
 In a declaration `T D` where `D` has the form
 
@@ -1531,7 +1531,7 @@ which it refers may be altered. The integer `ci` is constant, and may not be cha
 and `pci` itself may be changed to point to another place, but the value to which it points
 may not be altered by assigning through `pci`.
 
-#### A8.6.2 - Array Declarators
+#### A8.6.2 - Array Declarators {#sec-a-8-6-2}
 
 In a declaration `T D` where `D` has the form
 
@@ -1582,7 +1582,7 @@ the rules that arrays are stored by rows Oast subscript varies fastest) and that
 subscript in the declaration helps determine the amount of storage consumed by an
 array, but plays no other part in subscript calculations.
 
-#### A8.6.3 - Function Declarators
+#### A8.6.3 - Function Declarators {#sec-a-8-6-3}
 
 In a new-style function declaration `T D` where `D` has the form
 
@@ -1678,7 +1678,7 @@ comments. The second function rand takes no arguments and returns `int`.
 >
 > These notations were adapted from the C++ language.
 
-### A8.7 - Initialization
+### A8.7 - Initialization {#sec-a-8-7}
 
 When an object is declared, its init-declarator may specify an initial value for the
 identifier being declared. The initializer is preceded by `=`, and is either an expression, or
@@ -1801,7 +1801,7 @@ char msg[] = "Syntax error on line %s\n";
 shows a character array whose members are initialized with a string; its size includes the
 terminating null character.
 
-### A8.8 - Type Names
+### A8.8 - Type Names {#sec-a-8-8}
 
 In several contexts (to specify type conversions explicitly with a cast, to declare
 parameter types in function declarators, and as an argument of `sizeof`) it is necessary
@@ -1840,7 +1840,7 @@ integers," "pointer to an array of an unspecified number of integers," "function
 unspecified parameters returning pointer to integer," and "array, of unspecified size, of
 pointers to functions with no parameters each returning an integer."
 
-### A8.9 - Typedef
+### A8.9 - Typedef {#sec-a-8-9}
 
 Declarations whose storage class specifier is `typedef` do not declare objects; instead
 they define identifiers that name types. These identifiers are called typedef names.
@@ -1890,7 +1890,7 @@ extern int Blockno;
 
 does.
 
-### A8.10 - Type Equivalence
+### A8.10 - Type Equivalence {#sec-a-8-10}
 
 Two type specifier lists are equivalent if they contain the same set of type specifiers,
 taking into account that some specifiers can be implied by others (for example, `long`
@@ -1901,7 +1901,7 @@ Two types are the same if their abstract declarators (§A8.8), after expanding a
 `typedef` types, and deleting any function parameter identifiers, are the same up to
 equivalence of type specifier lists. Array sizes and function parameter types are significant.
 
-## A9 - Statements
+## A9 - Statements {#sec-a-9}
 
 Except as described, statements are executed in sequence. Statements are executed
 for their effect, and do not have values. They fall into several groups.
@@ -1916,7 +1916,7 @@ statement:
     jump-statement
 ```
 
-### A9.1 - Labeled Statements
+### A9.1 - Labeled Statements {#sec-a-9-1}
 
 Statements may carry label prefixes.
 
@@ -1937,7 +1937,7 @@ constant expression of `case` must have integral type.
 
 Labels in themselves do not alter the flow of control.
 
-### A9.2 - Expression Statement
+### A9.2 - Expression Statement {#sec-a-9-2}
 
 Most statements are expression statements, which have the form
 
@@ -1951,7 +1951,7 @@ expression are completed before the next statement is executed. If the expressio
 missing, the construction is called a null statement; it is often used to supply an empty
 body to an iteration statement or to place a label.
 
-### A9.3 - Compound Statement
+### A9.3 - Compound Statement {#sec-a-9-3}
 
 So that several statements can be used where one is expected, the compound statement
 (also called "block") is provided. The body of a function definition is a compound
@@ -1980,7 +1980,7 @@ top, and proceeds in the order of the declarators. If a jump into the block is e
 these initialization& are not performed. Initializations of `static` objects are performed
 only once, before the program begins execution.
 
-### A9.4 - Selection Statements
+### A9.4 - Selection Statements {#sec-a-9-4}
 
 Selection statements choose one of several flows of control.
 
@@ -2017,7 +2017,7 @@ then none of the substatements of the switch is executed.
 > In the first edition of this book, the controlling expression of `switch`, and the
 > case constants, were required to have `int` type.
 
-### A9.5 - Iteration Statements
+### A9.5 - Iteration Statements {#sec-a-9-5}
 
 Iteration statements specify looping.
 
@@ -2058,7 +2058,7 @@ while ( expression2 ) {
 Any of the three expressions may be dropped. A missing second expression makes
 the implied test equivalent to testing a non-zero constant.
 
-### A9.6 - Jump Statements
+### A9.6 - Jump Statements {#sec-a-9-6}
 
 Jump statements transfer control unconditionally.
 
@@ -2094,7 +2094,7 @@ converted, as if by assignment, to the type returned by the function in which it
 Flowing off the end of a function is equivalent to a return with no expression. In
 either case, the returned value is undefined.
 
-## A10 - External Declarations
+## A10 - External Declarations {#sec-a-10}
 
 The unit of input provided to the C compiler is called a translation unit; it consists of
 a sequence of external declarations, which are either declarations or function definitions.
@@ -2114,7 +2114,7 @@ they are declared, just as the effect of declarations within blocks persists to 
 the block. The syntax of external declarations is the same as that of all declarations,
 except that only at this level may the code for functions be given.
 
-### A10.1 - Function Definitions
+### A10.1 - Function Definitions {#sec-a-10-1}
 
 Function definitions have the form
 
@@ -2197,7 +2197,7 @@ int a, b, c;
 where now `int max (a, b, c)` is the declarator, and `int a, b, c`; is the declaration
 list for the parameters.
 
-### A10.2 - External Declarations
+### A10.2 - External Declarations {#sec-a-10-2}
 
 External declarations specify the characteristics of objects, functions and other identifiers.
 The term "external" refers to their location outside functions, and is not directly
@@ -2244,7 +2244,7 @@ program.
 > declarations, but if no definition appears, then all its tentative definitions
 > become a definition with initializer 0.
 
-## A11 - Scope and Linkage
+## A11 - Scope and Linkage {#sec-a-11}
 
 A program need not all be compiled at one time: the source text may be kept in
 several files containing translation units, and precompiled routines may be loaded from
@@ -2257,7 +2257,7 @@ are understood; and seci:>nd, the scope associated with objects and functions wi
 external linkage, which determines the connections between identifiers in separately compiled
 translation units.
 
-### A11.1 - Lexical Scope
+### A11.1 - Lexical Scope {#sec-a-11-1}
 
 Identifiers fall into several name spaces that do not interfere with one another; the
 same identifier may be used for different purposes, even in the same scope, if the uses
@@ -2290,7 +2290,7 @@ If an identifier is explicitly declared at the head of a block, including the bl
 a function, any declaration of the identifier outside the block is suspended until
 the end of the block.
 
-### A11.2 - Linkage
+### A11.2 - Linkage {#sec-a-11-2}
 
 Within a translation unit, all declarations of the same object or function identifier
 with internal linkage refer to the same thing, and the object or function is unique to that
@@ -2305,7 +2305,7 @@ and an external declaration for the identifier is active in the scope surroundin
 then the identifier has the same linkage as the external declaration, and refers to the
 same object or function; but if no external declaration is visible, its linkage is external.
 
-## A12 - Preprocessing
+## A12 - Preprocessing {#sec-a-12}
 
 A preprocessor performs macro substitution, conditional compilation, and inclusion of
 named files. Lines beginning with `#`, perhaps preceded by white space, communicate
@@ -2327,7 +2327,7 @@ particular implementation, be condensed.
 4. Escape sequences in character constants and string literals (§§A2.5.2, A2.6) are replaced by their equivalents; then adjacent string literals are concatenated.
 5. The result is translated, then linked together with other programs and libraries, by collecting the necessary programs and data, and connecting external function and object references to their definitions.
 
-### A12.1 - Trigraph Sequence
+### A12.1 - Trigraph Sequence {#sec-a-12-1}
 
 The character set of C source programs is contained within seven-bit ASCII, but is a
 superset of the ISO 646-1983 Invariant Code Set. In order to enable programs to be
@@ -2345,12 +2345,12 @@ No other such replacements occur.
 
 > Trigraph sequences are new with the ANSI standard.
 
-### A12.2 - Line Splicing
+### A12.2 - Line Splicing {#sec-a-12-2}
 
 Lines that end with the backslash character `\` are folded by deleting the backslash
 and the following newline character. This occurs before division into tokens.
 
-### A12.3 - Macro Definition and Expansion
+### A12.3 - Macro Definition and Expansion {#sec-a-12-3}
 
 A control line of the form
 
@@ -2482,7 +2482,7 @@ expansion of `xcat` itself does not involve the `##` operator.
 Likewise, `ABSDIFF(ABSDIFF(a,b),c)` produces the expected, fully-expanded
 result.
 
-### A12.4 - File Inclusion
+### A12.4 - File Inclusion {#sec-a-12-4}
 
 A control line of the form
 
@@ -2517,7 +2517,7 @@ treated as previously described.
 
 `#include` files may be nested.
 
-### A12.5 - Conditional Compilation
+### A12.5 - Conditional Compilation {#sec-a-12-5}
 
 Parts of a program may be compiled conditionally, according to the following
 schematic syntax.
@@ -2595,7 +2595,7 @@ respectively.
 > `#elif` is new since the first edition, although it has been available in some
 > preprocessors. The `defined` preprocessor operator is also new.
 
-### A12.6 - Line Control
+### A12.6 - Line Control {#sec-a-12-6}
 
 For the benefit of other preprocessors that generate C programs, a line in one of the
 forms
@@ -2610,7 +2610,7 @@ the next source line is given by the decimal integer constant and the current in
 named by the identifier. If the quoted filename is absent, the remembered name does
 not change. Macros in the line are expanded before it is interpreted.
 
-### A12.7 - Error Generation
+### A12.7 - Error Generation {#sec-a-12-7}
 
 A preprocessor line of the form
 
@@ -2620,7 +2620,7 @@ A preprocessor line of the form
 
 causes the processor to write a diagnostic message that includes the token sequence.
 
-### A12.8 - Pragmas
+### A12.8 - Pragmas {#sec-a-12-8}
 
 A control line of the form
 
@@ -2631,7 +2631,7 @@ A control line of the form
 causes the processor to perform an implementation-dependent action. An unrecognized
 pragma is ignored.
 
-### A12.9 - Null Directive
+### A12.9 - Null Directive {#sec-a-12-9}
 
 A preprocessor line of the form
 
@@ -2641,7 +2641,7 @@ A preprocessor line of the form
 
 has no effect.
 
-### A12.10 - Predefined Names
+### A12.10 - Predefined Names {#sec-a-12-10}
 
 Several identifiers are predefined, and expand to produce special information. They,
 and also the preprocessor expression operator `defined`, may not be undefined or redefined.
@@ -2665,7 +2665,7 @@ __STDC__      The constant 1. It is intended that this identifier be defined to 
 > predefined preprocessor macros are new, but some of them
 > have been available in some implementations.
 
-## A13 - Grammar
+## A13 - Grammar {#sec-a-13}
 
 Below is a recapitulation of the grammar that was given throughout the earlier part
 of this appendix. It has exactly the same content, but is in a different order.

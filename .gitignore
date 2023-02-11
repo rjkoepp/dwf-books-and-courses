@@ -27,3 +27,4 @@ sandbox.py
 
 # project-specific
 ignored-files
+_sandbox.c

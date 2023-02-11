@@ -16,6 +16,15 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import BibRef from '@site/src/components/BibRef';
 
+import C8X1 from '@site/docs/_partials/krc/c8ex1.md';
+import C8X2 from '@site/docs/_partials/krc/c8ex2.md';
+import C8X3 from '@site/docs/_partials/krc/c8ex3.md';
+import C8X4 from '@site/docs/_partials/krc/c8ex4.md';
+import C8X5 from '@site/docs/_partials/krc/c8ex5.md';
+import C8X6 from '@site/docs/_partials/krc/c8ex6.md';
+import C8X7 from '@site/docs/_partials/krc/c8ex7.md';
+import C8X8 from '@site/docs/_partials/krc/c8ex8.md';
+
 The UNIX operating system provides its services through a set of *system
 calls*, which are in effect functions within the operating system that may be
 called by user programs. This chapter describes how to use some of the most
@@ -39,7 +48,7 @@ In the next few sections we will describe the UNIX system calls for input and
 output, and show how parts of the standard library can be implemented with
 them.
 
-## 8.1 - File Descriptors
+## 8.1 - File Descriptors {#sec-8-1}
 
 In the UNIX operating system, all input and output is done by reading or
 writing files, because all peripheral devices, even keyboard and screen, are files
@@ -79,7 +88,7 @@ shell, not by the program. The program does not know where its input comes
 from nor where its output goes, so long as it uses file 0 for input and 1 and 2 for
 output.
 
-## 8.2 - Low Level I/O (Read and Write)
+## 8.2 - Low Level I/O (Read and Write) {#sec-8-2}
 
 Input and output uses the `read` and `write` system calls, which are accessed
 from C programs through two functions called `read` and `write`. For both, the
@@ -178,7 +187,7 @@ If these versions of `getchar` were to be compiled with `<stdio.h>` included, it
 would be necessary to `#undef` the name `getchar` in case it is implemented as
 a macro.
 
-## 8.3 - Open, Creat, Close, Unlink
+## 8.3 - Open, Creat, Close, Unlink {#sec-8-3}
 
 Other than the default standard input, output and error, you must explicitly
 open files in order to read or write them. There are two system calls for this,
@@ -312,7 +321,15 @@ files.
 The function `unlink(char *name)` removes the file `name` from the file
 system. It corresponds to the standard library function `remove`.
 
-## 8.4 - Random Access (Lseek)
+<details><summary> Exercises</summary>
+
+- [Exercise 8-1](/docs/c-programming-language/exercises-and-solutions/unix-system-interface#exercise-8-1):
+
+  <C8X1 />
+
+</details>
+
+## 8.4 - Random Access (Lseek) {#sec-8-4}
 
 Input and output are normally sequential: each `read` or `write` takes place
 at a position in the file right after the previous one. When necessary, however,
@@ -367,7 +384,7 @@ or `-1` if an error occurs. The standard library function `fseek` is similar to
 `lseek` except that the first argument is a `FILE *` and the return is non-zero if
 an error occurred.
 
-## 8.5 - Example (an implementation of fopen and getc)
+## 8.5 - Example (an implementation of fopen and getc) {#sec-8-5}
 
 Let us illustrate how some of these pieces fit together by showing an implementation
 of the standard library routines `fopen` and `getc`.
@@ -540,7 +557,23 @@ FILE _iob[OPEN_MAX] = {     /* stdin, stdout, stderr: */
 The initialization of the `flag` part of the structure shows that `stdin` is to be
 read, `stdout` is to be written, and `stderr` is to be written unbuffered.
 
-## 8.6 - Example (listing directories)
+<details><summary> Exercises</summary>
+
+- [Exercise 8-2](/docs/c-programming-language/exercises-and-solutions/unix-system-interface#exercise-8-2):
+
+  <C8X2 />
+  
+- [Exercise 8-3](/docs/c-programming-language/exercises-and-solutions/unix-system-interface#exercise-8-3):
+
+  <C8X3 />
+
+- [Exercise 8-4](/docs/c-programming-language/exercises-and-solutions/unix-system-interface#exercise-8-4):
+
+  <C8X4 />
+
+</details>
+
+## 8.6 - Example (listing directories) {#sec-8-6}
 
 A different kind of file system interaction is sometimes called for &#8212; determining
 information *about* a file, not what it contains. A directory-listing
@@ -851,7 +884,15 @@ possible to create an interface to system-dependent objects that is itself relat
 system-independent. The functions of the standard library are good
 examples.
 
-## 8.7 - A Storage Allocator
+<details><summary> Exercises</summary>
+
+- [Exercise 8-5](/docs/c-programming-language/exercises-and-solutions/unix-system-interface#exercise-8-5):
+
+  <C8X5 />
+
+</details>
+
+## 8.7 - A Storage Allocator {#sec-8-}
 
 In Chapter 5, we presented a very limited stack-oriented storage allocator.
 The version that we will now write is unrestricted. Calls to `malloc` and `free`
@@ -1052,3 +1093,19 @@ alignment (given that `sbrk` supplies an appropriate pointer). Casts arrange
 that pointer conversions are made explicit, and even cope with a badly-designed
 system interface. Even though the details here are related to storage allocation,
 the general approach is applicable to other situations as well.
+
+<details><summary> Exercises</summary>
+
+- [Exercise 8-6](/docs/c-programming-language/exercises-and-solutions/unix-system-interface#exercise-8-6):
+
+  <C8X6 />
+
+- [Exercise 8-7](/docs/c-programming-language/exercises-and-solutions/unix-system-interface#exercise-8-7):
+
+  <C8X7 />
+
+- [Exercise 8-8](/docs/c-programming-language/exercises-and-solutions/unix-system-interface#exercise-8-8):
+
+  <C8X8 />
+
+</details>

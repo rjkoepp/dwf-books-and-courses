@@ -46,7 +46,7 @@ External identifiers that begin with an underscore are reserved for use by the l
 as are all other identifiers that begin with an underscore and an upper-case letter or
 another underscore.
 
-## B1 - Input and Output: &lt;stdio.h&gt;
+## B1 - Input and Output: &lt;stdio.h&gt; {#sec-b-1}
 
 The input and output functions, types, and macros defined in `<stdio.h>` represent
 nearly one third of the library.
@@ -68,7 +68,7 @@ pointer" and "stream" interchangeably when there is no ambiguity.
 When a program begins execution, the three streams `stdin`, `stdout`, and `stderr`
 are already open.
 
-### B1.1 - File Operations
+### B1.1 - File Operations {#sec-b-1-1}
 
 The following functions deal with operations on files. The type `size_t` is the
 unsigned integral type produced by the `sizeof` operator.
@@ -149,7 +149,7 @@ unsigned integral type produced by the `sizeof` operator.
   If `buf` is `NULL`, buffering is turned off for the stream. Otherwise, `setbuf` is
   equivalent to `(void) setvbuf (stream, buf, _IOFBF, BUFSIZ)`.
 
-### B1.2 - Formatted Output
+### B1.2 - Formatted Output {#sec-b-1-2}
 
 The `printf` functions provide formatted output conversion.
 
@@ -232,7 +232,7 @@ after the `%` is not a conversion character, the behavior is undefined.
   by ar`g`, which has been initialized by the `va_start` macro and perhaps `va_arg`
   calls. See the discussion of `<stdarg.h>` in Section B7.
 
-### B1.3 - Formatted Input
+### B1.3 - Formatted Input {#sec-b-1-3}
 
 The `scanf` functions deal with formatted input conversion.
 
@@ -297,7 +297,7 @@ to `long`. The conversion characters `e`, `f`, and `g` may be preceded by `l` if
 
   `sscanf(s, ... )` is equivalent to `scanf( ... )` except that the input characters are taken from the string `s`.
 
-### B1.4 - Character Input and Output Functions
+### B1.4 - Character Input and Output Functions {#sec-b-1-4}
 
 - `int fgetc(FILE *stream)`
 
@@ -354,7 +354,7 @@ to `long`. The conversion characters `e`, `f`, and `g` may be preceded by `l` if
   guaranteed. `EOF` may not be pushed back. `ungetc` returns the character pushed
   back, or `EOF` for error.
 
-### B1.5 - Direct Input and Output Functions
+### B1.5 - Direct Input and Output Functions {#sec-b-1-5}
 
 - `size_t fread(void *ptr, size_t size, size_t nobj, FILE *stream)`
 
@@ -367,7 +367,7 @@ to `long`. The conversion characters `e`, `f`, and `g` may be preceded by `l` if
   `fwrite` writes, from the array `ptr`, `nobj` objects of size `size` on `stream`. It
   returns the number of objects written, which is less than `nobj` on error.
 
-### B1.6 - File Positioning Functions
+### B1.6 - File Positioning Functions {#sec-b-1-6}
 
 - `int fseek(FILE *stream, long offset, int origin)`
 
@@ -397,7 +397,7 @@ to `long`. The conversion characters `e`, `f`, and `g` may be preceded by `l` if
   `fsetpos` positions `stream` at the position recorded by `fgetpos` in `*ptr`.
   `fsetpos` returns non-zero on error.
 
-### B1.7 - Error Functions
+### B1.7 - Error Functions {#sec-b-1-7}
 
 Many of the functions in the library set status indicators when error or end of file
 occur. These indicators may be set and tested explicitly. In addition, the integer expression
@@ -427,7 +427,7 @@ information about the most recent error.
 
   See `strerror` in Section B3.
 
-## B2 - Character Class Tests: &lt;ctype.h&gt;
+## B2 - Character Class Tests: &lt;ctype.h&gt; {#sec-b-2}
 
 The header `<ctype.h>` declares functions for testing characters. For each function,
 the argument is an `int`, whose value must be `EOF` or representable as an `unsigned`
@@ -462,7 +462,7 @@ If `c` is an upper-case letter, `tolower(c)` returns the corresponding lower-cas
 otherwise it returns `c`. If `c` is a lower-case letter, `toupper(c)` returns the corresponding
 upper-case letter; otherwise it returns `c`.
 
-## B3 - String Functions: &lt;string.h&gt;
+## B3 - String Functions: &lt;string.h&gt; {#sec-b-3}
 
 There are two groups of string functions defined in the header `<string.h>`. The
 first have names beginning with `str`; the second have names beginning with `mem`.
@@ -511,7 +511,7 @@ converted to an `unsigned char`.
 | `void *memchr(cs, c, n)` | return pointer to first occurrence of character `c` in `cs`, or `NULL` if not present among the first `n` characters. |
 | `void *memset(s, c, n)` | place character `c` into first `n` characters of `s`, return `s`. |
 
-## B4 - Mathematical Functions: &lt;math.h&gt;
+## B4 - Mathematical Functions: &lt;math.h&gt; {#sec-b-4}
 
 The header `<math.h>` declares mathematical functions and macros.
 
@@ -552,7 +552,7 @@ return `double`. Angles for trigonometric functions are expressed in radians.
 | `modf(x, double *ip)` | splits $x$ into integral and fractional parts, each with the same sign as $x$. It stores the integral part in `*ip`, and returns the fractional part. |
 | `fmod(x, y)` | floating-point remainder of $x/y$, with the same sign as $x$. If $y$ is zero, the result is implementation-defined. |
 
-## B5 - Utility Functions: &lt;stdlib.h&gt;
+## B5 - Utility Functions: &lt;stdlib.h&gt; {#sec-b-5}
 
 The header `<stdlib.h>` declares functions for number conversion, storage allocation,
 and similar tasks.
@@ -683,7 +683,7 @@ and similar tasks.
   `div` computes the quotient and remainder of `num / denom`. The results are stored in
   the `long` members `quot` and `rem` of a structure of type `ldiv_t`.
 
-## B6 - Diagnostics: &lt;assert.h&gt;
+## B6 - Diagnostics: &lt;assert.h&gt; {#sec-b-6}
 
 The `assert` macro is used to add diagnostics to programs:
 
@@ -709,7 +709,7 @@ from the preprocessor macros `__FILE__` and `__LINE__`.
 If `NDEBUG` is defined at the time `<assert.h>` is included, the `assert` macro is
 ignored.
 
-## B7 - Variable Argument Lists: &lt;stdarg.h&gt;
+## B7 - Variable Argument Lists: &lt;stdarg.h&gt; {#sec-b-7}
 
 The header `<stdarg.h>` provides facilities for stepping through a list of function
 arguments of unknown number and type.
@@ -745,7 +745,7 @@ void va_end(va_list ap);
 
 must be called once after the arguments have been processed but before `f` is exited.
 
-## B8 - Non-local Jumps: &lt;setjmp.h&gt;
+## B8 - Non-local Jumps: &lt;setjmp.h&gt; {#sec-b-8}
 
 The declarations in `<setjmp.h>` provide a way to avoid the normal function call
 and return sequence, typically to permit an immediate return from a deeply nested func- ·
@@ -774,7 +774,7 @@ tion call.
   `longjmp` was called, except that non-`volatile` automatic variables in the function
   calling `setjmp` become undefined if they were changed after the `setjmp` call.
 
-## B9 - Signals: &lt;signal.h&gt;
+## B9 - Signals: &lt;signal.h&gt; {#sec-b-9}
 
 The header `<signal.h>` provides facilities for handling exceptional conditions that
 arise during execution, such as an interrupt signal from an external source or an error in
@@ -813,7 +813,7 @@ int raise(int sig)
 
 `raise` sends the signal `sig` to the program; it returns non-zero if unsuccessful.
 
-## B10 - Date and Time Functions: &lt;time.h&gt;
+## B10 - Date and Time Functions: &lt;time.h&gt; {#sec-b-10}
 
 The header `<time.h>` declares types and functions for manipulating date and time.
 Some functions process *local time*, which may differ from calendar time, for example
@@ -917,7 +917,7 @@ other calls.
 %%    %
 ```
 
-## B11 - Implementation-defined Limits: &lt;limits.h&gt; and &lt;float.h&gt;
+## B11 - Implementation-defined Limits: &lt;limits.h&gt; and &lt;float.h&gt; {#sec-b-11}
 
 The header `<limits.h>` defines constants for the sizes of integral types. The
 values below are acceptable minimum magnitudes; larger values may be used.

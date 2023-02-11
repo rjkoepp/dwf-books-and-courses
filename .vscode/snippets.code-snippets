@@ -340,4 +340,23 @@
     ],
     "description": "Allows for easy reference to the catalog."
   },
+  "EXTemp": {
+    "prefix": "kk",
+    "body": [
+      "<details><summary> Exercises</summary>",
+      "",
+      "$0",
+      "",
+      "</details>",
+    ],
+    "description": "Allows for easy reference to the catalog."
+  },
+  "EXTempl": {
+    "prefix": "ll",
+    "body": [
+      "- [Exercise 1-${1:num}](/docs/c-programming-language/exercises-and-solutions/a-tutorial-introduction#exercise-1-${1:num})",
+      "$0"
+    ],
+    "description": "Allows for easy reference to the catalog."
+  },
 }

@@ -16,6 +16,17 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import BibRef from '@site/src/components/BibRef';
 
+import C2X1 from '@site/docs/_partials/krc/c2ex1.md';
+import C2X2 from '@site/docs/_partials/krc/c2ex2.md';
+import C2X3 from '@site/docs/_partials/krc/c2ex3.md';
+import C2X4 from '@site/docs/_partials/krc/c2ex4.md';
+import C2X5 from '@site/docs/_partials/krc/c2ex5.md';
+import C2X6 from '@site/docs/_partials/krc/c2ex6.md';
+import C2X7 from '@site/docs/_partials/krc/c2ex7.md';
+import C2X8 from '@site/docs/_partials/krc/c2ex8.md';
+import C2X9 from '@site/docs/_partials/krc/c2ex9.md';
+import C2X10 from '@site/docs/_partials/krc/c2ex10.md';
+
 Variables and constants are the basic data objects manipulated in a program.
 Declarations list the variables to be used, and state what type they have and
 perhaps what their initial values are. Operators specify what is to be done to
@@ -33,10 +44,10 @@ formalizing a feature of long standing. Objects may be declared `const`, which
 prevents them from being changed. The rules for automatic coercions among
 arithmetic types have been augmented to handle the richer set of types.
 
-## 2.1 - Variable Names 
+## 2.1 - Variable Names {#sec-2-1}
 
 Although we didn't say so in Chapter 1, there are some restrictions on the
-names of variables and symbolic constants. Names are rnade up of letters and
+names of variables and symbolic constants. Names are made up of letters and
 digits; the first character must be a letter. The underscore `"_"` counts as a
 letter; it is sometimes useful for improving the readability of long variable
 names. Don't begin variable names with underscore, however, since library routines
@@ -54,10 +65,10 @@ case.
 
 It's wise to choose variable names that are related to the purpose of the variable,
 and that are unlikely to get mixed up typographically. We tend to use
-short· names for local variables, especially loop indices, and longer names for
+short names for local variables, especially loop indices, and longer names for
 external variables.
 
-## 2.2 - Data Types and Sizes
+## 2.2 - Data Types and Sizes {#sec-2-2}
 
 There are only a few basic data types in C:
 
@@ -94,7 +105,7 @@ The qualifier `signed` or `unsigned` may be applied to `char` or any integer.
 `unsigned` numbers are always positive or zero, and obey the laws of arithmetic
 modulo $2^n$, where $n$ is the number of bits in the type. So, for instance, if `chars`
 are 8 bits, `unsigned char` variables have values between `0` and `255`, while
-`signed char`s have values between `-128` and `127` (in a two's complement
+`signed char`s have values between `-128` and `127` (in a [two's complement](https://en.wikipedia.org/wiki/Two's_complement)
 machine). Whether plain `char`s are signed or unsigned is machine-dependent,
 but printable characters are always positive.
 
@@ -104,9 +115,17 @@ integers, the sizes of floating-point objects are implementation-defined; `float
 
 The standard headers `<limits.h>` and `<float.h>` contain symbolic constants
 for all of these sizes, along with other properties of the machine and compiler.
-These are discussed in Appendix B.
+These are discussed in [Appendix B](/docs/c-programming-language/book-notes/appendix-b-standard-library).
 
-## 2.3 - Constants
+<details><summary> Exercises</summary>
+
+- [Exercise 2-1](/docs/c-programming-language/exercises-and-solutions/types-operators-expressions#exercise-2-1):
+
+  <C2X1 />
+
+</details>
+
+## 2.3 - Constants {#sec-2-3}
 
 An integer constant like `1234` is an `int`. A `long` constant is written with a
 terminal `l` (ell) or `L`, as in `123456789L`; an integer too big to fit into an `int`
@@ -218,11 +237,11 @@ or
 ```
 
 The quotes are not part of the string, but serve only to delimit it. The same
-escape sequences used in character constc:nts apply in strings; `\"` represents the
+escape sequences used in character constants apply in strings; `\"` represents the
 double-quote character. String constants can be concatenated at compile time:
 
 ```c
-"hello," "world"
+"hello," " world"
 ```
 
 is equivalent to
@@ -288,13 +307,13 @@ in the same enumeration.
 
 Enumerations provide a convenient way to associate constant values with
 names, an alternative to `#define` with the advantage that the values can be
-generated for you. Although variables of enwn types may be declared, compilers
+generated for you. Although variables of `enum` types may be declared, compilers
 need not check that what you store in such a variable is a valid value for
 the enumeration. Nevertheless, enumeration variables offer the chance of
 checking and so are often better than `#define`s. In addition, a debugger may
 be able to print values of enumeration variables in their symbolic form.
 
-## 2.4 - Declarations
+## 2.4 - Declarations {#sec-2-4}
 
 All variables must be declared before use, although certain declarations can
 be made implicitly by context. A declaration specifies a type, and contains a
@@ -350,12 +369,12 @@ The `const` declaration can also be used with array arguments, to indicate that
 the function does not change that array:
 
 ```c
-int strlen(const char[));
+int strlen(const char[]);
 ```
 
 The result is implementation-defined if an attempt is made to change a `const`.
 
-## 2.5 - Arithmetic Operators
+## 2.5 - Arithmetic Operators {#sec-2-5}
 
 The binary arithmetic operators are `+`, `-`, `*`, `/`, and the modulus operator `%`.
 Integer division truncates any fractional part. The expression
@@ -383,10 +402,10 @@ The binary `+` and `-` operators have the same precedence, which is lower than
 the precedence of `*`, `/`, and `%`, which is in turn lower than unary `+` and `-`.
 Arithmetic operators associate left to right.
 
-Table 2-1 at the end of this chapter summarizes precedence and associativity
+[Table 2-1](#table-2-1) at the end of this chapter summarizes precedence and associativity
 for all operators.
 
-## 2.6 - Relational and Logical Operators
+## 2.6 - Relational and Logical Operators {#sec-2-6}
 
 The relational operators are
 
@@ -458,7 +477,15 @@ if (valid == 0)
 It's hard to generalize about which form is better. Constructions like `!valid`
 read nicely ("if not valid"), but more complicated ones can be hard to understand.
 
-## 2.7 - Type Conversions
+<details><summary> Exercises</summary>
+
+- [Exercise 2-2](/docs/c-programming-language/exercises-and-solutions/types-operators-expressions#exercise-2-2):
+
+  <C2X2 />
+
+</details>
+
+## 2.7 - Type Conversions {#sec-2-7}
 
 When an operator has operands of different types, they are converted to a
 common type according to a small number of rules. In general, the only
@@ -678,7 +705,15 @@ void srand(unsigned int seed)
 }
 ```
 
-## 2.8 - Increment and Decrement Operators
+<details><summary> Exercises</summary>
+
+- [Exercise 2-3](/docs/c-programming-language/exercises-and-solutions/types-operators-expressions#exercise-2-3):
+
+  <C2X3 />
+
+</details>
+
+## 2.8 - Increment and Decrement Operators {#sec-2-8}
 
 C provides two unusual operators for incrementing and decrementing variables.
 The increment operator `++` adds `1` to its operand, while the decrement
@@ -785,7 +820,19 @@ void strcat(char s[], char t[])
 As each character is copied from `t` to `s`, the postfix `++` is applied to both `i` and
 `j` to make sure that they are in position for the next pass through the loop.
 
-## 2.9 - Bitwise Operators
+<details><summary> Exercises</summary>
+
+- [Exercise 2-4](/docs/c-programming-language/exercises-and-solutions/types-operators-expressions#exercise-2-4):
+
+  <C2X4 />
+
+- [Exercise 2-5](/docs/c-programming-language/exercises-and-solutions/types-operators-expressions#exercise-2-5):
+
+  <C2X5 />
+
+</details>
+
+## 2.9 - Bitwise Operators {#sec-2-9}
 
 C provides six operators for bit manipulation; these may only be applied to
 integral operands, that is, `char`, `short`, `int`, and `long`, whether signed or
@@ -863,7 +910,23 @@ word. `~0` is all 1-bits; shifting it left `n` bit positions with `~0 << n` plac
 the rightmost `n` bits; complementing that with `~` makes a mask with ones in the
 rightmost `n` bits.
 
-## 2.10 - Assignment Operators and Expressions
+<details><summary> Exercises</summary>
+
+- [Exercise 2-6](/docs/c-programming-language/exercises-and-solutions/types-operators-expressions#exercise-2-6):
+
+  <C2X6 />
+
+- [Exercise 2-7](/docs/c-programming-language/exercises-and-solutions/types-operators-expressions#exercise-2-7):
+
+  <C2X7 />
+
+- [Exercise 2-8](/docs/c-programming-language/exercises-and-solutions/types-operators-expressions#exercise-2-8):
+
+  <C2X8 />
+
+</details>
+
+## 2.10 - Assignment Operators and Expressions {#sec-2-10}
 
 Expressions such as 
 
@@ -966,7 +1029,15 @@ although this is less frequent.
 In all such expressions, the type of an assignment expression is the type of its
 left operand, and the value is the value after the assignment.
 
-## 2.11 - Conditional Expressions
+<details><summary> Exercises</summary>
+
+- [Exercise 2-9](/docs/c-programming-language/exercises-and-solutions/types-operators-expressions#exercise-2-9):
+
+  <C2X9 />
+
+</details>
+
+## 2.11 - Conditional Expressions {#sec-2-11}
 
 The statements 
 
@@ -1020,7 +1091,15 @@ for (i = 0; i < n; i++)
   printf("%6d%c", a[i], (i % 10 == 9 || i == n - 1) ? '\n' : ' ');
 ```
 
-## 2.12 - Precedence and Order of Evaluation
+<details><summary> Exercises</summary>
+
+- [Exercise 2-10](/docs/c-programming-language/exercises-and-solutions/types-operators-expressions#exercise-2-10):
+
+  <C2X10 />
+
+</details>
+
+## 2.12 - Precedence and Order of Evaluation {#sec-2-12}
 
 Table 2-1 summarizes the rules for precedence and associativity of all operators,
 including those that we have not yet discussed. Operators on the same line
@@ -1045,7 +1124,9 @@ C, like most languages, does not specify the order in which the operands of
 an operator are evaluated. (The exceptions are `&&`, `||`, `?:`, and `','`.) For
 example, in a statement like
 
-**Precedence and associativity of operators:**
+<div id='table-2-1'>
+
+**Table 2-1: Precedence and associativity of operators:**
 
 | Operators | Associativity |
 | :-- | :-- |
@@ -1065,6 +1146,7 @@ example, in a statement like
 | `=`  `+=`  `-=`  `*=`  `/=`  `%=`  `&=`  `^=`  <code>&#124;=</code>  `<<=`  `>>=` | right to left |
 | `,` | left to right |
 
+</div>
 
 Unary `+`, `-`,and `*` have higher precedence than the binary forms.
 
@@ -1116,3 +1198,12 @@ The moral is that writing code that depends on order of evaluation is a bad
 programming practice in any language. Naturally, it is necessary to know what
 things to avoid, but if you don't know *how* they are done on various machines,
 you won't be tempted to take advantage of a particular implementation.
+
+## Questions
+
+TBD
+
+## Quick takeaways
+
+- **Data types:** There are only a few basic data types in C: `char`, `int`, `float`, `double`. Various qualifiers can be applied to these types (e.g., `short` and `long` can be applied to `int`; `signed` and `unsigned` can be applied to `char` or any integer; etc.).
+- **Implementation-defined details:** As the book notes, floating-point objects are implementation-defined. Several things regarding the sizes of integers and representation of different data types are *implementation-defined*. This is an asset of C, not a liability.

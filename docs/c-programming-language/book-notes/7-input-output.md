@@ -16,6 +16,16 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import BibRef from '@site/src/components/BibRef';
 
+import C7X1 from '@site/docs/_partials/krc/c7ex1.md';
+import C7X2 from '@site/docs/_partials/krc/c7ex2.md';
+import C7X3 from '@site/docs/_partials/krc/c7ex3.md';
+import C7X4 from '@site/docs/_partials/krc/c7ex4.md';
+import C7X5 from '@site/docs/_partials/krc/c7ex5.md';
+import C7X6 from '@site/docs/_partials/krc/c7ex6.md';
+import C7X7 from '@site/docs/_partials/krc/c7ex7.md';
+import C7X8 from '@site/docs/_partials/krc/c7ex8.md';
+import C7X9 from '@site/docs/_partials/krc/c7ex9.md';
+
 Input and output facilities are not part of the C language itself, so we have
 not emphasized them in our presentation thus far. Nonetheless, programs
 interact with their environment in much more complicated ways than those we
@@ -35,7 +45,7 @@ headers; we have already seen several of these, including `<stdio.h>`,
 since we are more interested in writing C programs that use it. The library is
 described in detail in Appendix B.
 
-## 7.1 - Standard Input and Output
+## 7.1 - Standard Input and Output {#sec-7-1}
 
 As we said in Chapter 1, the library implements a simple model of text input
 and output. A text stream consists of a sequence of lines; each line ends with a
@@ -144,7 +154,15 @@ per character. We will show how this is done in Section 8.5. Regardless of how
 the `<ctype.h>` functions are implemented on a given machine, programs that
 use them are shielded from knowledge of the character set.
 
-## 7.2 - Formatted Output (printf)
+<details><summary> Exercises</summary>
+
+- [Exercise 7-1](/docs/c-programming-language/exercises-and-solutions/input-output#exercise-7-1):
+
+  <C7X1 />
+
+</details>
+
+## 7.2 - Formatted Output (printf) {#sec-7-2}
 
 The output function `printf` translates internal values to characters. We
 have used `printf` informally in previous chapters. The description here covers
@@ -171,7 +189,6 @@ Between the `%` and the conversion character there may be, in order:
 
 Conversion characters are shown in Table 7-1. If the character after the `%` is
 not a conversion specification, the behavior is undefined.
-
 
 **Basic printf conversions:**
 
@@ -234,7 +251,15 @@ int sprintf(char *string, char *format, arg_1, arg_2, ... )
 before, but places the result in `string` instead of on the standard output;
 string must be big enough to receive the result.
 
-## 7.3 - Variable-length Argument Lists
+<details><summary> Exercises</summary>
+
+- [Exercise 7-2](/docs/c-programming-language/exercises-and-solutions/input-output#exercise-7-2):
+
+  <C7X2 />
+
+</details>
+
+## 7.3 - Variable-length Argument Lists {#sec-7-3}
 
 This section contains an implementation of a minimal version of `printf`, to
 show how to write a function that processes a variable-length argument list in a
@@ -316,7 +341,15 @@ void minprintf(char *fmt, ...)
 }
 ```
 
-## 7.4 - Formatted Input (scanf)
+<details><summary> Exercises</summary>
+
+- [Exercise 7-3](/docs/c-programming-language/exercises-and-solutions/input-output#exercise-7-3):
+
+  <C7X3 />
+
+</details>
+
+## 7.4 - Formatted Input (scanf) {#sec-7-4}
 
 The function `scanf` is the input analog of `printf`, providing many of the
 same conversion facilities in the opposite direction.
@@ -474,7 +507,19 @@ scanf("%d", &n);
 
 This error is not generally detected at compile time.
 
-## 7.5 - File Access
+<details><summary> Exercises</summary>
+
+- [Exercise 7-4](/docs/c-programming-language/exercises-and-solutions/input-output#exercise-7-4):
+
+  <C7X4 />
+
+- [Exercise 7-5](/docs/c-programming-language/exercises-and-solutions/input-output#exercise-7-5):
+
+  <C7X5 />
+
+</details>
+
+## 7.5 - File Access {#sec-7-5}
 
 The examples so far have all read the standard input and written the standard
 output, which are automatically defined for a program by the local operating
@@ -649,7 +694,7 @@ when a program terminates normally. (You can close `stdin` and `stdout` if
 they are not · needed. They can also be reassigned by the library function
 `freopen`.)
 
-## 7.6 - Error Handling (stderr and exit)
+## 7.6 - Error Handling (stderr and exit) {#sec-7-6}
 
 The treatment of errors in `cat` is not ideal. The trouble is that if one of the
 files can't be accessed for some reason, the diagnostic is printed at the end of
@@ -733,7 +778,7 @@ We have generally not worried about exit status in our small illustrative progra
 but any serious program should take care to return sensible, useful status
 values.
 
-## 7.7 - Line Input and Output
+## 7.7 - Line Input and Output {#sec-7-7}
 
 The standard library provides an input routine `fgets` that is similar to the
 `getline` function that we have used in earlier chapters:
@@ -806,13 +851,29 @@ int getline(char *line, int max)
 }
 ```
 
-## 7.8 - Miscellaneous Functions 
+<details><summary> Exercises</summary>
+
+- [Exercise 7-6](/docs/c-programming-language/exercises-and-solutions/input-output#exercise-7-6):
+
+  <C7X6 />
+
+- [Exercise 7-7](/docs/c-programming-language/exercises-and-solutions/input-output#exercise-7-7):
+
+  <C7X7 />
+
+- [Exercise 7-8](/docs/c-programming-language/exercises-and-solutions/input-output#exercise-7-8):
+
+  <C7X8 />
+
+</details>
+
+## 7.8 - Miscellaneous Functions {#sec-7-8}
 
 The standard library provides a wide variety of functions. This section is a
 brief synopsis of the most useful. More details and many other functions can be
 found in Appendix B.
 
-### 7.8.1 - String Operations
+### 7.8.1 - String Operations {#sec-7-8-1}
 
 We have already mentioned the string functions `strlen`, `strcpy`, `strcat`,
 and `strcmp`, found in `<string.h>`. In the following, `s` and `t` are `char *`'s,
@@ -830,7 +891,7 @@ and `c` and `n` are `int`s.
 | `strchr(s, c)` | return pointer to first `c` in `s`, or `NULL` if not present |
 | `strrchr(s, c)` | return pointer to last `c` in `s`, or `NULL` if not present |
 
-### 7.8.2 - Character Class Testing and Conversion
+### 7.8.2 - Character Class Testing and Conversion {#sec-7-8-2}
 
 Several functions from `<ctype.h>` perform character tests and conversions.
 In the following, `c` is an `int` that can be represented as an `unsigned char`,
@@ -847,7 +908,7 @@ or `EOF`. The functions return `int`.
 | `toupper(c)` | return `c` converted to upper case |
 | `tolower(c)` | return `c` converted to lower case |
 
-### 7.8.3 - Ungetc
+### 7.8.3 - Ungetc {#sec-7-8-3}
 
 The standard library provides a rather restricted version of the function
 ungetch that we wrote in Chapter 4; it is called `ungetc`.
@@ -860,7 +921,7 @@ pushes the character `c` back onto file `fp`, and returns either `c`, or `EOF` f
 error. Only one character of pushback is guaranteed per file. `ungetc` may be
 used with any of the input functions like `scanf`, `getc`, or `getchar`.
 
-### 7.8.4 - Command Execution
+### 7.8.4 - Command Execution {#sec-7-8-4}
 
 The function `system(char *)` executes the command contained in the
 character string `s`, then resumes execution of the current program. The contents
@@ -876,7 +937,7 @@ standard output. `system` returns a system-dependent integer status from the
 command executed. In the UNIX system, the status return is the value returned
 by `exit`.
 
-### 7.8.5 - Storage Management
+### 7.8.5 - Storage Management {#sec-7-8-5}
 
 The functions `malloc` and `calloc` obtain blocks of memory dynamically.
 
@@ -927,7 +988,7 @@ for (p = head; p != NULL; p = q) {
 Section 8.7 shows the implementation of a storage allocator like `malloc`, in
 which allocated blocks may be freed in any order.
 
-### 7.8.6 - Mathematical Functions 
+### 7.8.6 - Mathematical Functions {#sec-7-8-6}
 
 There are more than twenty mathematical functions declared in `<math.h>`;
 here are some of the more frequently used. Each takes one or two `double`
@@ -945,7 +1006,7 @@ arguments and returns a `double`.
 | `sqrt(x)` | square root of $x$ ($x\geq 0$) |
 | `fabs(x)` | absolute value of $x$ |
 
-### 7.8.7 - Random Number Generation
+### 7.8.7 - Random Number Generation {#sec-7-8-7}
 
 The function `rand()` computes a sequence of pseudo-random integers in the
 range zero to `RAND_MAX`, which is defined in `<stdlib.h>`. One way to produce
@@ -962,3 +1023,11 @@ it is likely to have better statistical properties than this one.)
 The function `srand(unsigned)` sets the seed for `rand`. The portable
 implementation of `rand` and `srand` suggested by the standard appears in Section
 2.7.
+
+<details><summary> Exercises</summary>
+
+- [Exercise 7-9](/docs/c-programming-language/exercises-and-solutions/input-output#exercise-7-9):
+
+  <C7X9 />
+
+</details>

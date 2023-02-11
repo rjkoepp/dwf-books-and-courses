@@ -16,12 +16,19 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import BibRef from '@site/src/components/BibRef';
 
+import C3X1 from '@site/docs/_partials/krc/c3ex1.md';
+import C3X2 from '@site/docs/_partials/krc/c3ex2.md';
+import C3X3 from '@site/docs/_partials/krc/c3ex3.md';
+import C3X4 from '@site/docs/_partials/krc/c3ex4.md';
+import C3X5 from '@site/docs/_partials/krc/c3ex5.md';
+import C3X6 from '@site/docs/_partials/krc/c3ex6.md';
+
 The control-flow statements of a language specify the order in which computations
 are performed. We have already met the most common control-flow
 constructions in earlier examples; here we will complete the set, and be more
 precise about the ones discussed before.
 
-## 3.1 - Statements and Blocks
+## 3.1 - Statements and Blocks {#sec-3-1}
 
 An expression such as `x = 0` or `i++` or `printf(...)` becomes a *statement*
 when it is followed by a semicolon, as in
@@ -43,7 +50,7 @@ or `for` are another. (Variables can be declared inside *any* block; we will tal
 about this in Chapter 4.) There is no semicolon after the right brace that ends
 a block.
 
-## 3.2 - If-Else
+## 3.2 - If-Else {#sec-3-2}
 
 The `if-else` statement is used to express decisions. Formally, the syntax is
 
@@ -127,7 +134,7 @@ else
 This is because grammatically, a *statement* follows the `if`, and an expression
 statement like "`z = a;`" is always terminated by a semicolon.
 
-## 3.3 - Else-If
+## 3.3 - Else-If {#sec-3-3}
 
 The construction
 
@@ -198,7 +205,15 @@ int binsearch(int x, int v[], int n)
 The fundamental decision is whether `x` is less than, greater than, or equal to the
 middle element `v[mid]` at each step; this is a natural for `else-if`.
 
-### 3.4 - Switch
+<details><summary> Exercises</summary>
+
+- [Exercise 3-1](/docs/c-programming-language/exercises-and-solutions/control-flow#exercise-3-1):
+
+  <C3X1 />
+
+</details>
+
+## 3.4 - Switch {#sec-3-4}
 
 The `switch` statement is a multi-way decision that tests whether an expression
 matches one of a number of *constant* integer values, and branches accordingly.
@@ -277,7 +292,15 @@ As a matter of good form, put a `break` after the last case (the `default`
 here) even though it's logically unnecessary. Some day when another case gets
 added at the end, this bit of defensive programming will save you.
 
-## 3.5 - Loops (While and For)
+<details><summary> Exercises</summary>
+
+- [Exercise 3-2](/docs/c-programming-language/exercises-and-solutions/control-flow#exercise-3-2):
+
+  <C3X2 />
+
+</details>
+
+## 3.5 - Loops (While and For) {#sec-3-5}
 
 We have already encountered the `while` and `for` loops. In
 
@@ -462,7 +485,15 @@ for (i = 0, j = strlen(s) - 1; i < j; i++, j--)
   c = s[i], s[i] = s[j], s[j] = c;
 ```
 
-## 3.6 Loops (Do-while)
+<details><summary> Exercises</summary>
+
+- [Exercise 3-3](/docs/c-programming-language/exercises-and-solutions/control-flow#exercise-3-3):
+
+  <C3X3 />
+
+</details>
+
+## 3.6 Loops (Do-while) {#sec-3-6}
 
 As we discussed in Chapter 1, the `while` and `for` loops test the termination
 condition at the top. By contrast, the third loop in C, the `do-while`, tests at
@@ -514,7 +545,23 @@ the single statement that makes up the body of the `do-while`, even though
 they are unnecessary, so the hasty reader will not mistake the `while` part for
 the *beginning* of a `while` loop.
 
-## 3.7 - Break and Continue
+<details><summary> Exercises</summary>
+
+- [Exercise 3-4](/docs/c-programming-language/exercises-and-solutions/control-flow#exercise-3-4):
+
+  <C3X4 />
+
+- [Exercise 3-5](/docs/c-programming-language/exercises-and-solutions/control-flow#exercise-3-5):
+
+  <C3X5 />
+
+- [Exercise 3-6](/docs/c-programming-language/exercises-and-solutions/control-flow#exercise-3-6):
+
+  <C3X6 />
+
+</details>
+
+## 3.7 - Break and Continue {#sec-3-7}
 
 It is sometimes convenient to be able to exit from a loop other than by testing
 at the top or bottom. The `break` statement provides an early exit from
@@ -568,7 +615,7 @@ The `continue` statement is often used when the part of the loop that follows is
 complicated, so that reversing a test and indenting another level would nest the
 program too deeply.
 
-## 3.8 - Goto and Labels
+## 3.8 - Goto and Labels {#sec-3-8}
 
 C provides the infinitely-abusable `goto` statement, and labels to branch to.
 Formally, the `goto` is never necessary, and in practice it is almost always easy

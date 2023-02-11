@@ -16,6 +16,27 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import BibRef from '@site/src/components/BibRef';
 
+import C5X1 from '@site/docs/_partials/krc/c5ex1.md';
+import C5X2 from '@site/docs/_partials/krc/c5ex2.md';
+import C5X3 from '@site/docs/_partials/krc/c5ex3.md';
+import C5X4 from '@site/docs/_partials/krc/c5ex4.md';
+import C5X5 from '@site/docs/_partials/krc/c5ex5.md';
+import C5X6 from '@site/docs/_partials/krc/c5ex6.md';
+import C5X7 from '@site/docs/_partials/krc/c5ex7.md';
+import C5X8 from '@site/docs/_partials/krc/c5ex8.md';
+import C5X9 from '@site/docs/_partials/krc/c5ex9.md';
+import C5X10 from '@site/docs/_partials/krc/c5ex10.md';
+import C5X11 from '@site/docs/_partials/krc/c5ex11.md';
+import C5X12 from '@site/docs/_partials/krc/c5ex12.md';
+import C5X13 from '@site/docs/_partials/krc/c5ex13.md';
+import C5X14 from '@site/docs/_partials/krc/c5ex14.md';
+import C5X15 from '@site/docs/_partials/krc/c5ex15.md';
+import C5X16 from '@site/docs/_partials/krc/c5ex16.md';
+import C5X17 from '@site/docs/_partials/krc/c5ex17.md';
+import C5X18 from '@site/docs/_partials/krc/c5ex18.md';
+import C5X19 from '@site/docs/_partials/krc/c5ex19.md';
+import C5X20 from '@site/docs/_partials/krc/c5ex20.md';
+
 A pointer is a variable that contains the address of a variable. Pointers are
 much used in C, partly beCause they are sometimes the only way to express a
 computation, and partly because they usually lead to more compact and efficient
@@ -33,7 +54,7 @@ can be manipulated, in effect mandating what good programmers already practice
 and good compilers already enforce. In addition, the type `void *` (pointer
 to `void`) replaces `char *` as the proper type for a generic pointer.
 
-## 5.1 - Pointers and Addresses
+## 5.1 - Pointers and Addresses {#sec-5-1}
 
 Let us begin with a simplified picture of how memory is organized. A typical
 machine has an array of consecutively numbered or addressed memory cells
@@ -140,7 +161,7 @@ iq = ip
 copies the contents of `ip` into `iq`, thus making `iq` point to whatever `ip` pointed
 to.
 
-## 5.2 - Pointers and Function Arguments
+## 5.2 - Pointers and Function Arguments {#sec-5-2}
 
 Since C passes arguments to functions by value, there is no direct way for
 the called function to alter a variable in the calling function. For instance, a
@@ -257,7 +278,19 @@ Throughout `getint`, `*pn` is used as an ordinary `int` variable. We have also
 used `getch` and `ungetch` (described in Section 4.3) so the one extra character
 that must be read can be pushed back onto the input.
 
-## 5.3 - Pointers and Arrays
+<details><summary> Exercises</summary>
+
+- [Exercise 5-1](/docs/c-programming-language/exercises-and-solutions/pointers-arrays#exercise-5-1):
+
+  <C5X1 />
+
+- [Exercise 5-2](/docs/c-programming-language/exercises-and-solutions/pointers-arrays#exercise-5-2):
+
+  <C5X2 />
+
+</details>
+
+## 5.3 - Pointers and Arrays {#sec-5-3}
 
 In C, there is a strong relationship between pointers and arrays, strong
 enough that pointers and arrays should be discussed simultaneously. Any operation
@@ -436,7 +469,7 @@ an array; `p[-1]`, `p[-2]`, and so on are syntactically legal, and refer to the 
 that immediately precede `p[0]`. Of course, it is illegal to refer to objects
 that are not within the array bounds.
 
-## 5.4 - Address Arithmetic
+## 5.4 - Address Arithmetic {#sec-5-4}
 
 If `p` is a pointer to some element of an array, then `p++` increments `p` to
 point to the next element, and `p += i` increments it to point `i` elements beyond
@@ -616,7 +649,7 @@ or divide or shift or mask them, or to add `float` or `double` to them, or
 even, except for `void *`, to assign a pointer of one type to a pointer of another
 type without a cast.
 
-## 5.5 - Character Pointers and Functions 
+## 5.5 - Character Pointers and Functions {#sec-5-5}
 
 A *string constant*, written as
 
@@ -803,7 +836,27 @@ The header `<string.h>` contains declarations for the functions mentioned
 in this section, plus a variety of other string-handling functions from the standard
 library.
 
-## 5.6 - Pointer Arrays; Pointers to Pointers
+<details><summary> Exercises</summary>
+
+- [Exercise 5-3](/docs/c-programming-language/exercises-and-solutions/pointers-arrays#exercise-5-3):
+
+  <C5X3 />
+
+- [Exercise 5-4](/docs/c-programming-language/exercises-and-solutions/pointers-arrays#exercise-5-4):
+
+  <C5X4 />
+
+- [Exercise 5-5](/docs/c-programming-language/exercises-and-solutions/pointers-arrays#exercise-5-5):
+
+  <C5X5 />
+
+- [Exercise 5-6](/docs/c-programming-language/exercises-and-solutions/pointers-arrays#exercise-5-6):
+
+  <C5X6 />
+
+</details>
+
+## 5.6 - Pointer Arrays; Pointers to Pointers {#sec-5-6}
 
 Since pointers are variables themselves, they can be stored in arrays just as
 other variables can. Let us illustrate by writing a program that will sort a set of
@@ -984,7 +1037,15 @@ void swap(char *v[], int i, int j)
 Since any individual element of `v` (alias `lineptr`) is a character pointer, `temp`
 must be also, so one can be copied to the other.
 
-## 5.7 - Multi-dimensional Arrays
+<details><summary> Exercises</summary>
+
+- [Exercise 5-7](/docs/c-programming-language/exercises-and-solutions/pointers-arrays#exercise-5-7):
+
+  <C5X7 />
+
+</details>
+
+## 5.7 - Multi-dimensional Arrays {#sec-5-7}
 
 C provides rectangular multi-dimensional arrays, although in practice they
 are much less used than arrays of pointers. In this section, we will show some
@@ -1110,7 +1171,15 @@ is an array of 13 pointers to integers. More generally, only the first dimension
 
 Section 5.12 has a further discussion of complicated declarations.
 
-## 5.8 - Initialization of Pointer Arrays
+<details><summary> Exercises</summary>
+
+- [Exercise 5-8](/docs/c-programming-language/exercises-and-solutions/pointers-arrays#exercise-5-8):
+
+  <C5X8 />
+
+</details>
+
+## 5.8 - Initialization of Pointer Arrays {#sec-5-8}
 
 Consider the problem of writing a function `month_name(n)`, which returns
 a pointer to a character string containing the name of the `n`-th month. This is
@@ -1143,7 +1212,7 @@ the `i`-th string are placed somewhere, and a pointer to them is stored in
 `name[i]`. Since the size of the array `name` is not specified, the compiler
 counts the initializers and fills in the correct number.
 
-## 5.9 - Pointers vs. Multi-dimensional Arrays
+## 5.9 - Pointers vs. Multi-dimensional Arrays {#sec-5-9}
 
 Newcomers to C are sometimes confused about the difference between a
 two-dimensional array and an array of pointers, such as `name` in the example
@@ -1189,7 +1258,15 @@ char aname[][15] = { "Illegal month", "Jan", "Feb", "Mar" };
   <img width='800px' src={require('@site/static/img/books/c-programming-language/c5-p114b.png').default} />
 </div>
 
-## 5.10 Command-line Arguments
+<details><summary> Exercises</summary>
+
+- [Exercise 5-9](/docs/c-programming-language/exercises-and-solutions/pointers-arrays#exercise-5-9):
+
+  <C5X9 />
+
+</details>
+
+## 5.10 Command-line Arguments {#sec-5-10}
 
 In environments that support C, there is a way to pass command-line arguments
 or parameters to a program when it begins executing. When `main` is
@@ -1392,7 +1469,27 @@ the expression `*++argv[0]` increments the pointer `argv[0]`!
 It is rare that one uses pointer· expressions more complicated than these; in
 such cases, breaking them into two or three steps will be more intuitive.
 
-## 5.11 - Pointers to Functions 
+<details><summary> Exercises</summary>
+
+- [Exercise 5-10](/docs/c-programming-language/exercises-and-solutions/pointers-arrays#exercise-5-10):
+
+  <C5X10 />
+
+- [Exercise 5-11](/docs/c-programming-language/exercises-and-solutions/pointers-arrays#exercise-5-11):
+
+  <C5X11 />
+
+- [Exercise 5-12](/docs/c-programming-language/exercises-and-solutions/pointers-arrays#exercise-5-12):
+
+  <C5X12 />
+
+- [Exercise 5-13](/docs/c-programming-language/exercises-and-solutions/pointers-arrays#exercise-5-13):
+
+  <C5X13 />
+
+</details>
+
+## 5.11 - Pointers to Functions {#sec-5-11}
 
 In C, a function itself is not a variable, but it is possible to define pointers to
 functions, which can be assigned, placed in arrays, passed to functions, returned
@@ -1556,7 +1653,27 @@ void swap(void *v[], int i, int j)
 A variety of other options can be added to the sorting program; some make
 challenging exercises.
 
-## 5.12 - Complicated Declarations
+<details><summary> Exercises</summary>
+
+- [Exercise 5-14](/docs/c-programming-language/exercises-and-solutions/pointers-arrays#exercise-5-14):
+
+  <C5X14 />
+
+- [Exercise 5-15](/docs/c-programming-language/exercises-and-solutions/pointers-arrays#exercise-5-15):
+
+  <C5X15 />
+
+- [Exercise 5-16](/docs/c-programming-language/exercises-and-solutions/pointers-arrays#exercise-5-16):
+
+  <C5X16 />
+
+- [Exercise 5-17](/docs/c-programming-language/exercises-and-solutions/pointers-arrays#exercise-5-17):
+
+  <C5X17 />
+
+</details>
+
+## 5.12 - Complicated Declarations {#sec-5-12}
 
 C is sometimes castigated for the syntax of its declarations, particularly ones
 that involve pointers to functions. The syntax is an attempt to make the
@@ -1802,3 +1919,19 @@ main()
   return 0;
 }
 ```
+
+<details><summary> Exercises</summary>
+
+- [Exercise 5-18](/docs/c-programming-language/exercises-and-solutions/pointers-arrays#exercise-5-18):
+
+  <C5X18 />
+
+- [Exercise 5-19](/docs/c-programming-language/exercises-and-solutions/pointers-arrays#exercise-5-19):
+
+  <C5X19 />
+
+- [Exercise 5-20](/docs/c-programming-language/exercises-and-solutions/pointers-arrays#exercise-5-20):
+
+  <C5X20 />
+
+</details>
