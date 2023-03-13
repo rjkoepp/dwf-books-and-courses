@@ -514,7 +514,7 @@ int atoi(char s[])
 }
 ```
 
-As we discussed in Chapter 1, the expression
+As we discussed in [Chapter 1](/docs/c-programming-language/book-notes/a-tutorial-introduction), the expression
 
 ```c
 s[i] - '0'
@@ -541,12 +541,12 @@ int lower(int c)
 This works for ASCII because corresponding upper case and lower case letters
 are a fixed distance apart as numeric values and each alphabet is contiguous &#8212;
 there is nothing but letters between `A` and `Z`. This latter observation is not true
-of the EBCDIC character set, however, so this code would convert more than
+of the [EBCDIC character set](https://en.wikipedia.org/wiki/EBCDIC), however, so this code would convert more than
 just letters in EBCDIC.
 
-The standard header `<ctype.h>`, described in Appendix B, defines a family
+The standard header `<ctype.h>`, described in [Appendix B](/docs/c-programming-language/book-notes/appendix-b-standard-library), defines a family
 of functions that provide tests and conversions that are independent of character
-set. For example, the function to `lower(c)` returns the lower case value of `c`
+set. For example, the function `tolower(c)` returns the lower case value of `c`
 if `c` is upper case, so `tolower` is a portable replacement for the function
 `lower` shown above. Similarly, the test
 
@@ -588,10 +588,10 @@ sets `d` to `1` if `c` is a digit, and `0` if not. However, functions like `isdi
 return any non-zero value for true. In the test part of `if`, `while`, `for`, etc.,
 "true" just means "non-zero," so this makes no difference.
 
-Implicit arithmetic conversions work . much as expected. In general, if an
+Implicit arithmetic conversions work much as expected. In general, if an
 operator like `+` or `*` that takes two operands (a binary operator) has operands of
 different types, the "lower" type is *promoted* to the "higher" type before the
-operation proceeds. The result is of the higher type. Section 6 of Appendix A
+operation proceeds. The result is of the higher type. [Section 6 of Appendix A](/docs/c-programming-language/book-notes/appendix-a-reference-manual#sec-a-6)
 states the conversion rules precisely. If there are no `unsigned` operands, however,
 the following informal set of rules will suffice:
 
@@ -601,7 +601,7 @@ the following informal set of rules will suffice:
 - Otherwise, convert `char` and `short` to `int`.
 - Then, if either operand is `long`, convert the other to `long`.
 
-Notice that `floats` in an expression are not automatically converted to
+Notice that `float`s in an expression are not automatically converted to
 `double`; this is a change from the original definition. In general, mathematical
 functions like those in `<math.h>` will use double precision. The main reason
 for using `float` is to save storage in large arrays, or, less often, to save time on
@@ -609,7 +609,7 @@ machines where double-precision arithmetic is particularly expensive.
 
 Conversion rules are more complicated when `unsigned` operands are
 involved. The problem is that comparisons between signed and unsigned values
-are machine-dependent,· because they depend on the sizes of the various integer
+are machine-dependent, because they depend on the sizes of the various integer
 types. For example, suppose that `int` is 16 bits and `long` is 32 bits. Then
 `-1L < 1U`, because `1U`, which is an `int`, is promoted to a `signed long`. But
 `-1L > 1UL`, because `-1L` is promoted to `unsigned long` and thus appears to
@@ -621,7 +621,7 @@ to the type of the left, which is the type of the result.
 A character is converted to an integer, either by sign extension or not, as
 described above.
 
-Longer integers are converted to shorter ones or to chars by dropping the
+Longer integers are converted to shorter ones or to `char`s by dropping the
 excess high-order bits. Thus in
 
 ```c
@@ -781,7 +781,7 @@ if (s[i] != c) {
 ```
 
 Another example of a similar construction comes from the `getline` function
-that we wrote in Chapter 1, where we can replace
+that we wrote in [Chapter 1](/docs/c-programming-language/book-notes/a-tutorial-introduction), where we can replace
 
 ```c
 if (c == '\n') {
@@ -877,7 +877,7 @@ be positive. Thus `x << 2` shifts the value of `x` left by two positions, fillin
 vacated bits with zero; this is equivalent to multiplication by `4`. Right shifting
 an `unsigned` quantity always fills vacated bits with zero. Right shifting a
 signed quantity will fill with sign bits ("arithmetic shift") on some machines
-and with O-bits ("logical shift") on others.
+and with 0-bits ("logical shift") on others.
 
 The unary operator `~` yields the one's complement of an integer; that is, it
 converts each 1-bit into a 0-bit and vice versa. For example,
