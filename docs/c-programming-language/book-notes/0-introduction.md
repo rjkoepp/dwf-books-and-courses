@@ -16,13 +16,13 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import BibRef from '@site/src/components/BibRef';
 
-<details><summary> Housekeeping</summary>
+<details className='dwfDetails'><summary> Housekeeping</summary>
 
 The original text has been reproduced in these notes, but comments (like this one) stand out as so-called [details](https://docusaurus.io/docs/markdown-features#details) and/or [admonitions](https://docusaurus.io/docs/markdown-features/admonitions). They are my own thoughts/perspectives.
 
 </details>
 
-<details><summary> Language version used in notes</summary>
+<details className='dwfDetails'><summary> Language version used in notes</summary>
 
 When running code samples from the book as well as my own experiments, I have used the `cc` program, where `cc --version` currently (Jan 30, 2023) gives me the following:
 

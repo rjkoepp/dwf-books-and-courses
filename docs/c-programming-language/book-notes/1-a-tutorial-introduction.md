@@ -116,7 +116,7 @@ hello, world
 
 On other systems, the rules will be different; check with a local expert.
 
-<details><summary> Variations and notes concerning the "hello, world" program in C</summary>
+<details className='dwfDetails'><summary> Variations and notes concerning the "hello, world" program in C</summary>
 
 **TLDR:** It is now standard (literally part of the language standard) for `main` to have an explicit return type, namely `int`. If the terminating `}` for `main` is reached, then it's as if `return 0;` were included at the end of `main`, signifying that a successful [exit status](https://en.wikipedia.org/wiki/Exit_status) was emitted. Perhaps the clearest note on this matter may be found in <BibRef id='KR1988' pages='p. 26'></BibRef>, K&R C itself:
 
@@ -462,7 +462,7 @@ All of this to say: there's no silver bullet for an answer &#8212; most response
 
 </details>
 
-<details><summary> A note about the <code>a.out</code> command</summary>
+<details className='dwfDetails'><summary> A note about the <code>a.out</code> command</summary>
 
 If you blindly try to execute the `a.out` program by typing the command [`a.out`](https://en.wikipedia.org/wiki/A.out), then you will likely encounter some sort of `Unknown command` error.
 

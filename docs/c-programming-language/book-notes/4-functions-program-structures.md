@@ -1,7 +1,7 @@
 ---
 title: 4 - Functions and Program Structure (p. 67)
 hide_title: false
-sidebar_label: 4 - Functions and Program Structure
+sidebar_label: 4 - Functions and program structure
 description: Notes on chapter 4
 draft: false
 tags: [Chapter 4, Functions, Program Structure]

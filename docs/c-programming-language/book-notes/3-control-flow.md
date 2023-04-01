@@ -1,7 +1,7 @@
 ---
 title: 3 - Control Flow (p. 55)
 hide_title: false
-sidebar_label: 3 - Control Flow
+sidebar_label: 3 - Control flow
 description: Notes on control flow
 draft: false
 tags: [Chapter 3, Control Flow]
